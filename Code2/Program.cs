@@ -86,12 +86,13 @@ void MovePlayer()
 void ThrowGrenade(){
     Console.Clear();
     Console.WriteLine("Vous avez décidé de lancer une grenade:");
-    Console.WriteLine("Espace pour continuer 'r' pour retour");
+    Console.WriteLine(" 'c' pour continuer 'r' pour retour");
     char continuer = Console.ReadKey().KeyChar;
     if (continuer == 'r'){
-        MovePlayer();
+        AfficherGrille();
+        Console.WriteLine("Choisissez votre case ou lancer la grenade (rayon 3)");
     }
-    else if(continuer == ' '){
+    else if(continuer == 'c'){
         AfficherGrille();
         Console.WriteLine("Choisissez votre case ou lancer la grenade (rayon 3)");
     }
