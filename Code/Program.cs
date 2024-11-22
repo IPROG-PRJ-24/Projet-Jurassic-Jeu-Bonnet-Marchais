@@ -43,3 +43,4 @@ gameForm.Paint += (sender, e) =>
 
 // Run the application, which will open the form and start the event loop
 Application.Run(gameForm);
+Console.Write("test");
