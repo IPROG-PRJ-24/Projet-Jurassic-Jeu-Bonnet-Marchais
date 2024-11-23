@@ -1,77 +1,112 @@
 ﻿using System;
 using System.Windows.Forms;
 
+Console.Clear();
+
 /*Innitialisation de la grille*/
 int tailleGrilleX = 10;
 int tailleGrilleY = 10;
 char[,] grille = new char[tailleGrilleY, tailleGrilleX];
 
-for (int i = 0; i < tailleGrilleY; i++)
-{
-    for (int j = 0; j < tailleGrilleX; j++)
-    {
-        grille[i, j] = '.';
+void DefineGrid(){
+    for (int i = 0; i < tailleGrilleY; i++){
+        for (int j = 0; j < tailleGrilleX; j++){
+            grille[i, j] = '.';
+        }
     }
 }
 
-char player = 'P';
-int playerPositionX = 5;
-int playerPositionY = 5;
 
-void AfficherGrille()
+
+/* Innitialisation Owen*/
+char owen = 'O';
+int owenPositionX = 5;
+int owenPositionY = 5;
+int nbGrenade = 10;
+
+/* Objet grenade*/
+char grenade = 'G';
+int grenadePositionX = -1;
+int grenadePositionY = -1;
+
+
+/*Affichage de la grille*/
+
+void ShowOwen(int x, int y){
+    if ((x == owenPositionX)&&(y == owenPositionY)){
+        grille[y,x] = owen;
+    }
+}
+
+void ShowBlue(int x, int y){
+    
+}
+
+void ShowMaisie(int x, int y){
+    
+}
+
+void ShowIndominusRex(int x, int y){
+
+}
+
+void ShowGrenadeG(int x, int y){
+    if ((x == grenadePositionX)&&(y == grenadePositionY)){
+    grille[y,x] = grenade;
+    }
+}
+
+void ShowGrid()
 {
+    DefineGrid();
     Console.Clear();
-    for (int i = 0; i < tailleGrilleY; i++)
-    {
+    for (int i = 0; i < tailleGrilleY; i++){
         for (int j = 0; j < tailleGrilleX; j++)
         {
-            if ((i == playerPositionY) && (j == playerPositionX))
-            {
-                Console.Write($" {player} ");
-            }
-            else
-            {
-                Console.Write($" {grille[i, j]} ");
-            }
+            ShowOwen(j,i);
+            ShowBlue(j,i);
+            ShowMaisie(j,i);
+            ShowIndominusRex(j,i);
+            ShowGrenadeG(j,i);
+            Console.Write($" {grille[i, j]} ");
         }
         Console.WriteLine("");
     }
 }
 
-void MovePlayer()
-{
+void MoveObject(){
     bool again = true;
-    while (again)
-    {
-        AfficherGrille();
-        Console.WriteLine(" c'est zqsd pour bouger f pour lancer grenade");
+    while (again){
+        ShowGrid();
+        Console.WriteLine("C'est zqsd pour bouger f pour lancer grenade");
+        Console.WriteLine($"Il vous reste {nbGrenade} grenade(s)");
         char action = Console.ReadKey().KeyChar;
         switch (action){
             case 'z':
-                if (playerPositionY > 0)
+                if (owenPositionY > 0)
                 {
-                    playerPositionY--;
+                    owenPositionY--;
                 }
                 break;
 
             case 's':
-                if (playerPositionY < tailleGrilleY - 1)
+                if (owenPositionY < tailleGrilleY - 1)
                 {
-                    playerPositionY++;
+                    owenPositionY++;
                 }
                 break;
 
             case 'q':
-                if (playerPositionX > 0)
+                if (owenPositionX > 0)
                 {
-                    playerPositionX--;
+                    owenPositionX--;
                 }
                 break;
 
             case 'd':
-                if (playerPositionX < tailleGrilleX - 1)
+                if (owenPositionX < tailleGrilleX - 1)
                 {
-                    playerPositionX++;
+                    owenPositionX++;
                 }
                 break;
             
@@ -84,18 +119,56 @@ void MovePlayer()
 }
 
 void ThrowGrenade(){
-    Console.Clear();
-    Console.WriteLine("Vous avez décidé de lancer une grenade:");
-    Console.WriteLine(" 'c' pour continuer 'r' pour retour");
-    char continuer = Console.ReadKey().KeyChar;
-    if (continuer == 'r'){
-        AfficherGrille();
-        Console.WriteLine("Choisissez votre case ou lancer la grenade (rayon 3)");
-    }
-    else if(continuer == 'c'){
-        AfficherGrille();
-        Console.WriteLine("Choisissez votre case ou lancer la grenade (rayon 3)");
+    grenadePositionX = owenPositionX;
+    grenadePositionY = owenPositionY;
+    int distanceToOwen = 0;
+    bool again = true;
+    while (again){
+        ShowGrid();
+        Console.WriteLine(" Vous avez choisi de lancer une grenade (rayon 3 ) zqsd pour bouger et 'r' pour retour et 'c' pour confirmer");
+        char action = Console.ReadKey().KeyChar;
+        switch (action){
+            case 'z':
+                if ((grenadePositionY > 0) && (distanceToOwen < 4))
+                {
+                    grenadePositionY--;
+                    distanceToOwen = Convert.ToInt32(Math.Sqrt((owenPositionX-grenadePositionX)*(owenPositionX-grenadePositionX) + (owenPositionY-grenadePositionY)*(owenPositionY-grenadePositionY)));
+                }
+                break;
+
+            case 's':
+                if ((grenadePositionY < tailleGrilleY - 1) && (distanceToOwen < 4))
+                {
+                    grenadePositionY++;
+                    distanceToOwen = Convert.ToInt32(Math.Sqrt((owenPositionX-grenadePositionX)*(owenPositionX-grenadePositionX) + (owenPositionY-grenadePositionY)*(owenPositionY-grenadePositionY)));
+                }
+                break;
+
+            case 'q':
+                if ((grenadePositionX > 0) && (distanceToOwen < 4))
+                {
+                    grenadePositionX--;
+                    distanceToOwen = Convert.ToInt32(Math.Sqrt((owenPositionX-grenadePositionX)*(owenPositionX-grenadePositionX) + (owenPositionY-grenadePositionY)*(owenPositionY-grenadePositionY)));
+                }
+                break;
+
+            case 'd':
+                if ((grenadePositionX < tailleGrilleX - 1) && (distanceToOwen < 4))
+                {
+                    grenadePositionX++;
+                    distanceToOwen = Convert.ToInt32(Math.Sqrt((owenPositionX-grenadePositionX)*(owenPositionX-grenadePositionX) + (owenPositionY-grenadePositionY)*(owenPositionY-grenadePositionY)));
+                }
+                break;
+            case 'r':
+                again = false;
+                break;
+            case 'c':
+                /*Fonction PlaceGrenade*/
+                again = false;
+                break;
+        }
     }
 }
 
-MovePlayer();
+
+MoveObject();
