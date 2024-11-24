@@ -3,15 +3,17 @@ using System.Windows.Forms;
 Random rnd = new Random();
 Console.Clear();
 
-/*Innitialisation de la grille*/
+/*-----------------------------------------------------*/
+/*1- INNITIALISATION DE TOUTES LES VARIABLES ET OBJETS */
+/*-----------------------------------------------------*/
+
+
+/*Tailles de la grille*/
 int tailleGrilleX = 10;
 int tailleGrilleY = 10;
-char[,] grille = new char[tailleGrilleY, tailleGrilleX];
 
 /*Position des crevasses*/
 char[,] crevasses = new char[tailleGrilleY, tailleGrilleX];
-
-
 for (int i = 0; i < tailleGrilleY; i++)
 {
     for (int j = 0; j < tailleGrilleX; j++)
@@ -20,7 +22,9 @@ for (int i = 0; i < tailleGrilleY; i++)
     }
 }
 
-void DefineGrid()
+/*Innitialisation de la grille*/
+char[,] grille = new char[tailleGrilleY, tailleGrilleX];
+void DefineGrid()   //-> Permet de mettre à jours la grille lors des déplacements des différents personnages
 {
     for (int i = 0; i < tailleGrilleY; i++)
     {
@@ -31,27 +35,39 @@ void DefineGrid()
     }
 }
 
-
 /* Innitialisation Owen*/
 char owen = 'O';
-int owenPositionX = 5;
-int owenPositionY = 5;
+int owenPositionX = tailleGrilleX - 1;
+int owenPositionY = 0;
 int nbGrenade = 10;
 
-/* Objet grenade*/
+/* Innitialisation grenade*/
 char grenade = 'G';
 int grenadePositionX = -1;
 int grenadePositionY = -1;
 
-/* Objet Indominus Rex*/
+/* Innitialisation Blue*/
+char blue = 'B';
+int bluePositionX = 0;
+int bluePositionY = 0;
+
+/* Innitialisation Indominus Rex*/
 char indominusRex = 'I';
-int indominusRexPositionX = 9;
-int indominusRexPositionY = 9;
+int indominusRexPositionX = tailleGrilleX - 1;
+int indominusRexPositionY = tailleGrilleY - 1;
+
+/* Innitialisation Maisie*/
+char maisie = 'M';
+int maisiePositionX = 0;
+int maisiePositionY = tailleGrilleY - 1;
 
 
-/*Affichage de la grille*/
 
-void ShowOwen(int x, int y)
+/*-----------------------------------------------------*/
+/*------------- 2- AFFICHAGE DE LA GRILLE -------------*/
+/*-----------------------------------------------------*/
+
+void ShowOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de l'affichage de la grille
 {
     if ((x == owenPositionX) && (y == owenPositionY))
     {
@@ -59,25 +75,31 @@ void ShowOwen(int x, int y)
     }
 }
 
-void ShowBlue(int x, int y)
+void ShowBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de l'affichage de la grille
 {
-
-}
-
-void ShowMaisie(int x, int y)
-{
-
-}
-
-void ShowIndominusRex(int x, int y)
-{
-    if ((x == indominusRexPositionX) && (y == indominusRexPositionY))
+    if ((x == bluePositionX) && (y == bluePositionY))
     {
-        grille[y, x] = indominusRex ;
+        grille[y, x] = blue;
     }
 }
 
-void ShowGrenadeG(int x, int y)
+void ShowMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors de l'affichage de la grille
+{
+    if ((x == maisiePositionX) && (y == maisiePositionY))
+    {
+        grille[y, x] = maisie;
+    }
+}
+
+void ShowIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la grille lors de l'affichage de la grille
+{
+    if ((x == indominusRexPositionX) && (y == indominusRexPositionY))
+    {
+        grille[y, x] = indominusRex;
+    }
+}
+
+void ShowGrenadeG(int x, int y) //-> Permet d'afficher la ou on lance la grenade sur la grille lors de l'affichage de la grille pendant un lancer de grenade de Owen
 {
     if ((x == grenadePositionX) && (y == grenadePositionY))
     {
@@ -85,7 +107,7 @@ void ShowGrenadeG(int x, int y)
     }
 }
 
-void ShowGrid()
+void ShowGrid() //-> Affichage de la grille 
 {
     DefineGrid();
     Console.Clear();
@@ -104,54 +126,160 @@ void ShowGrid()
     }
 }
 
-void MoveOwen()
+
+/*-----------------------------------------------------*/
+/*---- 3- DEPLACEMENTS DES JOUEURS, OBJETS ET PNJ -----*/
+/*-----------------------------------------------------*/
+
+
+/*Déplacements Joueurs*/
+void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades 
 {
-    bool again = true;
-    while (again)
+    ShowGrid();
+    Console.WriteLine(" Vous jouez Owen, c'est zqsd pour bouger f pour lancer grenade");
+    Console.WriteLine($"Il vous reste {nbGrenade} grenade(s)");
+    char action = Console.ReadKey().KeyChar;
+    switch (action)
     {
-        ShowGrid();
-        Console.WriteLine(" Vous jouez Owen, c'est zqsd pour bouger f pour lancer grenade");
-        Console.WriteLine($"Il vous reste {nbGrenade} grenade(s)");
-        char action = Console.ReadKey().KeyChar;
-        switch (action)
-        {
-            case 'z':
-                if (owenPositionY > 0)
-                {
-                    owenPositionY--;
-                }
-                break;
-
-            case 's':
-                if (owenPositionY < tailleGrilleY - 1)
-                {
-                    owenPositionY++;
-                }
-                break;
-
-            case 'q':
-                if (owenPositionX > 0)
-                {
-                    owenPositionX--;
-                }
-                break;
-
-            case 'd':
-                if (owenPositionX < tailleGrilleX - 1)
-                {
-                    owenPositionX++;
-                }
-                break;
-
-            case 'f':
-                ThrowGrenade();
-                break;
-        }
-
+        case 'z':
+            if ((owenPositionY > 0) && ((grille[owenPositionY - 1, owenPositionX] == '.') || (grille[owenPositionY - 1, owenPositionX] == indominusRex)))
+            {
+                owenPositionY--;
+            }
+            break;
+        case 's':
+            if ((owenPositionY < tailleGrilleY - 1) && ((grille[owenPositionY + 1, owenPositionX] == '.') || (grille[owenPositionY + 1, owenPositionX] == indominusRex)))
+            {
+                owenPositionY++;
+            }
+            break;
+        case 'q':
+            if ((owenPositionX > 0) && ((grille[owenPositionY, owenPositionX - 1] == '.') || (grille[owenPositionY, owenPositionX - 1] == indominusRex)))
+            {
+                owenPositionX--;
+            }
+            break;
+        case 'd':
+            if ((owenPositionX < tailleGrilleX - 1) && ((grille[owenPositionY, owenPositionX + 1] == '.') || (grille[owenPositionY, owenPositionX + 1] == indominusRex)))
+            {
+                owenPositionX++;
+            }
+            break;
+        case 'f':
+            ThrowGrenade();
+            break;
     }
 }
 
-void ThrowGrenade()
+
+
+bool blueTouchIndominusRex = false;
+void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
+{
+    ShowGrid();
+    Console.WriteLine(" Vous jouez Blue, c'est zqsd pour bouger. Si même case que IndominusRex, elle la fait reculer de 3 case dans la direction d'où elle provient ");
+    char action = Console.ReadKey().KeyChar;
+    switch (action)
+    {
+        case 'z':
+            if ((bluePositionY > 0) && ((grille[bluePositionY - 1, bluePositionX] == '.') || (grille[bluePositionY - 1, bluePositionX] == indominusRex)))
+            {
+                bluePositionY--;
+            }
+            break;
+        case 's':
+            if ((bluePositionY < tailleGrilleY - 1) && ((grille[bluePositionY + 1, bluePositionX] == '.') || (grille[bluePositionY + 1, bluePositionX] == indominusRex)))
+            {
+                bluePositionY++;
+            }
+            break;
+        case 'q':
+            if ((bluePositionX > 0) && ((grille[bluePositionY, bluePositionX - 1] == '.') || (grille[bluePositionY, bluePositionX - 1] == indominusRex)))
+            {
+                bluePositionX--;
+            }
+            break;
+        case 'd':
+            if ((bluePositionX < tailleGrilleX - 1) && ((grille[bluePositionY, bluePositionX + 1] == '.') || (grille[bluePositionY, bluePositionX + 1] == indominusRex)))
+            {
+                bluePositionX++;
+            }
+            break;
+    }
+    StepBackIndominusRex(action);
+}
+
+
+/*Déplacements PNJ*/
+void MoveIndominusRex() //-> Pour déplacer IndominusRex
+{
+    ShowGrid();
+    int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+    switch (directionMouvement)
+    {
+        case 1:
+            if ((indominusRexPositionY > 0) && (grille[indominusRexPositionY - 1, indominusRexPositionX] != '*') && (grille[indominusRexPositionY - 1, indominusRexPositionX] != blue))
+            {
+                indominusRexPositionY--;
+            }
+            break;
+        case 2:
+            if ((indominusRexPositionX < tailleGrilleX - 1) && (grille[indominusRexPositionY, indominusRexPositionX + 1] != '*') && (grille[indominusRexPositionY, indominusRexPositionX + 1] != blue))
+            {
+                indominusRexPositionX++;
+            }
+            break;
+        case 3:
+            if ((indominusRexPositionY < tailleGrilleY - 1) && (grille[indominusRexPositionY + 1, indominusRexPositionX] != '*') && (grille[indominusRexPositionY + 1, indominusRexPositionX] != blue))
+            {
+                indominusRexPositionY++;
+            }
+            break;
+        case 4:
+            if ((indominusRexPositionX > 0) && (grille[indominusRexPositionY, indominusRexPositionX - 1] != '*') && (grille[indominusRexPositionY, indominusRexPositionX - 1] != blue))
+            {
+                indominusRexPositionX--;
+            }
+            break;
+    }
+}
+
+void MoveMaisie() //-> Pour déplacer Maisie
+{
+    ShowGrid();
+    int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
+    switch (directionMouvement)
+    {
+        case 1:
+            if ((maisiePositionY > 0) && (grille[maisiePositionY - 1, maisiePositionX] == '.'))
+            {
+                maisiePositionY--;
+            }
+            break;
+        case 2:
+            if ((maisiePositionX < tailleGrilleX - 1) && (grille[maisiePositionY, maisiePositionX + 1] == '.'))
+            {
+                maisiePositionX++;
+            }
+            break;
+        case 3:
+            if ((maisiePositionY < tailleGrilleY - 1) && (grille[maisiePositionY + 1, maisiePositionX] == '.'))
+            {
+                maisiePositionY++;
+            }
+            break;
+        case 4:
+            if ((maisiePositionX > 0) && (grille[maisiePositionY, maisiePositionX - 1] == '.'))
+            {
+                maisiePositionX--;
+            }
+            break;
+    }
+}
+
+/*Actions Des joueurs*/
+
+void ThrowGrenade() //-> Pour lancer une grenade d'Owen
 {
     grenadePositionX = owenPositionX;
     grenadePositionY = owenPositionY;
@@ -209,24 +337,36 @@ void ThrowGrenade()
     }
 }
 
-void PlaceGrenade()
+void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirmation du lancer
 {
     nbGrenade--;
     crevasses[grenadePositionY, grenadePositionX] = '*';
-    int direction = rnd.Next(1, 5); /* 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest*/
+    int direction = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
     switch (direction)
     {
         case 1:
-            crevasses[grenadePositionY - 1, grenadePositionX] = '*';
+            if (grenadePositionY > 0)
+            {
+                crevasses[grenadePositionY - 1, grenadePositionX] = '*';
+            }
             break;
         case 2:
-            crevasses[grenadePositionY, grenadePositionX + 1] = '*';
+            if (grenadePositionX < tailleGrilleX - 1)
+            {
+                crevasses[grenadePositionY, grenadePositionX + 1] = '*';
+            }
             break;
         case 3:
-            crevasses[grenadePositionY + 1, grenadePositionX] = '*';
+            if (grenadePositionY < tailleGrilleY - 1)
+            {
+                crevasses[grenadePositionY + 1, grenadePositionX] = '*';
+            }
             break;
         case 4:
-            crevasses[grenadePositionY, grenadePositionX - 1] = '*';
+            if (grenadePositionX > 0)
+            {
+                crevasses[grenadePositionY, grenadePositionX - 1] = '*';
+            }
             break;
     }
 
@@ -234,49 +374,120 @@ void PlaceGrenade()
     grenadePositionY = -1;
 }
 
-void MoveIndominusRex()
+void StepBackIndominusRex(char action)
 {
-    bool again = true;
-    while (again)
+    if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
     {
-        ShowGrid();
-        int directionMouvement = rnd.Next(1,5);
-        switch (directionMouvement)
+        blueTouchIndominusRex = true;
+        switch (action)
         {
-            case 1:
-                if (owenPositionY > 0)
+            case 'z':
+                if ((indominusRexPositionY > 2)
+                    && (grille[indominusRexPositionY - 3, indominusRexPositionX] != '*')
+                    && (grille[indominusRexPositionY - 2, indominusRexPositionX] != '*')
+                    && (grille[indominusRexPositionY - 1, indominusRexPositionX] != '*'))
                 {
-                    owenPositionY--;
+                    indominusRexPositionY -= 3;
+                }
+                else if ((indominusRexPositionY > 1)
+                    && (grille[indominusRexPositionY - 2, indominusRexPositionX] != '*')
+                    && (grille[indominusRexPositionY - 1, indominusRexPositionX] != '*'))
+                {
+                    indominusRexPositionY -= 2;
+                }
+                else if ((indominusRexPositionY > 0)
+                    && (grille[indominusRexPositionY - 1, indominusRexPositionX] != '*'))
+                {
+                    indominusRexPositionY--;
                 }
                 break;
 
             case 's':
-                if (owenPositionY < tailleGrilleY - 1)
+                bool isCrevasseS1 = grille[indominusRexPositionY + 1, indominusRexPositionX] != '*';
+                if ((indominusRexPositionY < tailleGrilleY - 3)
+                    && (grille[indominusRexPositionY + 3, indominusRexPositionX] != '*')
+                    && (grille[indominusRexPositionY + 2, indominusRexPositionX] != '*')
+                    && (grille[indominusRexPositionY + 1, indominusRexPositionX] != '*'))
                 {
-                    owenPositionY++;
+                    indominusRexPositionY += 3;
+                }
+                else if ((indominusRexPositionY < tailleGrilleY - 2)
+                    && (grille[indominusRexPositionY + 2, indominusRexPositionX] != '*')
+                    && (grille[indominusRexPositionY + 1, indominusRexPositionX] != '*'))
+                {
+                    indominusRexPositionY += 2;
+                }
+                else if ((indominusRexPositionY < tailleGrilleY - 1)
+                    && (grille[indominusRexPositionY + 1, indominusRexPositionX] != '*'))
+                {
+                    indominusRexPositionY++;
                 }
                 break;
 
             case 'q':
-                if (owenPositionX > 0)
+                if ((indominusRexPositionX > 2)
+                    && (grille[indominusRexPositionY, indominusRexPositionX - 3] != '*')
+                    && (grille[indominusRexPositionY, indominusRexPositionX - 2] != '*')
+                    && (grille[indominusRexPositionY, indominusRexPositionX - 1] != '*'))
                 {
-                    owenPositionX--;
+                    indominusRexPositionX -= 3;
+                }
+                else if ((indominusRexPositionX > 1)
+                    && (grille[indominusRexPositionY, indominusRexPositionX - 2] != '*')
+                    && (grille[indominusRexPositionY, indominusRexPositionX - 1] != '*'))
+                {
+                    indominusRexPositionX -= 2;
+                }
+                else if ((indominusRexPositionX > 0)
+                    && (grille[indominusRexPositionY, indominusRexPositionX - 1] != '*'))
+                {
+                    indominusRexPositionX--;
                 }
                 break;
 
             case 'd':
-                if (owenPositionX < tailleGrilleX - 1)
+                if ((indominusRexPositionX < tailleGrilleX - 3)
+                    && (grille[indominusRexPositionY, indominusRexPositionX + 3] != '*')
+                    && (grille[indominusRexPositionY, indominusRexPositionX + 2] != '*')
+                    && (grille[indominusRexPositionY, indominusRexPositionX + 1] != '*'))
                 {
-                    owenPositionX++;
+                    indominusRexPositionX += 3;
+                }
+                else if ((indominusRexPositionX < tailleGrilleX - 2)
+                    && (grille[indominusRexPositionY, indominusRexPositionX + 2] != '*')
+                    && (grille[indominusRexPositionY, indominusRexPositionX + 1] != '*'))
+                {
+                    indominusRexPositionX += 2;
+                }
+                else if ((indominusRexPositionX < tailleGrilleX - 1)
+                    && (grille[indominusRexPositionY, indominusRexPositionX + 1] != '*'))
+                {
+                    indominusRexPositionX++;
                 }
                 break;
-
-            case 'f':
-                ThrowGrenade();
-                break;
         }
-
     }
 }
 
-MoveOwen();
+/*-----------------------------------------------------*/
+/*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
+/*-----------------------------------------------------*/
+
+
+void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
+{
+    bool again = true;
+    while (again)
+    {
+        MoveOwen();
+        MoveBlue();
+        MoveMaisie();
+        if (!blueTouchIndominusRex)
+        {
+            MoveIndominusRex();
+        }
+        /*WinningCondition();*/
+    }
+}
+
+MainGame();
