@@ -502,7 +502,7 @@ void StepBackIndominusRex(char action)
 void WinningCondition()
 {
     
-    return 
+    return
 }
 
 bool LosingConditionGrenadePerdu()

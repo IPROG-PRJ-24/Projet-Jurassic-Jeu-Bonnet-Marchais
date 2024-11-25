@@ -22,6 +22,21 @@ for (int i = 0; i < tailleGrilleY; i++)
     }
 }
 
+/*Création grille colorié pour condition victoire*/
+char[,] colorBackground = new char[tailleGrilleY, tailleGrilleX];
+void DefineColorBackground()
+{
+    for (int i = 0; i < tailleGrilleY; i++)
+    {
+        for (int j = 0; j < tailleGrilleX; j++)
+        {
+            colorBackground[i, j] = crevasses[i, j];
+        }
+    }
+}
+DefineColorBackground();
+
+
 /*Innitialisation de la grille*/
 char[,] grille = new char[tailleGrilleY, tailleGrilleX];
 void DefineGrid()   //-> Permet de mettre à jours la grille lors des déplacements des différents personnages
@@ -369,7 +384,7 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
             }
             break;
     }
-
+    DefineColorBackground();
     grenadePositionX = -1;
     grenadePositionY = -1;
 }
@@ -473,6 +488,49 @@ void StepBackIndominusRex(char action)
 /*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
 /*-----------------------------------------------------*/
 
+void IndominusRexPossibilities(int x, int y)
+{
+    colorBackground[y, x] = 'C';
+    if ((y > 0) && (colorBackground[y - 1, x] == '.'))
+    {
+        IndominusRexPossibilities(y - 1, x);
+    }
+    if ((y < tailleGrilleY - 1) && (colorBackground[y + 1, x] == '.'))
+    {
+        IndominusRexPossibilities(y + 1, x);
+    }
+    if ((x > 0) && (colorBackground[y, x - 1] == '.'))
+    {
+        IndominusRexPossibilities(y, x - 1);
+    }
+    if ((x < tailleGrilleX - 1) && (colorBackground[y, x + 1] == '.'))
+    {
+        IndominusRexPossibilities(y, x + 1);
+    }
+}
+
+void ShowMatrix(char[,] matrix)
+{
+    for (int i = 0; i < tailleGrilleY; i++)
+    {
+        for (int j = 0; j < tailleGrilleX; j++)
+        {
+            Console.Write($" {matrix[i, j]} ");
+        }
+        Console.WriteLine("");
+    }
+}
+for (int i = 0; i < tailleGrilleY; i++)
+{
+    crevasses[i,4] = '*';
+}
+DefineColorBackground();
+ShowMatrix(colorBackground);
+IndominusRexPossibilities(0, 0);
+ShowMatrix(colorBackground);
+
+
+
 
 void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
 {
@@ -489,5 +547,3 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         /*WinningCondition();*/
     }
 }
-
-MainGame();
