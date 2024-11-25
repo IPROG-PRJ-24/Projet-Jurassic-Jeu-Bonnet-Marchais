@@ -9,8 +9,8 @@ Console.Clear();
 
 
 /*Tailles de la grille*/
-int tailleGrilleX = 10;
-int tailleGrilleY = 10;
+int tailleGrilleX = 15;
+int tailleGrilleY = 15;
 
 /*Position des crevasses*/
 char[,] crevasses = new char[tailleGrilleY, tailleGrilleX];
