@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 Random rnd = new Random();
-Console.Clear();
+//Console.Clear();
 
 /*-----------------------------------------------------*/
 /*1- INNITIALISATION DE TOUTES LES VARIABLES ET OBJETS */
@@ -9,8 +9,8 @@ Console.Clear();
 
 
 /*Tailles de la grille*/
-int tailleGrilleX = 15;
-int tailleGrilleY = 15;
+int tailleGrilleX = 16;
+int tailleGrilleY = 10;
 
 /*Position des crevasses*/
 char[,] crevasses = new char[tailleGrilleY, tailleGrilleX];
@@ -487,26 +487,54 @@ void StepBackIndominusRex(char action)
 /*-----------------------------------------------------*/
 /*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
 /*-----------------------------------------------------*/
-
+/* int compte = 0;
 void IndominusRexPossibilities(int x, int y)
 {
-    colorBackground[y, x] = 'C';
     if ((y > 0) && (colorBackground[y - 1, x] == '.'))
     {
+        colorBackground[y - 1, x] = 'C';
         IndominusRexPossibilities(y - 1, x);
     }
     if ((y < tailleGrilleY - 1) && (colorBackground[y + 1, x] == '.'))
     {
+        colorBackground[y + 1, x] = 'C';
         IndominusRexPossibilities(y + 1, x);
     }
     if ((x > 0) && (colorBackground[y, x - 1] == '.'))
     {
+        colorBackground[y, x - 1] = 'C';
         IndominusRexPossibilities(y, x - 1);
     }
     if ((x < tailleGrilleX - 1) && (colorBackground[y, x + 1] == '.'))
     {
+        colorBackground[y, x + 1] = 'C';
         IndominusRexPossibilities(y, x + 1);
     }
+    compte ++;
+}
+ */
+
+ void IndominusRexPossibilities(int x, int y) {
+    // Ensure that we're within the bounds of the grid
+    if (x < 0 || x >= tailleGrilleX || y < 0 || y >= tailleGrilleY)
+        return;
+    
+    // If the current position is not '.', then we stop (non-passable)
+    if (colorBackground[y, x] != '.')
+        return;
+    
+    // Mark the current position as visited ('C')
+    colorBackground[y, x] = 'C';
+    
+    // Recursive calls to the neighboring cells
+    if (y > 0) // Move up
+        IndominusRexPossibilities(x, y - 1);
+    if (y < tailleGrilleY - 1) // Move down
+        IndominusRexPossibilities(x, y + 1);
+    if (x > 0) // Move left
+        IndominusRexPossibilities(x - 1, y);
+    if (x < tailleGrilleX - 1) // Move right
+        IndominusRexPossibilities(x + 1, y);
 }
 
 void ShowMatrix(char[,] matrix)
@@ -520,12 +548,21 @@ void ShowMatrix(char[,] matrix)
         Console.WriteLine("");
     }
 }
-for (int i = 0; i < tailleGrilleY; i++)
-{
-    crevasses[i,4] = '*';
-}
+
+crevasses[0,5] = '*';
+crevasses[4,4] = '*';
+crevasses[1,5] = '*';
+crevasses[2,5] = '*';
+crevasses[3,5] = '*';
+crevasses[4,5] = '*';
+crevasses[4,3] = '*';
+crevasses[4,2] = '*';
+crevasses[4,1] = '*';
+crevasses[4,0] = '*';
+
 DefineColorBackground();
 ShowMatrix(colorBackground);
+Console.WriteLine();
 IndominusRexPossibilities(0, 0);
 ShowMatrix(colorBackground);
 
