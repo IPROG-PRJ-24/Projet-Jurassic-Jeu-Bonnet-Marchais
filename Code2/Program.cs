@@ -487,45 +487,21 @@ void StepBackIndominusRex(char action)
 /*-----------------------------------------------------*/
 /*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
 /*-----------------------------------------------------*/
-/* int compte = 0;
+
+
 void IndominusRexPossibilities(int x, int y)
 {
-    if ((y > 0) && (colorBackground[y - 1, x] == '.'))
-    {
-        colorBackground[y - 1, x] = 'C';
-        IndominusRexPossibilities(y - 1, x);
-    }
-    if ((y < tailleGrilleY - 1) && (colorBackground[y + 1, x] == '.'))
-    {
-        colorBackground[y + 1, x] = 'C';
-        IndominusRexPossibilities(y + 1, x);
-    }
-    if ((x > 0) && (colorBackground[y, x - 1] == '.'))
-    {
-        colorBackground[y, x - 1] = 'C';
-        IndominusRexPossibilities(y, x - 1);
-    }
-    if ((x < tailleGrilleX - 1) && (colorBackground[y, x + 1] == '.'))
-    {
-        colorBackground[y, x + 1] = 'C';
-        IndominusRexPossibilities(y, x + 1);
-    }
-    compte ++;
-}
- */
-
- void IndominusRexPossibilities(int x, int y) {
     // Ensure that we're within the bounds of the grid
     if (x < 0 || x >= tailleGrilleX || y < 0 || y >= tailleGrilleY)
         return;
-    
+
     // If the current position is not '.', then we stop (non-passable)
     if (colorBackground[y, x] != '.')
         return;
-    
+
     // Mark the current position as visited ('C')
     colorBackground[y, x] = 'C';
-    
+
     // Recursive calls to the neighboring cells
     if (y > 0) // Move up
         IndominusRexPossibilities(x, y - 1);
@@ -539,11 +515,11 @@ void IndominusRexPossibilities(int x, int y)
 
 bool CheckPosition()
 {
-    if (colorBackground[owenPositionY,owenPositionX] == 'C')
+    if (colorBackground[owenPositionY, owenPositionX] == 'C')
     {
         return false;
     }
-    if (colorBackground[maisiePositionY,maisiePositionX] == 'C')
+    if (colorBackground[maisiePositionY, maisiePositionX] == 'C')
     {
         return false;
     }
@@ -562,21 +538,10 @@ void ShowMatrix(char[,] matrix)
     }
 }
 
-crevasses[0,5] = '*';
-crevasses[4,4] = '*';
-crevasses[1,5] = '*';
-crevasses[2,5] = '*';
-crevasses[3,5] = '*';
-crevasses[4,5] = '*';
-crevasses[4,3] = '*';
-crevasses[4,2] = '*';
-crevasses[4,1] = '*';
-crevasses[4,0] = '*';
-
 bool CheckWin()
 {
     DefineColorBackground();
-    IndominusRexPossibilities(indominusRexPositionY,indominusRexPositionX);
+    IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
     if (CheckPosition())
     {
         return true;
@@ -584,17 +549,10 @@ bool CheckWin()
     return false;
 }
 
-DefineColorBackground();
-ShowMatrix(colorBackground);
-Console.WriteLine();
-IndominusRexPossibilities(0, 0);
-ShowMatrix(colorBackground);
-
-
 bool LosingConditionGrenadePerdu()
 {
     bool lose = true;
-    if(crevasses[bluePositionY,bluePositionX] == '*')
+    if (crevasses[bluePositionY, bluePositionX] == '*')
     {
         Console.Clear();
         Console.WriteLine();
@@ -604,7 +562,7 @@ bool LosingConditionGrenadePerdu()
         Console.WriteLine("Faudrait apprendre à visé....");
         lose = false;
     }
-    if(crevasses[maisiePositionY,maisiePositionX] == '*')
+    if (crevasses[maisiePositionY, maisiePositionX] == '*')
     {
         Console.Clear();
         Console.WriteLine();
@@ -636,7 +594,7 @@ bool LosingConditionGrenade()
 bool LosingConditionManger()
 {
     bool lose = true;
-    if(indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
+    if (indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
     {
         Console.Clear();
         Console.WriteLine();
@@ -646,7 +604,7 @@ bool LosingConditionManger()
         Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
         lose = false;
     }
-    if(indominusRexPositionX == maisiePositionX && indominusRexPositionY == maisiePositionY)
+    if (indominusRexPositionX == maisiePositionX && indominusRexPositionY == maisiePositionY)
     {
         Console.Clear();
         Console.WriteLine();
@@ -677,3 +635,5 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         again = LosingConditionGrenade();
     }
 }
+
+MainGame();
