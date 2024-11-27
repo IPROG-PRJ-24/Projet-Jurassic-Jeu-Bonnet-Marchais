@@ -591,7 +591,73 @@ IndominusRexPossibilities(0, 0);
 ShowMatrix(colorBackground);
 
 
+bool LosingConditionGrenadePerdu()
+{
+    bool lose = true;
+    if(crevasses[bluePositionY,bluePositionX] == '*')
+    {
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("C'est PERDU");
+        Console.WriteLine("Blue à pris une grenade.");
+        Console.WriteLine("Faudrait apprendre à visé....");
+        lose = false;
+    }
+    if(crevasses[maisiePositionY,maisiePositionX] == '*')
+    {
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("C'est PERDU");
+        Console.WriteLine("Maisie à pris une grenade.");
+        Console.WriteLine("L'Indominus Rex n'était pas la plus grande menace il semblerait....");
+        lose = false;
+    }
+    return lose;
+}
 
+bool LosingConditionGrenade()
+{
+    bool loseGrenade = true;
+    if (nbGrenade == 0)
+    {
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("C'est PERDU");
+        Console.WriteLine("Owen n'as plus de grenades.");
+        Console.WriteLine("Il ne reste plus qu'as espérer que les jambes de Owen et Maisie soit assez rapide....");
+        loseGrenade = false;
+    }
+    return loseGrenade;
+}
+
+bool LosingConditionManger()
+{
+    bool lose = true;
+    if(indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
+    {
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("C'est PERDU");
+        Console.WriteLine("L'Indominus Rex à manger Owen.");
+        Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
+        lose = false;
+    }
+    if(indominusRexPositionX == maisiePositionX && indominusRexPositionY == maisiePositionY)
+    {
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("C'est PERDU");
+        Console.WriteLine("L'Indominus Rex à manger Maisie.");
+        Console.WriteLine("Owen à rater sa mission....");
+        lose = false;
+    }
+    return lose;
+}
 
 void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
 {
@@ -599,6 +665,7 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
     while (again)
     {
         MoveOwen();
+        again = LosingConditionGrenadePerdu();
         MoveBlue();
         MoveMaisie();
         if (!blueTouchIndominusRex)
@@ -606,5 +673,7 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
             MoveIndominusRex();
         }
         again = CheckWin();
+        again = LosingConditionManger();
+        again = LosingConditionGrenade();
     }
 }

@@ -499,12 +499,6 @@ void StepBackIndominusRex(char action)
     }
 }
 
-void WinningCondition()
-{
-    
-    return
-}
-
 bool LosingConditionGrenadePerdu()
 {
     bool lose = true;
