@@ -537,6 +537,19 @@ void IndominusRexPossibilities(int x, int y)
         IndominusRexPossibilities(x + 1, y);
 }
 
+bool CheckPosition()
+{
+    if (colorBackground[owenPositionY,owenPositionX] == 'C')
+    {
+        return false;
+    }
+    if (colorBackground[maisiePositionY,maisiePositionX] == 'C')
+    {
+        return false;
+    }
+    return true;
+}
+
 void ShowMatrix(char[,] matrix)
 {
     for (int i = 0; i < tailleGrilleY; i++)
@@ -560,6 +573,17 @@ crevasses[4,2] = '*';
 crevasses[4,1] = '*';
 crevasses[4,0] = '*';
 
+bool CheckWin()
+{
+    DefineColorBackground();
+    IndominusRexPossibilities(indominusRexPositionY,indominusRexPositionX);
+    if (CheckPosition())
+    {
+        return true;
+    }
+    return false;
+}
+
 DefineColorBackground();
 ShowMatrix(colorBackground);
 Console.WriteLine();
@@ -581,6 +605,6 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         {
             MoveIndominusRex();
         }
-        /*WinningCondition();*/
+        again = CheckWin();
     }
 }
