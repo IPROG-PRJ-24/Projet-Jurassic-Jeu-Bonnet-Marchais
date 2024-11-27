@@ -12,6 +12,37 @@ Random rnd = new Random();
 int tailleGrilleX = 16;
 int tailleGrilleY = 10;
 
+void InterfaceJeu()
+{
+    Console.WriteLine("JURENSIC WORLD");
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("Le plus grand prédateur de l'histoire est à vos trousses !");
+    Console.WriteLine("Saurez-vous l'enfermer dans sa cage ?");
+    Console.WriteLine();
+    Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();    
+    Console.WriteLine("Definissez la taille du plateau de jeu:");
+    Console.WriteLine("(Le plateau de jeu est un carré)");
+    int tailleGrille = 0;
+    bool tailleGrilleOk = false;
+    while (!tailleGrilleOk) 
+    {
+        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
+        if (!tailleGrilleOk)
+        {
+            Console.WriteLine("Veuillez rentrer une taille valide.");
+        }
+    }
+    Console.WriteLine(tailleGrille);
+    tailleGrilleX = tailleGrille;
+    tailleGrilleY = tailleGrille;
+}
+
+InterfaceJeu();
+
 /*Position des crevasses*/
 char[,] crevasses = new char[tailleGrilleY, tailleGrilleX];
 for (int i = 0; i < tailleGrilleY; i++)
@@ -34,7 +65,6 @@ void DefineColorBackground()
         }
     }
 }
-DefineColorBackground();
 
 
 /*Innitialisation de la grille*/
@@ -522,7 +552,7 @@ bool CheckPosition()
     if (colorBackground[maisiePositionY, maisiePositionX] == 'C')
     {
         return false;
-    }
+    }     
     return true;
 }
 
@@ -543,10 +573,16 @@ bool CheckWin()
     DefineColorBackground();
     IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
     if (CheckPosition())
-    {
-        return true;
+    {   
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("VICTOIRE!");
+        Console.WriteLine("Vous avez triomphé face au terrible Indominus Rex.");
+        Console.WriteLine("Elle n'avait aucune chance face à vos tirs.");
+        return false;
     }
-    return false;
+    return true;
 }
 
 bool LosingConditionGrenadePerdu()
@@ -619,21 +655,23 @@ bool LosingConditionManger()
 
 void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
 {
-    bool again = true;
-    while (again)
+    bool lose1 = true;
+    bool lose2 = true;
+    bool lose3 = true;
+    bool win = true;
+    while (lose1 && lose2 && lose3 && win)
     {
         MoveOwen();
-        again = LosingConditionGrenadePerdu();
+        lose1 = LosingConditionGrenadePerdu();
+        lose2 = LosingConditionGrenade();
         MoveBlue();
         MoveMaisie();
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
         }
-        again = CheckWin();
-        again = LosingConditionManger();
-        again = LosingConditionGrenade();
+        win = CheckWin();
+        lose3 = LosingConditionManger();
     }
 }
-
 MainGame();
