@@ -186,9 +186,6 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
     }
 }
 
-
-
-bool blueTouchIndominusRex = false;
 void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
 {
     ShowGrid();
@@ -223,7 +220,6 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
     }
     StepBackIndominusRex(action);
 }
-
 
 /*Déplacements PNJ*/
 void MoveIndominusRex() //-> Pour déplacer IndominusRex
@@ -293,7 +289,6 @@ void MoveMaisie() //-> Pour déplacer Maisie
 }
 
 /*Actions Des joueurs*/
-
 void ThrowGrenade() //-> Pour lancer une grenade d'Owen
 {
     grenadePositionX = owenPositionX;
@@ -389,7 +384,8 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
     grenadePositionY = -1;
 }
 
-void StepBackIndominusRex(char action)
+bool blueTouchIndominusRex = false; // Variable pour savoir si on fait reculer
+void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blue la touche
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
     {
@@ -517,37 +513,44 @@ void InterfaceJeu()
     tailleGrilleY = tailleGrille;
 }
 
-void IndominusRexPossibilities(int x, int y)
+void IndominusRexPossibilities(int x, int y)//-> Cherche toutes les cases atteignables par l'IndominusRex
 {
-    // Ensure that we're within the bounds of the grid
     if (x < 0 || x >= tailleGrilleX || y < 0 || y >= tailleGrilleY)
         return;
-
-    // If the current position is not '.', then we stop (non-passable)
     if (colorBackground[y, x] != '.')
         return;
-
-    // Mark the current position as visited ('C')
     colorBackground[y, x] = 'C';
 
-    // Recursive calls to the neighboring cells
-    if (y > 0) // Move up
+    if (y > 0)
+    {
         IndominusRexPossibilities(x, y - 1);
-    if (y < tailleGrilleY - 1) // Move down
+    }
+    if (y < tailleGrilleY - 1)
+    {
         IndominusRexPossibilities(x, y + 1);
-    if (x > 0) // Move left
+    }
+    if (x > 0)
+    {
         IndominusRexPossibilities(x - 1, y);
-    if (x < tailleGrilleX - 1) // Move right
+    }
+
+    if (x < tailleGrilleX - 1)
+    {
         IndominusRexPossibilities(x + 1, y);
+    }
 }
 
-bool CheckPosition()
+bool CheckPosition()//->
 {
     if (colorBackground[owenPositionY, owenPositionX] == 'C')
     {
         return false;
     }
     if (colorBackground[maisiePositionY, maisiePositionX] == 'C')
+    {
+        return false;
+    }
+    if (colorBackground[bluePositionY, bluePositionX] == 'C')
     {
         return false;
     }
