@@ -24,21 +24,33 @@ void InterfaceJeu()
     Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
     char suite = Console.ReadKey().KeyChar;
     Console.Clear();
-    Console.WriteLine("Definissez la taille du plateau de jeu:");
-    Console.WriteLine("(Le plateau de jeu est un carré)");
-    int tailleGrille = 0;
-    bool tailleGrilleOk = false;
-    while (!tailleGrilleOk)
+    Console.WriteLine("Definissez la hauteur du plateau:");
+    Console.WriteLine("(Le plateau de jeu ne peut pas être plus petit que 5x5)");
+    int tailleGrilleXTemp = 0;
+    bool tailleGrilleOk1 = false;
+    while (!tailleGrilleOk1)
     {
-        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
-        if (!tailleGrilleOk)
+        tailleGrilleOk1 = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp);
+        if (!tailleGrilleOk1)
         {
             Console.WriteLine("Veuillez rentrer une taille valide.");
         }
     }
-    Console.WriteLine(tailleGrille);
-    tailleGrilleX = tailleGrille;
-    tailleGrilleY = tailleGrille;
+    Console.Clear();
+    Console.WriteLine("Definissez la hauteur du plateau:");
+    Console.WriteLine("(Le plateau de jeu ne peut pas être plus petit que 5x5)");
+    int tailleGrilleYTemp = 0;
+    bool tailleGrilleOk2 = false;
+    while (!tailleGrilleOk2)
+    {
+        tailleGrilleOk2 = int.TryParse(Console.ReadLine()!, out tailleGrilleYTemp);
+        if (!tailleGrilleOk2)
+        {
+            Console.WriteLine("Veuillez rentrer une taille valide.");
+        }
+    }
+    tailleGrilleX = tailleGrilleXTemp;
+    tailleGrilleY = tailleGrilleYTemp;
 }
 
 InterfaceJeu();
