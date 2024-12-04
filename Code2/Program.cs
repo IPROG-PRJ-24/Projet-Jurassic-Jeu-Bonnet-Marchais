@@ -12,6 +12,36 @@ Console.Clear();
 int tailleGrilleX = 10;
 int tailleGrilleY = 10;
 
+void InterfaceJeu()
+{
+    Console.WriteLine("JURENSIC WORLD");
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("Le plus grand prédateur de l'histoire est à vos trousses !");
+    Console.WriteLine("Saurez-vous l'enfermer dans sa cage ?");
+    Console.WriteLine();
+    Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();
+    Console.WriteLine("Definissez la taille du plateau de jeu:");
+    Console.WriteLine("(Le plateau de jeu est un carré)");
+    int tailleGrille = 0;
+    bool tailleGrilleOk = false;
+    while (!tailleGrilleOk)
+    {
+        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
+        if (!tailleGrilleOk)
+        {
+            Console.WriteLine("Veuillez rentrer une taille valide.");
+        }
+    }
+    Console.WriteLine(tailleGrille);
+    tailleGrilleX = tailleGrille;
+    tailleGrilleY = tailleGrille;
+}
+
+InterfaceJeu();
 
 /*Matrice avec la position des crevasses*/
 char[,] crevasses = new char[tailleGrilleY, tailleGrilleX];
@@ -488,34 +518,7 @@ void StepBackIndominusRex(char action)
 /*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
 /*-----------------------------------------------------*/
 
-void InterfaceJeu()
-{
-    Console.WriteLine("JURENSIC WORLD");
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine("Le plus grand prédateur de l'histoire est à vos trousses !");
-    Console.WriteLine("Saurez-vous l'enfermer dans sa cage ?");
-    Console.WriteLine();
-    Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
-    char suite = Console.ReadKey().KeyChar;
-    Console.Clear();
-    Console.WriteLine("Definissez la taille du plateau de jeu:");
-    Console.WriteLine("(Le plateau de jeu est un carré)");
-    int tailleGrille = 0;
-    bool tailleGrilleOk = false;
-    while (!tailleGrilleOk)
-    {
-        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
-        if (!tailleGrilleOk)
-        {
-            Console.WriteLine("Veuillez rentrer une taille valide.");
-        }
-    }
-    Console.WriteLine(tailleGrille);
-    tailleGrilleX = tailleGrille;
-    tailleGrilleY = tailleGrille;
-}
+
 
 void IndominusRexPossibilities(int x, int y)
 {
@@ -554,19 +557,15 @@ bool CheckPosition()
     return true;
 }
 
+int conditionWinLose = 0;
 
 bool CheckWin()
 {
     DefineColorBackground();
     IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
     if (CheckPosition())
-    {
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("VICTOIRE!");
-        Console.WriteLine("Vous avez triomphé face au terrible Indominus Rex.");
-        Console.WriteLine("Elle n'avait aucune chance face à vos tirs.");
+    {   
+        conditionWinLose = 1;
         return false;
     }
     return true;
@@ -577,22 +576,12 @@ bool LosingConditionGrenadePerdu()
     bool lose = true;
     if (crevasses[bluePositionY, bluePositionX] == '*')
     {
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("C'est PERDU");
-        Console.WriteLine("Blue à pris une grenade.");
-        Console.WriteLine("Faudrait apprendre à visé....");
+        conditionWinLose = 2 ;
         lose = false;
     }
     if (crevasses[maisiePositionY, maisiePositionX] == '*')
     {
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("C'est PERDU");
-        Console.WriteLine("Maisie à pris une grenade.");
-        Console.WriteLine("L'Indominus Rex n'était pas la plus grande menace il semblerait....");
+        conditionWinLose = 3;
         lose = false;
     }
     return lose;
@@ -603,12 +592,7 @@ bool LosingConditionGrenade()
     bool loseGrenade = true;
     if (nbGrenade == 0)
     {
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("C'est PERDU");
-        Console.WriteLine("Owen n'as plus de grenades.");
-        Console.WriteLine("Il ne reste plus qu'as espérer que les jambes de Owen et Maisie soit assez rapide....");
+        conditionWinLose = 4;
         loseGrenade = false;
     }
     return loseGrenade;
@@ -619,27 +603,67 @@ bool LosingConditionManger()
     bool lose = true;
     if (indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
     {
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("C'est PERDU");
-        Console.WriteLine("L'Indominus Rex à manger Owen.");
-        Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
+        conditionWinLose = 5;
         lose = false;
     }
     if (indominusRexPositionX == maisiePositionX && indominusRexPositionY == maisiePositionY)
     {
-        Console.Clear();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("C'est PERDU");
-        Console.WriteLine("L'Indominus Rex à manger Maisie.");
-        Console.WriteLine("Owen à rater sa mission....");
+        conditionWinLose = 6;
         lose = false;
     }
     return lose;
 }
 
+void TexteWinLose()
+{
+    Console.Clear();
+    Console.WriteLine();
+    Console.WriteLine();
+    switch (conditionWinLose)
+    {
+        case 1:
+
+            Console.WriteLine("VICTOIRE!");
+            Console.WriteLine("Vous avez triomphé face au terrible Indominus Rex.");
+            Console.WriteLine("Elle n'avait aucune chance face à vos tirs.");
+            break;
+
+        case 2:
+           
+            Console.WriteLine("C'est PERDU");
+            Console.WriteLine("Blue à pris une grenade.");
+            Console.WriteLine("Faudrait apprendre à visé....");
+            break;
+
+        case 3:
+
+            Console.WriteLine("C'est PERDU");
+            Console.WriteLine("Maisie à pris une grenade.");
+            Console.WriteLine("L'Indominus Rex n'était pas la plus grande menace il semblerait....");
+            break;
+
+        case 4:
+
+            Console.WriteLine("C'est PERDU");
+            Console.WriteLine("Owen n'as plus de grenades.");
+            Console.WriteLine("Il ne reste plus qu'as espérer que les jambes de Owen et Maisie soit assez rapide....");
+            break;
+        
+        case 5:
+
+            Console.WriteLine("C'est PERDU");
+            Console.WriteLine("L'Indominus Rex à manger Owen.");
+            Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
+            break;
+        
+        case 6: 
+
+            Console.WriteLine("C'est PERDU");
+            Console.WriteLine("L'Indominus Rex à manger Maisie.");
+            Console.WriteLine("Owen à rater sa mission....");
+            break;
+    }
+}
 /*-----------------------------------------------------*/
 /*----------- 5- Programmes en tout genre ------------ */
 /*-----------------------------------------------------*/
@@ -668,7 +692,6 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
     bool lose2 = true;
     bool lose3 = true;
     bool win = true;
-    InterfaceJeu();
     while (lose1 && lose2 && lose3 && win)
     {
         MoveOwen();
@@ -685,3 +708,4 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
     }
 }
 MainGame();
+TexteWinLose();
