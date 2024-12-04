@@ -28,23 +28,23 @@ void InterfaceJeu()
     Console.WriteLine("(Le plateau de jeu ne peut pas être plus petit que 5x5)");
     int tailleGrilleXTemp = 0;
     bool tailleGrilleOk1 = false;
-    while (!tailleGrilleOk1)
+    while (!tailleGrilleOk1 || tailleGrilleXTemp < 5)
     {
         tailleGrilleOk1 = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp);
-        if (!tailleGrilleOk1)
+        if (!tailleGrilleOk1 || tailleGrilleXTemp < 5)
         {
             Console.WriteLine("Veuillez rentrer une taille valide.");
         }
     }
     Console.Clear();
-    Console.WriteLine("Definissez la hauteur du plateau:");
+    Console.WriteLine("Definissez la largeur du plateau:");
     Console.WriteLine("(Le plateau de jeu ne peut pas être plus petit que 5x5)");
     int tailleGrilleYTemp = 0;
     bool tailleGrilleOk2 = false;
-    while (!tailleGrilleOk2)
+    while (!tailleGrilleOk2 || tailleGrilleYTemp < 5)
     {
         tailleGrilleOk2 = int.TryParse(Console.ReadLine()!, out tailleGrilleYTemp);
-        if (!tailleGrilleOk2)
+        if (!tailleGrilleOk2 || tailleGrilleYTemp < 5)
         {
             Console.WriteLine("Veuillez rentrer une taille valide.");
         }
@@ -96,7 +96,7 @@ void DefineGrid()   //-> Permet de mettre à jours la grille lors des déplaceme
 char owen = 'O';
 int owenPositionX = tailleGrilleX - 1;
 int owenPositionY = 0;
-int nbGrenade = 10;
+int nbGrenade = (tailleGrilleX + tailleGrilleY)/2;
 
 /* Innitialisation de l'objet grenade*/
 char grenade = 'G';
@@ -694,7 +694,6 @@ void ShowMatrix(char[,] matrix)
         Console.WriteLine("");
     }
 }
-
 
 
 /*-----------------------------------------------------*/
