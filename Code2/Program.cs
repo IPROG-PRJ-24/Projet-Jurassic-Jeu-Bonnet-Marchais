@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 Random rnd = new Random();
-//Console.Clear();
+Console.Clear();
 
 /*-----------------------------------------------------*/
 /*1- INNITIALISATION DE TOUTES LES VARIABLES ET OBJETS */
@@ -9,41 +9,11 @@ Random rnd = new Random();
 
 
 /*Tailles de la grille*/
-int tailleGrilleX = 16;
+int tailleGrilleX = 10;
 int tailleGrilleY = 10;
 
-void InterfaceJeu()
-{
-    Console.WriteLine("JURENSIC WORLD");
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine("Le plus grand prédateur de l'histoire est à vos trousses !");
-    Console.WriteLine("Saurez-vous l'enfermer dans sa cage ?");
-    Console.WriteLine();
-    Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
-    char suite = Console.ReadKey().KeyChar;
-    Console.Clear();    
-    Console.WriteLine("Definissez la taille du plateau de jeu:");
-    Console.WriteLine("(Le plateau de jeu est un carré)");
-    int tailleGrille = 0;
-    bool tailleGrilleOk = false;
-    while (!tailleGrilleOk) 
-    {
-        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
-        if (!tailleGrilleOk)
-        {
-            Console.WriteLine("Veuillez rentrer une taille valide.");
-        }
-    }
-    Console.WriteLine(tailleGrille);
-    tailleGrilleX = tailleGrille;
-    tailleGrilleY = tailleGrille;
-}
 
-InterfaceJeu();
-
-/*Position des crevasses*/
+/*Matrice avec la position des crevasses*/
 char[,] crevasses = new char[tailleGrilleY, tailleGrilleX];
 for (int i = 0; i < tailleGrilleY; i++)
 {
@@ -55,7 +25,7 @@ for (int i = 0; i < tailleGrilleY; i++)
 
 /*Création grille colorié pour condition victoire*/
 char[,] colorBackground = new char[tailleGrilleY, tailleGrilleX];
-void DefineColorBackground()
+void DefineColorBackground()    //-> créer une grille identique aux crevasse pour l'utiliser dans la condition de victoire
 {
     for (int i = 0; i < tailleGrilleY; i++)
     {
@@ -67,7 +37,7 @@ void DefineColorBackground()
 }
 
 
-/*Innitialisation de la grille*/
+/*Innitialisation de la grille de jeu*/
 char[,] grille = new char[tailleGrilleY, tailleGrilleX];
 void DefineGrid()   //-> Permet de mettre à jours la grille lors des déplacements des différents personnages
 {
@@ -86,7 +56,7 @@ int owenPositionX = tailleGrilleX - 1;
 int owenPositionY = 0;
 int nbGrenade = 10;
 
-/* Innitialisation grenade*/
+/* Innitialisation de l'objet grenade*/
 char grenade = 'G';
 int grenadePositionX = -1;
 int grenadePositionY = -1;
@@ -207,7 +177,7 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         case 'd':
             if ((owenPositionX < tailleGrilleX - 1) && ((grille[owenPositionY, owenPositionX + 1] == '.') || (grille[owenPositionY, owenPositionX + 1] == indominusRex)))
             {
-                owenPositionX++;
+                owenPositionX++; 
             }
             break;
         case 'f':
@@ -518,6 +488,34 @@ void StepBackIndominusRex(char action)
 /*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
 /*-----------------------------------------------------*/
 
+void InterfaceJeu()
+{
+    Console.WriteLine("JURENSIC WORLD");
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine("Le plus grand prédateur de l'histoire est à vos trousses !");
+    Console.WriteLine("Saurez-vous l'enfermer dans sa cage ?");
+    Console.WriteLine();
+    Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();
+    Console.WriteLine("Definissez la taille du plateau de jeu:");
+    Console.WriteLine("(Le plateau de jeu est un carré)");
+    int tailleGrille = 0;
+    bool tailleGrilleOk = false;
+    while (!tailleGrilleOk)
+    {
+        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
+        if (!tailleGrilleOk)
+        {
+            Console.WriteLine("Veuillez rentrer une taille valide.");
+        }
+    }
+    Console.WriteLine(tailleGrille);
+    tailleGrilleX = tailleGrille;
+    tailleGrilleY = tailleGrille;
+}
 
 void IndominusRexPossibilities(int x, int y)
 {
@@ -552,28 +550,17 @@ bool CheckPosition()
     if (colorBackground[maisiePositionY, maisiePositionX] == 'C')
     {
         return false;
-    }     
+    }
     return true;
 }
 
-void ShowMatrix(char[,] matrix)
-{
-    for (int i = 0; i < tailleGrilleY; i++)
-    {
-        for (int j = 0; j < tailleGrilleX; j++)
-        {
-            Console.Write($" {matrix[i, j]} ");
-        }
-        Console.WriteLine("");
-    }
-}
 
 bool CheckWin()
 {
     DefineColorBackground();
     IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
     if (CheckPosition())
-    {   
+    {
         Console.Clear();
         Console.WriteLine();
         Console.WriteLine();
@@ -653,12 +640,35 @@ bool LosingConditionManger()
     return lose;
 }
 
+/*-----------------------------------------------------*/
+/*----------- 5- Programmes en tout genre ------------ */
+/*-----------------------------------------------------*/
+
+void ShowMatrix(char[,] matrix)
+{
+    for (int i = 0; i < tailleGrilleY; i++)
+    {
+        for (int j = 0; j < tailleGrilleX; j++)
+        {
+            Console.Write($" {matrix[i, j]} ");
+        }
+        Console.WriteLine("");
+    }
+}
+
+
+
+/*-----------------------------------------------------*/
+/*--------------- 6- Lancement du jeu ---------------- */
+/*-----------------------------------------------------*/
+
 void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
 {
     bool lose1 = true;
     bool lose2 = true;
     bool lose3 = true;
     bool win = true;
+    InterfaceJeu();
     while (lose1 && lose2 && lose3 && win)
     {
         MoveOwen();
