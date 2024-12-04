@@ -3,6 +3,8 @@ using System.Windows.Forms;
 Random rnd = new Random();
 Console.Clear();
 
+
+#region Innitialisation
 /*-----------------------------------------------------*/
 /*1- INNITIALISATION DE TOUTES LES VARIABLES ET OBJETS */
 /*-----------------------------------------------------*/
@@ -117,9 +119,9 @@ int indominusRexPositionY = tailleGrilleY - 1;
 char maisie = 'M';
 int maisiePositionX = 0;
 int maisiePositionY = tailleGrilleY - 1;
+#endregion
 
-
-
+#region Affichage de la grille
 /*-----------------------------------------------------*/
 /*------------- 2- AFFICHAGE DE LA GRILLE -------------*/
 /*-----------------------------------------------------*/
@@ -182,8 +184,9 @@ void ShowGrid() //-> Affichage de la grille
         Console.WriteLine("");
     }
 }
+#endregion
 
-
+#region Déplacements des joueurs, objets et PNJ
 /*-----------------------------------------------------*/
 /*---- 3- DEPLACEMENTS DES JOUEURS, OBJETS ET PNJ -----*/
 /*-----------------------------------------------------*/
@@ -225,6 +228,9 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         case 'f':
             ThrowGrenade();
             break;
+        default:
+            MoveOwen();
+            break;
     }
 }
 
@@ -258,6 +264,9 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
             {
                 bluePositionX++;
             }
+            break;
+        default:
+            MoveBlue();
             break;
     }
     StepBackIndominusRex(action);
@@ -384,6 +393,9 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
             case 'c':
                 PlaceGrenade();
                 again = false;
+                break;
+            default:
+                ThrowGrenade();
                 break;
         }
     }
@@ -521,7 +533,9 @@ void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blu
         }
     }
 }
+#endregion
 
+#region Squelette et structure du jeu 
 /*-----------------------------------------------------*/
 /*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
 /*-----------------------------------------------------*/
@@ -678,6 +692,9 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             break;
     }
 }
+#endregion
+
+#region Programmes en tout genre
 /*-----------------------------------------------------*/
 /*----------- 5- Programmes en tout genre ------------ */
 /*-----------------------------------------------------*/
@@ -693,9 +710,9 @@ void ShowMatrix(char[,] matrix)//-> Affiche une matrice
         Console.WriteLine("");
     }
 }
+#endregion
 
-
-
+#region Lancement du jeu
 /*-----------------------------------------------------*/
 /*--------------- 6- Lancement du jeu ---------------- */
 /*-----------------------------------------------------*/
@@ -723,3 +740,4 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
 }
 MainGame();
 TexteWinLose();
+#endregion
