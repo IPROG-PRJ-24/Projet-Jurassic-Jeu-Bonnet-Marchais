@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Windows.Forms;
 Random rnd = new Random();
-Console.Clear();
+//Console.Clear();
 
 /*-----------------------------------------------------*/
 /*1- INNITIALISATION DE TOUTES LES VARIABLES ET OBJETS */
 /*-----------------------------------------------------*/
 
+
 /*Tailles de la grille*/
-int tailleGrilleX = 10;
+int tailleGrilleX = 16;
 int tailleGrilleY = 10;
 
 void InterfaceJeu()
@@ -51,6 +52,20 @@ for (int i = 0; i < tailleGrilleY; i++)
         crevasses[i, j] = '.';
     }
 }
+
+/*Création grille colorié pour condition victoire*/
+char[,] colorBackground = new char[tailleGrilleY, tailleGrilleX];
+void DefineColorBackground()
+{
+    for (int i = 0; i < tailleGrilleY; i++)
+    {
+        for (int j = 0; j < tailleGrilleX; j++)
+        {
+            colorBackground[i, j] = crevasses[i, j];
+        }
+    }
+}
+
 
 /*Innitialisation de la grille*/
 char[,] grille = new char[tailleGrilleY, tailleGrilleX];
@@ -399,7 +414,7 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
             }
             break;
     }
-
+    DefineColorBackground();
     grenadePositionX = -1;
     grenadePositionY = -1;
 }
@@ -499,10 +514,81 @@ void StepBackIndominusRex(char action)
     }
 }
 
+/*-----------------------------------------------------*/
+/*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
+/*-----------------------------------------------------*/
+
+
+void IndominusRexPossibilities(int x, int y)
+{
+    // Ensure that we're within the bounds of the grid
+    if (x < 0 || x >= tailleGrilleX || y < 0 || y >= tailleGrilleY)
+        return;
+
+    // If the current position is not '.', then we stop (non-passable)
+    if (colorBackground[y, x] != '.')
+        return;
+
+    // Mark the current position as visited ('C')
+    colorBackground[y, x] = 'C';
+
+    // Recursive calls to the neighboring cells
+    if (y > 0) // Move up
+        IndominusRexPossibilities(x, y - 1);
+    if (y < tailleGrilleY - 1) // Move down
+        IndominusRexPossibilities(x, y + 1);
+    if (x > 0) // Move left
+        IndominusRexPossibilities(x - 1, y);
+    if (x < tailleGrilleX - 1) // Move right
+        IndominusRexPossibilities(x + 1, y);
+}
+
+bool CheckPosition()
+{
+    if (colorBackground[owenPositionY, owenPositionX] == 'C')
+    {
+        return false;
+    }
+    if (colorBackground[maisiePositionY, maisiePositionX] == 'C')
+    {
+        return false;
+    }     
+    return true;
+}
+
+void ShowMatrix(char[,] matrix)
+{
+    for (int i = 0; i < tailleGrilleY; i++)
+    {
+        for (int j = 0; j < tailleGrilleX; j++)
+        {
+            Console.Write($" {matrix[i, j]} ");
+        }
+        Console.WriteLine("");
+    }
+}
+
+bool CheckWin()
+{
+    DefineColorBackground();
+    IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
+    if (CheckPosition())
+    {   
+        Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("VICTOIRE!");
+        Console.WriteLine("Vous avez triomphé face au terrible Indominus Rex.");
+        Console.WriteLine("Elle n'avait aucune chance face à vos tirs.");
+        return false;
+    }
+    return true;
+}
+
 bool LosingConditionGrenadePerdu()
 {
     bool lose = true;
-    if(crevasses[bluePositionY,bluePositionX] == '*')
+    if (crevasses[bluePositionY, bluePositionX] == '*')
     {
         Console.Clear();
         Console.WriteLine();
@@ -512,7 +598,7 @@ bool LosingConditionGrenadePerdu()
         Console.WriteLine("Faudrait apprendre à visé....");
         lose = false;
     }
-    if(crevasses[maisiePositionY,maisiePositionX] == '*')
+    if (crevasses[maisiePositionY, maisiePositionX] == '*')
     {
         Console.Clear();
         Console.WriteLine();
@@ -544,7 +630,7 @@ bool LosingConditionGrenade()
 bool LosingConditionManger()
 {
     bool lose = true;
-    if(indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
+    if (indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
     {
         Console.Clear();
         Console.WriteLine();
@@ -554,7 +640,7 @@ bool LosingConditionManger()
         Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
         lose = false;
     }
-    if(indominusRexPositionX == maisiePositionX && indominusRexPositionY == maisiePositionY)
+    if (indominusRexPositionX == maisiePositionX && indominusRexPositionY == maisiePositionY)
     {
         Console.Clear();
         Console.WriteLine();
@@ -566,30 +652,26 @@ bool LosingConditionManger()
     }
     return lose;
 }
-/*-----------------------------------------------------*/
-/*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
-/*-----------------------------------------------------*/
-
 
 void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
 {
-    bool again = true;
-    while (again)
+    bool lose1 = true;
+    bool lose2 = true;
+    bool lose3 = true;
+    bool win = true;
+    while (lose1 && lose2 && lose3 && win)
     {
         MoveOwen();
-        again = LosingConditionGrenadePerdu();
+        lose1 = LosingConditionGrenadePerdu();
+        lose2 = LosingConditionGrenade();
         MoveBlue();
         MoveMaisie();
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
         }
-        /*WinningCondition();*/
-        again = LosingConditionManger();
-        again = LosingConditionGrenade();
-
+        win = CheckWin();
+        lose3 = LosingConditionManger();
     }
 }
-
-
 MainGame();
