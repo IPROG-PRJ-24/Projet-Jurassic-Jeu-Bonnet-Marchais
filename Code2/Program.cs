@@ -543,7 +543,7 @@ void IndominusRexPossibilities(int x, int y)//-> Cherche toutes les cases atteig
     }
 }
 
-bool CheckPosition()//->
+bool CheckPosition()//-> regarde si l'IndominudRex est enfermée
 {
     if (colorBackground[owenPositionY, owenPositionX] == 'C')
     {
@@ -561,8 +561,7 @@ bool CheckPosition()//->
 }
 
 int conditionWinLose = 0;
-
-bool CheckWin()
+bool CheckWin()//-> Regarde si la condition de victoire est vérifiée
 {
     DefineColorBackground();
     IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
@@ -574,7 +573,7 @@ bool CheckWin()
     return true;
 }
 
-bool LosingConditionGrenadePerdu()
+bool LosingConditionGrenadePerdu()//-> Regarde les conditions de perte concernant le nombre de grenade
 {
     bool lose = true;
     if (crevasses[bluePositionY, bluePositionX] == '*')
@@ -590,7 +589,7 @@ bool LosingConditionGrenadePerdu()
     return lose;
 }
 
-bool LosingConditionGrenade()
+bool LosingConditionGrenade()//-> Regarde les conditions de perte concernant la grenade lancée sur d'autre
 {
     bool loseGrenade = true;
     if (nbGrenade == 0)
@@ -601,7 +600,7 @@ bool LosingConditionGrenade()
     return loseGrenade;
 }
 
-bool LosingConditionManger()
+bool LosingConditionManger()//-> Regarde les conditions de perte concernant l'IndominusRex qui mange les joueurs
 {
     bool lose = true;
     if (indominusRexPositionX == owenPositionX && indominusRexPositionY == owenPositionY)
@@ -617,7 +616,7 @@ bool LosingConditionManger()
     return lose;
 }
 
-void TexteWinLose()
+void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fonction de la cause.
 {
     Console.Clear();
     Console.WriteLine();
@@ -671,7 +670,7 @@ void TexteWinLose()
 /*----------- 5- Programmes en tout genre ------------ */
 /*-----------------------------------------------------*/
 
-void ShowMatrix(char[,] matrix)
+void ShowMatrix(char[,] matrix)//-> Affiche une matrice
 {
     for (int i = 0; i < tailleGrilleY; i++)
     {
