@@ -4,7 +4,7 @@ Random rnd = new Random();
 Console.Clear();
 
 
-#region Innitialisation
+#region Initialisation
 /*-----------------------------------------------------*/
 /*1- INNITIALISATION DE TOUTES LES VARIABLES ET OBJETS */
 /*-----------------------------------------------------*/
@@ -96,8 +96,8 @@ void DefineGrid()   //-> Permet de mettre à jours la grille lors des déplaceme
 
 /* Innitialisation Owen*/
 char owen = 'O';
-int owenPositionX = tailleGrilleX - 1;
-int owenPositionY = 0;
+int owenPositionX = tailleGrilleX - rnd.Next(1, 3);
+int owenPositionY = rnd.Next(1, 3);
 int nbGrenade = (tailleGrilleX + tailleGrilleY)/2;
 
 /* Innitialisation de l'objet grenade*/
@@ -107,18 +107,18 @@ int grenadePositionY = -1;
 
 /* Innitialisation Blue*/
 char blue = 'B';
-int bluePositionX = 0;
-int bluePositionY = 0;
+int bluePositionX = rnd.Next(1, 3);
+int bluePositionY = rnd.Next(1, 3);
 
 /* Innitialisation Indominus Rex*/
 char indominusRex = 'I';
-int indominusRexPositionX = tailleGrilleX - 1;
-int indominusRexPositionY = tailleGrilleY - 1;
+int indominusRexPositionX = tailleGrilleX - rnd.Next(1, 3);
+int indominusRexPositionY = tailleGrilleY - rnd.Next(1, 3);
 
 /* Innitialisation Maisie*/
 char maisie = 'M';
-int maisiePositionX = 0;
-int maisiePositionY = tailleGrilleY - 1;
+int maisiePositionX = rnd.Next(1, 3);
+int maisiePositionY = tailleGrilleY - rnd.Next(1, 3);
 #endregion
 
 #region Affichage de la grille
@@ -320,7 +320,8 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
 void MoveIndominusRex() //-> Pour déplacer IndominusRex
 {
     ShowGrid();
-    int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+    //int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+    int directionMouvement = SmartIR(ClosestPlayer(indominusRexPositionX,indominusRexPositionY));
     switch (directionMouvement)
     {
         case 1:
@@ -347,6 +348,40 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
                 indominusRexPositionX--;
             }
             break;
+    }
+}
+char ClosestPlayer(int x, int y)
+{
+    double distanceOwen = Math.Sqrt((x-owenPositionX)*(x-owenPositionX)+(y-owenPositionY)*(y-owenPositionY));
+    double distanceMaisie = Math.Sqrt((x-maisiePositionX)*(x-maisiePositionX)+(y-maisiePositionY)*(y-maisiePositionY));
+    return distanceOwen < distanceMaisie ? 'O' : 'M';
+}
+
+int SmartIR(char a)
+{
+    int PNJProcheX = 0;
+    int PNJProcheY = 0;
+    if (a == 'M')
+    {
+        PNJProcheX = maisiePositionX;
+        PNJProcheY = maisiePositionY;
+    }
+    if (a == 'O')
+    {
+        PNJProcheX = owenPositionX;
+        PNJProcheY = owenPositionY;
+    }
+
+    int deltaX = PNJProcheX - indominusRexPositionX;
+    int deltaY = PNJProcheY - indominusRexPositionY;
+
+    if (Math.Abs(deltaX) > Math.Abs(deltaY))
+    {
+        return deltaX > 0 ? 2 : 4; // Déplacement horizontal
+    }
+    else
+    {
+        return deltaY > 0 ? 3 : 1; // Déplacement vertical
     }
 }
 
@@ -655,7 +690,7 @@ int conditionWinLose = 0;
 bool CheckWin()//-> Regarde si la condition de victoire est vérifiée
 {
     DefineColorBackground();
-    IndominusRexPossibilities(indominusRexPositionY, indominusRexPositionX);
+    IndominusRexPossibilities(indominusRexPositionX, indominusRexPositionY);
     if (CheckPosition())
     {   
         conditionWinLose = 1;
