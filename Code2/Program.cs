@@ -1037,9 +1037,10 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         {
             MoveIndominusRex();
         }
+        lose3 = LosingConditionManger();
         MoveMaisie();
         win = CheckWin();
-        lose3 = LosingConditionManger();
+
     }
 }
 MainGame();
