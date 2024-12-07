@@ -13,46 +13,220 @@ Console.Clear();
 /*Tailles de la grille*/
 int tailleGrilleX = 10;
 int tailleGrilleY = 10;
+string nextPrint = "";
+int selectNumber = 1;
 
-void InterfaceJeu()
+void PrintIntro()
 {
-    Console.WriteLine("JURENSIC WORLD");
+    nextPrint = "JURENSIC WORLD";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
     Console.WriteLine();
     Console.WriteLine();
     Console.WriteLine();
-    Console.WriteLine("Le plus grand prédateur de l'histoire est à vos trousses !");
-    Console.WriteLine("Saurez-vous l'enfermer dans sa cage ?");
+
+    nextPrint = "Le plus grand prédateur de l'histoire est à vos trousses !";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "Saurez-vous l'enfermer dans sa cage ?";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
     Console.WriteLine();
-    Console.WriteLine("(Appuyer sur n'importe quel touche pour jouer.)");
+
+    nextPrint = "(Appuyer sur n'importe quel touche pour jouer.)";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
     char suite = Console.ReadKey().KeyChar;
     Console.Clear();
-    Console.WriteLine("Definissez la hauteur du plateau:");
-    Console.WriteLine("(Le plateau de jeu ne peut pas être plus petit que 5x5)");
-    int tailleGrilleXTemp = 0;
-    bool tailleGrilleOk1 = false;
-    while (!tailleGrilleOk1 || tailleGrilleXTemp < 5)
+}
+
+void PrintSelectScreen(int x)
+{
+    Console.Clear();
+    nextPrint = "JURENSIC WORLD";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    nextPrint = "Choississez avec z et s puis 'espace pour confirmer";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    if (x == 1)
     {
-        tailleGrilleOk1 = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp);
-        if (!tailleGrilleOk1 || tailleGrilleXTemp < 5)
+        nextPrint = ">-  Options  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Play";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Règles";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else if (x == 2)
+    {
+        nextPrint = "Options";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = ">-  Play  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Règles";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else
+    {
+        nextPrint = "Options";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Play";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = ">-  Règles  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+
+}
+void SelectScreen()
+{
+    Console.Clear();
+    bool again = true;
+    while (again)
+    {
+        PrintSelectScreen(selectNumber);
+        Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+        char action = Console.ReadKey().KeyChar;
+        Console.Beep(440,100);
+        switch (action)
         {
-            Console.WriteLine("Veuillez rentrer une taille valide.");
+            case 'z':
+                if (selectNumber != 1)
+                {
+                    selectNumber--;
+                }
+                break;
+            case 's':
+                if (selectNumber != 3)
+                {
+                    selectNumber++;
+                }
+                break;
+            case ' ':
+                again = false;
+                break;
         }
     }
+}
+
+
+void ChooseLengthGrid()
+{
     Console.Clear();
-    Console.WriteLine("Definissez la largeur du plateau:");
-    Console.WriteLine("(Le plateau de jeu ne peut pas être plus petit que 5x5)");
-    int tailleGrilleYTemp = 0;
-    bool tailleGrilleOk2 = false;
-    while (!tailleGrilleOk2 || tailleGrilleYTemp < 5)
+    Console.WriteLine("veuillez rentrer une taille de grille");
+    int tailleGrilleXTemp = 0;
+    bool tailleGrilleXOk = false;
+    while (!tailleGrilleXOk || tailleGrilleXTemp < 5)
     {
-        tailleGrilleOk2 = int.TryParse(Console.ReadLine()!, out tailleGrilleYTemp);
-        if (!tailleGrilleOk2 || tailleGrilleYTemp < 5)
+        tailleGrilleXOk = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp);
+        if (!tailleGrilleXOk || tailleGrilleXTemp < 5)
         {
-            Console.WriteLine("Veuillez rentrer une taille valide.");
+            nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+        }
+    }
+    Console.WriteLine("veuillez rentrer une taille de grille");
+    int tailleGrilleYTemp = 0;
+    bool tailleGrilleYOk = false;
+    while (!tailleGrilleYOk || tailleGrilleYTemp < 5)
+    {
+        tailleGrilleYOk = int.TryParse(Console.ReadLine()!, out tailleGrilleYTemp);
+        if (!tailleGrilleYOk || tailleGrilleYTemp < 5)
+        {
+            nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
         }
     }
     tailleGrilleX = tailleGrilleXTemp;
     tailleGrilleY = tailleGrilleYTemp;
+}
+
+void Options()
+{
+    Console.Clear();
+    nextPrint = "La faut faire les options";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "(Appuyer sur n'importe quel touche pour revenir à l'écran de sélection)";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();
+}
+
+void Rules()
+{
+    Console.Clear();
+    nextPrint = "La faut écrire les règles";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "(Appuyer sur n'importe quel touche pour revenir à l'écran de sélection)";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();
+}
+
+
+void InterfaceJeu()
+{
+    PrintIntro();
+    while(selectNumber != 2)
+    {
+        SelectScreen();
+        if (selectNumber == 1)
+        {
+            Options();
+        }
+        if (selectNumber == 3)
+        {
+            Rules();
+        }
+    }
+    ChooseLengthGrid();
+        
 }
 
 InterfaceJeu();
