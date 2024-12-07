@@ -147,7 +147,8 @@ void SelectScreen()
 void ChooseLengthGrid()
 {
     Console.Clear();
-    Console.WriteLine("veuillez rentrer une taille de grille");
+    Console.WriteLine("Veuillez rentrer la largeur de la grille:");
+    Console.WriteLine("(La grille ne peut pas être plus petite que 5x5)");
     int tailleGrilleXTemp = 0;
     bool tailleGrilleXOk = false;
     while (!tailleGrilleXOk || tailleGrilleXTemp < 5)
@@ -160,7 +161,8 @@ void ChooseLengthGrid()
             Console.WriteLine(nextPrint);
         }
     }
-    Console.WriteLine("veuillez rentrer une taille de grille");
+    Console.WriteLine("Veuillez rentrer la hauteur de la grille:");
+    Console.WriteLine("(La grille ne peut pas être plus petite que 5x5)");
     int tailleGrilleYTemp = 0;
     bool tailleGrilleYOk = false;
     while (!tailleGrilleYOk || tailleGrilleYTemp < 5)
@@ -1033,6 +1035,11 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         lose1 = LosingConditionGrenadePerdu();
         lose2 = LosingConditionGrenade();
         MoveBlue();
+        if (!blueTouchIndominusRex)
+        {
+            MoveIndominusRex();
+        }
+        lose3 = LosingConditionManger();
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
