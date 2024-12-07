@@ -137,21 +137,33 @@ void ChooseLengthGrid()
 {
     Console.Clear();
     Console.WriteLine("veuillez rentrer une taille de grille");
-    int tailleGrille = 0;
-    bool tailleGrilleOk = false;
-    while (!tailleGrilleOk)
+    int tailleGrilleXTemp = 0;
+    bool tailleGrilleXOk = false;
+    while (!tailleGrilleXOk || tailleGrilleXTemp < 5)
     {
-        tailleGrilleOk = int.TryParse(Console.ReadLine()!, out tailleGrille);
-        if (!tailleGrilleOk)
+        tailleGrilleXOk = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp);
+        if (!tailleGrilleXOk || tailleGrilleXTemp < 5)
         {
             nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
         }
     }
-    Console.WriteLine(tailleGrille);
-    tailleGrilleX = tailleGrille;
-    tailleGrilleY = tailleGrille;
+    Console.WriteLine("veuillez rentrer une taille de grille");
+    int tailleGrilleYTemp = 0;
+    bool tailleGrilleYOk = false;
+    while (!tailleGrilleYOk || tailleGrilleYTemp < 5)
+    {
+        tailleGrilleYOk = int.TryParse(Console.ReadLine()!, out tailleGrilleYTemp);
+        if (!tailleGrilleYOk || tailleGrilleYTemp < 5)
+        {
+            nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+        }
+    }
+    tailleGrilleX = tailleGrilleXTemp;
+    tailleGrilleY = tailleGrilleYTemp;
 }
 
 void Options()
