@@ -1038,11 +1038,13 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
+            blueTouchIndominusRex = true;
         }
         lose3 = LosingConditionManger();
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
+            blueTouchIndominusRex = true;
         }
         lose3 = LosingConditionManger();
         MoveMaisie();
