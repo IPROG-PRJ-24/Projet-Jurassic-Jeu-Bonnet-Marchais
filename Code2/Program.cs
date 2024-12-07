@@ -859,11 +859,11 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         lose1 = LosingConditionGrenadePerdu();
         lose2 = LosingConditionGrenade();
         MoveBlue();
-        MoveMaisie();
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
         }
+        MoveMaisie();
         win = CheckWin();
         lose3 = LosingConditionManger();
     }
