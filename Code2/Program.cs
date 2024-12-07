@@ -319,35 +319,65 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
 /*Déplacements PNJ*/
 void MoveIndominusRex() //-> Pour déplacer IndominusRex
 {
-    ShowGrid();
-    //int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
-    int directionMouvement = SmartIR(ClosestPlayer(indominusRexPositionX,indominusRexPositionY));
-    switch (directionMouvement)
+    bool again = true;
+    bool isSmartIR = true;
+    int directionMouvement = 0;
+    while(again)
     {
-        case 1:
-            if ((indominusRexPositionY > 0) && (grille[indominusRexPositionY - 1, indominusRexPositionX] != '*') && (grille[indominusRexPositionY - 1, indominusRexPositionX] != blue))
-            {
-                indominusRexPositionY--;
-            }
-            break;
-        case 2:
-            if ((indominusRexPositionX < tailleGrilleX - 1) && (grille[indominusRexPositionY, indominusRexPositionX + 1] != '*') && (grille[indominusRexPositionY, indominusRexPositionX + 1] != blue))
-            {
-                indominusRexPositionX++;
-            }
-            break;
-        case 3:
-            if ((indominusRexPositionY < tailleGrilleY - 1) && (grille[indominusRexPositionY + 1, indominusRexPositionX] != '*') && (grille[indominusRexPositionY + 1, indominusRexPositionX] != blue))
-            {
-                indominusRexPositionY++;
-            }
-            break;
-        case 4:
-            if ((indominusRexPositionX > 0) && (grille[indominusRexPositionY, indominusRexPositionX - 1] != '*') && (grille[indominusRexPositionY, indominusRexPositionX - 1] != blue))
-            {
-                indominusRexPositionX--;
-            }
-            break;
+        again = false;
+        ShowGrid();
+        if (isSmartIR)
+        {
+            directionMouvement = SmartIR(ClosestPlayer(indominusRexPositionX,indominusRexPositionY));
+            isSmartIR = false;
+        }
+        else
+        {
+            directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+        }
+        switch (directionMouvement)
+        {
+            case 1:
+                if ((indominusRexPositionY > 0) && (grille[indominusRexPositionY - 1, indominusRexPositionX] != '*') && (grille[indominusRexPositionY - 1, indominusRexPositionX] != blue))
+                {
+                    indominusRexPositionY--;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+            case 2:
+                if ((indominusRexPositionX < tailleGrilleX - 1) && (grille[indominusRexPositionY, indominusRexPositionX + 1] != '*') && (grille[indominusRexPositionY, indominusRexPositionX + 1] != blue))
+                {
+                    indominusRexPositionX++;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+            case 3:
+                if ((indominusRexPositionY < tailleGrilleY - 1) && (grille[indominusRexPositionY + 1, indominusRexPositionX] != '*') && (grille[indominusRexPositionY + 1, indominusRexPositionX] != blue))
+                {
+                    indominusRexPositionY++;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+            case 4:
+                if ((indominusRexPositionX > 0) && (grille[indominusRexPositionY, indominusRexPositionX - 1] != '*') && (grille[indominusRexPositionY, indominusRexPositionX - 1] != blue))
+                {
+                    indominusRexPositionX--;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+        }
     }
 }
 char ClosestPlayer(int x, int y)
