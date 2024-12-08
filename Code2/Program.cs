@@ -13,10 +13,12 @@ Console.Clear();
 /*Tailles de la grille*/
 int tailleGrilleX = 10;
 int tailleGrilleY = 10;
-string nextPrint = "";
-int selectNumber = 1;
 
-void PrintIntro()
+
+string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
+
+int selectNumber = 1;
+void PrintIntro()//-> Affiche l'introduction du jeu
 {
     nextPrint = "JURENSIC WORLD";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -44,7 +46,7 @@ void PrintIntro()
     Console.Clear();
 }
 
-void PrintSelectScreen(int x)
+void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l'entier x (il y a 3 possibilités)
 {
     Console.Clear();
     nextPrint = "JURENSIC WORLD";
@@ -112,7 +114,7 @@ void PrintSelectScreen(int x)
     }
 
 }
-void SelectScreen()
+void SelectScreen()//-> Permet la selection des différents écran de selection
 {
     Console.Clear();
     bool again = true;
@@ -144,15 +146,21 @@ void SelectScreen()
 }
 
 
-void ChooseLengthGrid()
+void ChooseLengthGrid()//-> Permmet de choisir la taille de la grille
 {
     Console.Clear();
-    Console.WriteLine("Veuillez rentrer la largeur de la grille:");
-    Console.WriteLine("(La grille ne peut pas être plus petite que 5x5)");
+    nextPrint = "Veuillez rentrer la largeur de la grille:";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    nextPrint = "(La grille ne peut pas être plus petite que 5x5)";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
     int tailleGrilleXTemp = 0;
     bool tailleGrilleXOk = false;
     while (!tailleGrilleXOk || tailleGrilleXTemp < 5)
     {
+        Console.SetCursorPosition((Console.WindowWidth)/ 2, Console.CursorTop);
         tailleGrilleXOk = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp);
         if (!tailleGrilleXOk || tailleGrilleXTemp < 5)
         {
@@ -161,12 +169,20 @@ void ChooseLengthGrid()
             Console.WriteLine(nextPrint);
         }
     }
-    Console.WriteLine("Veuillez rentrer la hauteur de la grille:");
-    Console.WriteLine("(La grille ne peut pas être plus petite que 5x5)");
+
+
+    nextPrint = "Veuillez rentrer la hauteur de la grille:";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    nextPrint = "(La grille ne peut pas être plus petite que 5x5)";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
     int tailleGrilleYTemp = 0;
     bool tailleGrilleYOk = false;
     while (!tailleGrilleYOk || tailleGrilleYTemp < 5)
     {
+        Console.SetCursorPosition((Console.WindowWidth)/ 2, Console.CursorTop);
         tailleGrilleYOk = int.TryParse(Console.ReadLine()!, out tailleGrilleYTemp);
         if (!tailleGrilleYOk || tailleGrilleYTemp < 5)
         {
@@ -179,7 +195,7 @@ void ChooseLengthGrid()
     tailleGrilleY = tailleGrilleYTemp;
 }
 
-void Options()
+void Options()//-> Affiche les options du jeu
 {
     Console.Clear();
     nextPrint = "La faut faire les options";
@@ -195,7 +211,7 @@ void Options()
     Console.Clear();
 }
 
-void Rules()
+void Rules()//-> Affiche les règles du jeu
 {
     Console.Clear();
     nextPrint = "La faut écrire les règles";
@@ -212,7 +228,7 @@ void Rules()
 }
 
 
-void InterfaceJeu()
+void InterfaceJeu()//-> Effectue toutes les interfaces et actions avant le lancement réel du jeu 
 {
     PrintIntro();
     while(selectNumber != 2)
@@ -695,13 +711,14 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
                 again = false;
                 grenadePositionX = -1;
                 grenadePositionY = -1;
+                MoveOwen();
                 break;
             case 'c':
                 PlaceGrenade();
                 again = false;
                 break;
             default:
-                ThrowGrenade();
+                again = true;
                 break;
         }
     }
@@ -965,14 +982,14 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
         case 2:
            
             Console.WriteLine("C'est PERDU");
-            Console.WriteLine("Blue à pris une grenade.");
-            Console.WriteLine("Faudrait apprendre à visé....");
+            Console.WriteLine("Blue a pris une grenade.");
+            Console.WriteLine("Il faudrait apprendre à visé....");
             break;
 
         case 3:
 
             Console.WriteLine("C'est PERDU");
-            Console.WriteLine("Maisie à pris une grenade.");
+            Console.WriteLine("Maisie a pris une grenade.");
             Console.WriteLine("L'Indominus Rex n'était pas la plus grande menace il semblerait....");
             break;
 
@@ -980,21 +997,21 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
 
             Console.WriteLine("C'est PERDU");
             Console.WriteLine("Owen n'as plus de grenades.");
-            Console.WriteLine("Il ne reste plus qu'as espérer que les jambes de Owen et Maisie soit assez rapide....");
+            Console.WriteLine("Il ne reste plus qu'a espérer que les jambes de Owen et Maisie soient assez rapides....");
             break;
         
         case 5:
 
             Console.WriteLine("C'est PERDU");
-            Console.WriteLine("L'Indominus Rex à manger Owen.");
+            Console.WriteLine("L'Indominus Rex a mangé Owen.");
             Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
             break;
         
         case 6: 
 
             Console.WriteLine("C'est PERDU");
-            Console.WriteLine("L'Indominus Rex à manger Maisie.");
-            Console.WriteLine("Owen à rater sa mission....");
+            Console.WriteLine("L'Indominus Rex a mangé Maisie.");
+            Console.WriteLine("Owen a raté sa mission....");
             break;
     }
 }
@@ -1038,13 +1055,13 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
-            blueTouchIndominusRex = true;
+            blueTouchIndominusRex = false;
         }
         lose3 = LosingConditionManger();
         if (!blueTouchIndominusRex)
         {
             MoveIndominusRex();
-            blueTouchIndominusRex = true;
+            blueTouchIndominusRex = false;
         }
         lose3 = LosingConditionManger();
         MoveMaisie();
