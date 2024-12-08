@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Intrinsics.Arm;
 using System.Windows.Forms;
 Random rnd = new Random();
 Console.Clear();
@@ -15,8 +16,10 @@ int tailleGrilleX = 10;
 int tailleGrilleY = 10;
 
 
+
 string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
 
+string difficulty = "Normal";
 int selectNumber = 1;
 void PrintIntro()//-> Affiche l'introduction du jeu
 {
@@ -25,7 +28,7 @@ void PrintIntro()//-> Affiche l'introduction du jeu
     Console.WriteLine(nextPrint);
     Console.WriteLine();
     Console.WriteLine();
-    Console.WriteLine();
+    PrintAscii();
 
     nextPrint = "Le plus grand prédateur de l'histoire est à vos trousses !";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -54,19 +57,26 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
     Console.WriteLine(nextPrint);
     Console.WriteLine();
     Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine();
-    Console.WriteLine();
-    nextPrint = "Choississez avec z et s puis 'espace pour confirmer";
+    PrintAscii();
+    nextPrint = "Choississez avec z et s puis 'espace' pour confirmer";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
     Console.WriteLine();
+    Console.WriteLine();
+    nextPrint = "Vous êtes en difficulté: " + difficulty;
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+
     if (x == 1)
     {
+        Console.ForegroundColor = ConsoleColor.Red;
         nextPrint = ">-  Options  -<";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
 
         nextPrint = "Play";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -85,10 +95,12 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
+        Console.ForegroundColor = ConsoleColor.Red;
         nextPrint = ">-  Play  -<";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
 
         nextPrint = "Règles";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -107,10 +119,12 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
+        Console.ForegroundColor = ConsoleColor.Red;
         nextPrint = ">-  Règles  -<";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
     }
 
 }
@@ -149,6 +163,9 @@ void SelectScreen()//-> Permet la selection des différents écran de selection
 void ChooseLengthGrid()//-> Permmet de choisir la taille de la grille
 {
     Console.Clear();
+    PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
     nextPrint = "Veuillez rentrer la largeur de la grille:";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
@@ -195,26 +212,158 @@ void ChooseLengthGrid()//-> Permmet de choisir la taille de la grille
     tailleGrilleY = tailleGrilleYTemp;
 }
 
-void Options()//-> Affiche les options du jeu
+
+/*Choix de la difficulté*/
+
+
+void PrintSelectOptions(string difficulty)//-> Affiche l'écran de selection en fonction de l'entier x (il y a 3 possibilités)
 {
     Console.Clear();
-    nextPrint = "La faut faire les options";
+    nextPrint = "JURENSIC WORLD";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
-
-    nextPrint = "(Appuyer sur n'importe quel touche pour revenir à l'écran de sélection)";
+    Console.WriteLine();
+    Console.WriteLine();
+    PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
+    nextPrint = "Choississez avec z et s puis 'espace' pour confirmer";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
+    Console.WriteLine();
 
-    Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
-    char suite = Console.ReadKey().KeyChar;
+    nextPrint = "Choississez votre difficulté";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+    if (difficulty == "Normal")
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Normal  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        nextPrint = "Difficile";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Impossible";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+
+        nextPrint = "L'IndominusRex ne sait pas ou donner de la tête, sesn mouvements semblent aléatoires";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else if (difficulty == "Difficile")
+    {
+        nextPrint = "Normal";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Difficile  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+        
+
+        nextPrint = "Impossible";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+
+        nextPrint = "!!!Attention!!!";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        nextPrint = "IndominusRex est attirée par les humains";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+    }
+    else
+    {
+        nextPrint = "Normal";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Difficile";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Impossible  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        nextPrint = "Je ne peux que vous souhaiter bonne chance...";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();    
+    }
+
+}
+void Options()//-> Permet la selection des différents écran de selection
+{
     Console.Clear();
+    bool again = true;
+    while (again)
+    {
+        PrintSelectOptions(difficulty);
+        Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+        char action = Console.ReadKey().KeyChar;
+        Console.Beep(440,100);
+        switch (action)
+        {
+            case 'z':
+                if (difficulty == "Impossible")
+                {
+                    difficulty = "Difficile";
+                }
+                else
+                {
+                    difficulty = "Normal";
+                }
+                break;
+            case 's':
+                if (difficulty == "Normal")
+                {
+                    difficulty = "Difficile";
+                }
+                else
+                {
+                    difficulty = "Impossible";
+                }
+                break;
+            case ' ':
+                again = false;
+                break;
+        }
+    }
 }
 
 void Rules()//-> Affiche les règles du jeu
 {
     Console.Clear();
-    nextPrint = "La faut écrire les règles";
+    nextPrint = "Là faut écrire les règles";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
@@ -362,8 +511,12 @@ void ShowGrid() //-> Affichage de la grille
 {
     DefineGrid();
     Console.Clear();
+    PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
     for (int i = 0; i < tailleGrilleY; i++)
     {
+        Console.SetCursorPosition((Console.WindowWidth - tailleGrilleX*3) / 2, Console.CursorTop);
         for (int j = 0; j < tailleGrilleX; j++)
         {
             ShowOwen(j, i);
@@ -392,8 +545,17 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
     {
         again = false;
         ShowGrid();
-        Console.WriteLine(" Vous jouez Owen, c'est zqsd pour bouger f pour lancer grenade");
-        Console.WriteLine($"Il vous reste {nbGrenade} grenade(s)");
+
+        nextPrint = "Vous jouez Owen, c'est zqsd pour bouger f pour lancer grenade";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        nextPrint = $"Il vous reste {nbGrenade} grenade(s)";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);       
+        Console.WriteLine();
+
+        Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
         switch (action)
         {
@@ -455,7 +617,11 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
     {
         again = false;
         ShowGrid();
-        Console.WriteLine(" Vous jouez Blue, c'est zqsd pour bouger. Si même case que IndominusRex, elle la fait reculer de 3 case dans la direction d'où elle provient ");
+        nextPrint = "Vous jouez Blue, c'est zqsd pour bouger. Si même case que IndominusRex, elle la fait reculer de 3 case dans la direction d'où elle provient";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
         finalChar = action;
         switch (action)
@@ -512,7 +678,7 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
 void MoveIndominusRex() //-> Pour déplacer IndominusRex
 {
     bool again = true;
-    bool isSmartIR = true;
+    bool isSmartIR = (difficulty != "Normal" );
     int directionMouvement = 0;
     while(again)
     {
@@ -570,40 +736,6 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
                 }
                 break;
         }
-    }
-}
-char ClosestPlayer(int x, int y)
-{
-    double distanceOwen = Math.Sqrt((x-owenPositionX)*(x-owenPositionX)+(y-owenPositionY)*(y-owenPositionY));
-    double distanceMaisie = Math.Sqrt((x-maisiePositionX)*(x-maisiePositionX)+(y-maisiePositionY)*(y-maisiePositionY));
-    return distanceOwen < distanceMaisie ? 'O' : 'M';
-}
-
-int SmartIR(char a)
-{
-    int PNJProcheX = 0;
-    int PNJProcheY = 0;
-    if (a == 'M')
-    {
-        PNJProcheX = maisiePositionX;
-        PNJProcheY = maisiePositionY;
-    }
-    if (a == 'O')
-    {
-        PNJProcheX = owenPositionX;
-        PNJProcheY = owenPositionY;
-    }
-
-    int deltaX = PNJProcheX - indominusRexPositionX;
-    int deltaY = PNJProcheY - indominusRexPositionY;
-
-    if (Math.Abs(deltaX) > Math.Abs(deltaY))
-    {
-        return deltaX > 0 ? 2 : 4; // Déplacement horizontal
-    }
-    else
-    {
-        return deltaY > 0 ? 3 : 1; // Déplacement vertical
     }
 }
 
@@ -1033,6 +1165,120 @@ void ShowMatrix(char[,] matrix)//-> Affiche une matrice
         Console.WriteLine("");
     }
 }
+
+void PrintAscii()
+{
+    nextPrint = "                      ,";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "               ,  ;:._.-`''.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "             ;.;'.;`      _ `.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "              ',;`       ( \x5c ,`-.  ";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "           `:.`,         (_/ ;\x5c  `-.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "            ';:              / `.   `-._";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "          `;.;'              `-,/ .     `-.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "          ';;'              _    `^`       `.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "         ';;            ,'-' `--._          ;";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "':      `;;        ,;     `.    ':`,,.__,,_ /";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = " `;`:;`;:`       ,;  '.    ;,      ';';':';;`";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "              .,; '    '-._ `':.;   ";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "            .:; `          '._ `';;,";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "          ;:` `    :'`'       ',__.)";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "        `;:;:.,...;'`'";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "      ';. '`'::'`''  .'`'";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "    ,'jgs`';;:,..::;`'`'";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = ", .;`      `'::''`";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = ",`;`.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+}
+
+char ClosestPlayer(int x, int y)
+{
+    double distanceOwen = Math.Sqrt((x-owenPositionX)*(x-owenPositionX)+(y-owenPositionY)*(y-owenPositionY));
+    double distanceMaisie = Math.Sqrt((x-maisiePositionX)*(x-maisiePositionX)+(y-maisiePositionY)*(y-maisiePositionY));
+    return distanceOwen < distanceMaisie ? owen : maisie;
+}
+
+int SmartIR(char a)
+{
+    int PNJProcheX = 0;
+    int PNJProcheY = 0;
+    if (a == maisie)
+    {
+        PNJProcheX = maisiePositionX;
+        PNJProcheY = maisiePositionY;
+    }
+    if (a == owen)
+    {
+        PNJProcheX = owenPositionX;
+        PNJProcheY = owenPositionY;
+    }
+
+    int deltaX = PNJProcheX - indominusRexPositionX;
+    int deltaY = PNJProcheY - indominusRexPositionY;
+
+    if (Math.Abs(deltaX) > Math.Abs(deltaY))
+    {
+        return deltaX > 0 ? 2 : 4; // Déplacement horizontal
+    }
+    else
+    {
+        return deltaY > 0 ? 3 : 1; // Déplacement vertical
+    }
+}
 #endregion
 
 #region Lancement du jeu
@@ -1048,27 +1294,38 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
     bool win = true;
     while (lose1 && lose2 && lose3 && win)
     {
+        int test = rnd.Next(1,5);
         MoveOwen();
         lose1 = LosingConditionGrenadePerdu();
         lose2 = LosingConditionGrenade();
         MoveBlue();
-        if (!blueTouchIndominusRex)
+        if (blueTouchIndominusRex)
         {
-            MoveIndominusRex();
             blueTouchIndominusRex = false;
         }
-        lose3 = LosingConditionManger();
-        if (!blueTouchIndominusRex)
+        else
         {
             MoveIndominusRex();
-            blueTouchIndominusRex = false;
+            if (difficulty == "Difficile")
+            {
+                if (test == 1)
+                {
+                    MoveIndominusRex();
+                }
+                
+            }
+            else if (difficulty == "Impossible")
+            {
+                MoveIndominusRex();
+            }
         }
         lose3 = LosingConditionManger();
         MoveMaisie();
         win = CheckWin();
 
     }
+    TexteWinLose();
 }
 MainGame();
-TexteWinLose();
+
 #endregion

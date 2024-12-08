@@ -8,24 +8,24 @@ int tailleGrilleY = 10;
 void PrintIntro()
 {
     nextPrint = "JURENSIC WORLD";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
     Console.WriteLine();
     Console.WriteLine();
     Console.WriteLine();
 
     nextPrint = "Le plus grand prédateur de l'histoire est à vos trousses !";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     nextPrint = "Saurez-vous l'enfermer dans sa cage ?";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     Console.WriteLine();
 
     nextPrint = "(Appuyer sur n'importe quel touche pour jouer.)";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
@@ -37,7 +37,7 @@ void PrintSelectScreen(int x)
 {
     Console.Clear();
     nextPrint = "JURENSIC WORLD";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
     Console.WriteLine();
     Console.WriteLine();
@@ -45,57 +45,57 @@ void PrintSelectScreen(int x)
     Console.WriteLine();
     Console.WriteLine();
     nextPrint = "Choississez avec z et s puis 'espace pour confirmer";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
     Console.WriteLine();
     if (x == 1)
     {
         nextPrint = ">-  Options  -<";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
         nextPrint = "Play";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
         nextPrint = "Règles";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
     }
     else if (x == 2)
     {
         nextPrint = "Options";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
         nextPrint = ">-  Play  -<";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
         nextPrint = "Règles";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
     }
     else
     {
         nextPrint = "Options";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
         nextPrint = "Play";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
         nextPrint = ">-  Règles  -<";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
     }
@@ -145,7 +145,7 @@ void ChooseLengthGrid()
         if (!tailleGrilleXOk || tailleGrilleXTemp < 5)
         {
             nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
-            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
             Console.WriteLine(nextPrint);
         }
     }
@@ -158,7 +158,7 @@ void ChooseLengthGrid()
         if (!tailleGrilleYOk || tailleGrilleYTemp < 5)
         {
             nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
-            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
             Console.WriteLine(nextPrint);
         }
     }
@@ -170,11 +170,11 @@ void Options()
 {
     Console.Clear();
     nextPrint = "La faut faire les options";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     nextPrint = "(Appuyer sur n'importe quel touche pour revenir à l'écran de sélection)";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
@@ -186,11 +186,11 @@ void Rules()
 {
     Console.Clear();
     nextPrint = "La faut écrire les règles";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     nextPrint = "(Appuyer sur n'importe quel touche pour revenir à l'écran de sélection)";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
@@ -219,8 +219,84 @@ void InterfaceJeu()
 }
 
 
+void PrintAscii()
+{
+    nextPrint = "                      ,";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "               ,  ;:._.-`''.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "             ;.;'.;`      _ `.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "              ',;`       ( \x5c ,`-.  ";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "           `:.`,         (_/ ;\x5c  `-.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "            ';:              / `.   `-._";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "          `;.;'              `-,/ .     `-.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "          ';;'              _    `^`       `.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "         ';;            ,'-' `--._          ;";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "':      `;;        ,;     `.    ':`,,.__,,_ /";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = " `;`:;`;:`       ,;  '.    ;,      ';';':';;`";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "              .,; '    '-._ `':.;   ";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "            .:; `          '._ `';;,";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "          ;:` `    :'`'       ',__.)";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "        `;:;:.,...;'`'";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "      ';. '`'::'`''  .'`'";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "    ,'jgs`';;:,..::;`'`'";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = ", .;`      `'::''`";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = ",`;`.";
+    Console.SetCursorPosition((Console.WindowWidth)/3, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+}
 
 
-
-
-InterfaceJeu();
+PrintAscii();
