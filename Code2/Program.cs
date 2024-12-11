@@ -449,7 +449,7 @@ int grenadePositionY = -1;
 /* Innitialisation Blue*/
 char blue = 'B';
 int bluePositionX = rnd.Next(1, 3);
-int bluePositionY = rnd.Next(1, 3);
+int bluePositionY = tailleGrilleY - rnd.Next(1, 3);
 
 /* Innitialisation Indominus Rex*/
 char indominusRex = 'I';
@@ -459,7 +459,7 @@ int indominusRexPositionY = tailleGrilleY - rnd.Next(1, 3);
 /* Innitialisation Maisie*/
 char maisie = 'M';
 int maisiePositionX = rnd.Next(1, 3);
-int maisiePositionY = tailleGrilleY - rnd.Next(1, 3);
+int maisiePositionY = rnd.Next(1, 3);
 #endregion
 
 #region Affichage de la grille
