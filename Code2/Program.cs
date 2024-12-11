@@ -29,6 +29,8 @@ void PrintIntro()//-> Affiche l'introduction du jeu
     Console.WriteLine();
     Console.WriteLine();
     PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
 
     nextPrint = "Le plus grand prédateur de l'histoire est à vos trousses !";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -58,6 +60,8 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
     Console.WriteLine();
     Console.WriteLine();
     PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
     nextPrint = "Naviguer avec z pour monter et s pour descendre";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
@@ -412,15 +416,37 @@ void Options()//-> Permet la selection des différents écran de selection
 void Rules()//-> Affiche les règles du jeu
 {
     Console.Clear();
-    nextPrint = "Là faut écrire les règles";
+    nextPrint = "Bienvenue dans JURENSIC WORLD. Nous allons vous expliquer comment jouer";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
+    Console.WriteLine();
 
-    nextPrint = "(Appuyer sur n'importe quel touche pour revenir à l'écran de sélection)";
+    Console.Write("But du jeu :   ");
+    Console.WriteLine();
+    Console.WriteLine("L'Indominus Rex est à vos trousses !!! Vous devez lui échapper en l'enfermant avec des crevasses que vous allez créer grâce à vos grenades.");
+    Console.WriteLine("Pour cela, vous allez jouer 3 personnages qui ont tous pour but d'enfermer l'Indominus Rex...(ou presque).");
+    Console.WriteLine("OWEN est votre personnage le plus utile c'est lui qui peut lancer des grenades.");
+    Console.WriteLine("Cependant BLUE est tout aussi utile, en effet l'Indominus Rex ne mange pas ses compères. BLUE sera donc capable de faire diversion, ainsi elle peut faire reculer l'Indominus Rex.");
+    Console.WriteLine("MAISIE quant à elle a beaucoup trop peur, elle panique et se déplace aléatoirement. Malheureusement cela vous compliquera la tâche.");
+    Console.WriteLine();
+
+    Console.WriteLine("Comment jouer :   ");
+    Console.WriteLine();
+    Console.WriteLine("Le jeu se passe sur un plateau rectangulaire de taille que vous choisirez.");
+    Console.WriteLine("Chaque personnage occcupe une case.");
+    Console.WriteLine();
+    Console.WriteLine("Un tour se déroule de la manière suivante: ");
+    Console.WriteLine("D'abord, vous faite bouger OWEN grâce aux touches (Z,Q,S,D) du clavier. Vous pouvez à la place lancer une grenade avec la touche (E) du clavier.");
+    Console.WriteLine();
+    Console.WriteLine("Ensuite, vous faites bouger BLUE de la même manière que OWEN (vous pourrez dans les options choisir de laisser l'ordinateur contrôler BLUE).");
+    Console.WriteLine("Si vous entrez en contact avec l'Idominus Rex, BLUE fait reculer de 3 cases l'Idominus Rex.");
+    Console.WriteLine();
+    Console.WriteLine("pour MAISIE, comme dit précédemment elle bouge aléatoirement. Elle est donc contrôlé par l'ordinateur.");
+
+
+    nextPrint = "Appuyer sur n'importe quelle touche pour revenir à l'écran de selection.";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
-
-    Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
     char suite = Console.ReadKey().KeyChar;
     Console.Clear();
 }
