@@ -516,7 +516,7 @@ int maisiePositionY = rnd.Next(1, 3);
 /*------------- 2- AFFICHAGE DE LA GRILLE -------------*/
 /*-----------------------------------------------------*/
 
-void ShowOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son affichage
+void DefineOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son affichage
 {
     if ((x == owenPositionX) && (y == owenPositionY))
     {
@@ -524,7 +524,7 @@ void ShowOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son
     }
 }
 
-void ShowBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de son affichage
+void DefineBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de son affichage
 {
     if ((x == bluePositionX) && (y == bluePositionY))
     {
@@ -532,7 +532,7 @@ void ShowBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de so
     }
 }
 
-void ShowMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors de son affichage
+void DefineMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors de son affichage
 {
     if ((x == maisiePositionX) && (y == maisiePositionY))
     {
@@ -540,7 +540,7 @@ void ShowMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors d
     }
 }
 
-void ShowIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la grille lors de son affichage
+void DefineIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la grille lors de son affichage
 {
     if ((x == indominusRexPositionX) && (y == indominusRexPositionY))
     {
@@ -548,7 +548,7 @@ void ShowIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la g
     }
 }
 
-void ShowGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la grenade sur la grille lors de son affichage pendant un lancer de grenade de Owen
+void DefineGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la grenade sur la grille lors de son affichage pendant un lancer de grenade de Owen
 {
     if ((x == grenadePositionX) && (y == grenadePositionY))
     {
@@ -556,6 +556,14 @@ void ShowGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la
     }
 }
 
+void DefineCaracters(int x, int y)
+{
+    DefineOwen(x,y);
+    DefineBlue(x,y);
+    DefineMaisie(x,y);
+    DefineIndominusRex(x,y);
+    DefineGrenadeG(x,y);
+}
 void ShowGrid() //-> Affichage de la grille 
 {
     DefineGrid();
@@ -567,11 +575,7 @@ void ShowGrid() //-> Affichage de la grille
         Console.SetCursorPosition((Console.WindowWidth - lengthGridX * 3) / 2, Console.CursorTop);
         for (int j = 0; j < lengthGridX; j++)
         {
-            ShowOwen(j, i);
-            ShowBlue(j, i);
-            ShowMaisie(j, i);
-            ShowIndominusRex(j, i);
-            ShowGrenadeG(j, i);
+            DefineCaracters(j,i);
             if (grid[i, j] == owen) // Pour les couleurs de chaque personnage
                 Console.ForegroundColor = ConsoleColor.Cyan;
             else if (grid[i, j] == blue)
@@ -658,6 +662,7 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
             again = true;
         } 
     }
+    DefineOwen(owenPositionX,owenPositionY);
 }
 
 void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
@@ -716,6 +721,8 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
         }
     }
     StepBackIndominusRex(finalChar);
+    DefineBlue(bluePositionX,bluePositionY);
+    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 /*Déplacements PNJ*/
@@ -767,6 +774,7 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
         }
 
     }
+    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
@@ -833,6 +841,8 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
             StepBackIndominusRex('q');
             break;
     }
+    DefineBlue(bluePositionX,bluePositionY);
+    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 void MoveMaisie() //-> Pour déplacer Maisie
@@ -872,6 +882,7 @@ void MoveMaisie() //-> Pour déplacer Maisie
             again = true;
         }
     }
+    DefineMaisie(maisiePositionX,maisiePositionY);
 }
 
 bool IsMoveIRValid(int x, int y)
