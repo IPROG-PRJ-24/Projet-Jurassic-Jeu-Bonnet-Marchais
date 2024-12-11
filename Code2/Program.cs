@@ -18,7 +18,7 @@ int lengthGridY = 10;
 
 
 string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
-bool playableBlue = false;
+bool playableBlue = true;
 string difficulty = "Normal";
 int selectNumber = 1;
 void PrintIntro()//-> Affiche l'introduction du jeu
@@ -772,7 +772,7 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
 {
     bool again = true;
     int finalMov = 0;
-    bool isSmartBlue = true ; // Changer le comportement en fonction de la difficulté
+    bool isSmartBlue = true ; 
     int directionMouvement = 0;
     while(again)
     {
