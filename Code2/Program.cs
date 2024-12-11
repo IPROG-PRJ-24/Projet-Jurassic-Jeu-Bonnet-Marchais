@@ -948,7 +948,7 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
         nextPrint = "Appuyer sur Z pour monter / Q pour aller à gauche / S pour descendre / D pour aller à droite";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
-        nextPrint = "Appuyer sur Espace pour confirmer / R pour annuler";
+        nextPrint = "Appuyer sur 'Espace' pour confirmer / R pour annuler";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         char action = Console.ReadKey().KeyChar;
@@ -1003,7 +1003,7 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
     }
 }
 
-void PlaceGrenade() //-> Place la grenade sur la grid au moment de la confirmation du lancer
+void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirmation du lancer
 {
     nbGrenade--;
     trenches[grenadePositionY, grenadePositionX] = '*';
@@ -1040,7 +1040,7 @@ void PlaceGrenade() //-> Place la grenade sur la grid au moment de la confirmati
     grenadePositionY = -1;
 }
 
-bool blueTouchIndominusRex = false; // Variable pour savoir si on fait reculer
+bool blueTouchIndominusRex = false; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
 void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blue la touche
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
@@ -1137,14 +1137,14 @@ void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blu
 }
 #endregion
 
-#region Squelette et structure du jeu 
+#region Conditions de victoire ou de pertes
 /*-----------------------------------------------------*/
-/*--------- 4- SQUELETTE ET STRUCTURE DU JEU ----------*/
+/*------ 4- CONDITIONS DE VICTOIRE OU DE PERTES -------*/
 /*-----------------------------------------------------*/
 
+int conditionWinLose = 0; //Variable qui retient quelle condition d'arrêt a été validée 
 
-
-void IndominusRexPossibilities(int x, int y)//-> Cherche toutes les cases atteignables par l'IndominusRex
+void IndominusRexPossibilities(int x, int y)//-> Cherche toutes les cases atteignables par l'IndominusRex 
 {
     if (x < 0 || x >= lengthGridX || y < 0 || y >= lengthGridY)
         return;
@@ -1171,7 +1171,7 @@ void IndominusRexPossibilities(int x, int y)//-> Cherche toutes les cases atteig
     }
 }
 
-bool CheckPosition()//-> regarde si l'IndominudRex est enfermée
+bool CheckPosition()//-> Vérifie que les cases atteignables par l'Indominus Rex ne contiennent pas les autres personnages 
 {
     if (colorBackground[owenPositionY, owenPositionX] == 'C')
     {
@@ -1181,11 +1181,15 @@ bool CheckPosition()//-> regarde si l'IndominudRex est enfermée
     {
         return false;
     }
+    if (colorBackground[bluePositionY, bluePositionX] == 'C')
+    {
+        return false;
+    }
     return true;
 }
 
-int conditionWinLose = 0;
-bool CheckWin()//-> Regarde si la condition de victoire est vérifiée
+
+bool CheckWin()//-> Regarde si la condition de victoire est vérifiée (Indominus Rex enfermée)
 {
     DefineColorBackground();
     IndominusRexPossibilities(indominusRexPositionX, indominusRexPositionY);
@@ -1197,7 +1201,7 @@ bool CheckWin()//-> Regarde si la condition de victoire est vérifiée
     return true;
 }
 
-bool LosingConditionGrenadePerdu()//-> Regarde les conditions de perte concernant le nombre de grenade
+bool LosingConditionGrenadePerdu()//-> Regarde les conditions de perte concernant la grenade lancée sur d'autre 
 {
     bool lose = true;
     if (trenches[bluePositionY, bluePositionX] == '*')
@@ -1213,7 +1217,7 @@ bool LosingConditionGrenadePerdu()//-> Regarde les conditions de perte concernan
     return lose;
 }
 
-bool LosingConditionGrenade()//-> Regarde les conditions de perte concernant la grenade lancée sur d'autre
+bool LosingConditionGrenade()//-> Regarde les conditions de perte concernant le nombre de grenade
 {
     bool loseGrenade = true;
     if (nbGrenade == 0)
@@ -1258,7 +1262,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
 
             Console.WriteLine("C'est PERDU");
             Console.WriteLine("Blue a pris une grenade.");
-            Console.WriteLine("Il faudrait apprendre à visé....");
+            Console.WriteLine("Il faudrait apprendre à viser....");
             break;
 
         case 3:
@@ -1271,7 +1275,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
         case 4:
 
             Console.WriteLine("C'est PERDU");
-            Console.WriteLine("Owen n'as plus de grenades.");
+            Console.WriteLine("Owen n'as plus de grenade.");
             Console.WriteLine("Il ne reste plus qu'a espérer que les jambes de Owen et Maisie soient assez rapides....");
             break;
 
@@ -1279,7 +1283,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
 
             Console.WriteLine("C'est PERDU");
             Console.WriteLine("L'Indominus Rex a mangé Owen.");
-            Console.WriteLine("Il ne reste plus personne pour defendre la Terre....");
+            Console.WriteLine("Il ne reste plus personne pour défendre la Terre....");
             break;
 
         case 6:
@@ -1294,22 +1298,10 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
 
 #region Programmes en tout genre
 /*-----------------------------------------------------*/
-/*----------- 5- Programmes en tout genre ------------ */
+/*----------- 5- PROGRAMMES EN TOUT GENRE ------------ */
 /*-----------------------------------------------------*/
 
-void ShowMatrix(char[,] matrix)//-> Affiche une matrice
-{
-    for (int i = 0; i < lengthGridY; i++)
-    {
-        for (int j = 0; j < lengthGridX; j++)
-        {
-            Console.Write($" {matrix[i, j]} ");
-        }
-        Console.WriteLine("");
-    }
-}
-
-void PrintAscii()
+void PrintAscii()//-> Affiche un motif de dinosaure
 {
     nextPrint = "                      ,";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
@@ -1388,14 +1380,14 @@ void PrintAscii()
     Console.WriteLine(nextPrint);
 }
 
-char ClosestPlayer(int x, int y)
+char ClosestPlayer(int x, int y)//-> Recherche l'humain le plus proche
 {
     double distanceOwen = Math.Sqrt((x - owenPositionX) * (x - owenPositionX) + (y - owenPositionY) * (y - owenPositionY));
     double distanceMaisie = Math.Sqrt((x - maisiePositionX) * (x - maisiePositionX) + (y - maisiePositionY) * (y - maisiePositionY));
     return distanceOwen < distanceMaisie ? owen : maisie;
 }
 
-int SmartIR(char a)
+int SmartIR(char a)//-> Choisie le déplacement vers l'humain le plus proche
 {
     int PNJProcheX = 0;
     int PNJProcheY = 0;
@@ -1423,7 +1415,7 @@ int SmartIR(char a)
     }
 }
 
-int SmartBlue()
+int SmartBlue()//-> Choisie le déplacement vers l'Indominus Rex
 {
     int PNJProcheX = indominusRexPositionX;
     int PNJProcheY = indominusRexPositionY;
@@ -1444,7 +1436,7 @@ int SmartBlue()
 
 #region Lancement du jeu
 /*-----------------------------------------------------*/
-/*--------------- 6- Lancement du jeu ---------------- */
+/*--------------- 6- LANCEMENT DU JEU ---------------- */
 /*-----------------------------------------------------*/
 
 void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
@@ -1455,7 +1447,7 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
     bool win = true;
     while (lose1 && lose2 && lose3 && win)
     {
-        int test = rnd.Next(1, 5);
+        int test = rnd.Next(1, 5);// Variable pour faire bouger l'Indominus Rex une deuxième fois en difficile
         MoveOwen();
         lose1 = LosingConditionGrenadePerdu();
         lose2 = LosingConditionGrenade();
@@ -1468,7 +1460,7 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
             MoveBluePNJ();
         }
 
-        if (blueTouchIndominusRex)
+        if (blueTouchIndominusRex)//Si L'Indominus Rex a été repoussée par Blue, elle passe son tour
         {
             blueTouchIndominusRex = false;
         }
