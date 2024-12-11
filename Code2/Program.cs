@@ -511,7 +511,6 @@ void ShowGrid() //-> Affichage de la grille
 {
     DefineGrid();
     Console.Clear();
-    PrintAscii();
     Console.WriteLine();
     Console.WriteLine();
     for (int i = 0; i < tailleGrilleY; i++)
@@ -524,7 +523,20 @@ void ShowGrid() //-> Affichage de la grille
             ShowMaisie(j, i);
             ShowIndominusRex(j, i);
             ShowGrenadeG(j, i);
+            if (grille[i, j] == 'O') 
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            else if (grille[i, j] == 'B') 
+                Console.ForegroundColor = ConsoleColor.Blue;
+            else if (grille[i, j] == 'M') 
+                Console.ForegroundColor = ConsoleColor.Magenta;
+            else if (grille[i, j] == 'I') 
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (grille[i, j] == '*')
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else
+                Console.ForegroundColor = ConsoleColor.White;
             Console.Write($" {grille[i, j]} ");
+            Console.ResetColor();
         }
         Console.WriteLine("");
     }
@@ -1031,10 +1043,6 @@ bool CheckPosition()//-> regarde si l'IndominudRex est enfermée
         return false;
     }
     if (colorBackground[maisiePositionY, maisiePositionX] == 'C')
-    {
-        return false;
-    }
-    if (colorBackground[bluePositionY, bluePositionX] == 'C')
     {
         return false;
     }
