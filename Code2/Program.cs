@@ -542,7 +542,7 @@ int maisiePositionY = rnd.Next(1, 3);
 /*------------- 2- AFFICHAGE DE LA GRILLE -------------*/
 /*-----------------------------------------------------*/
 
-void ShowOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son affichage
+void DefineOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son affichage
 {
     if ((x == owenPositionX) && (y == owenPositionY))
     {
@@ -550,7 +550,7 @@ void ShowOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son
     }
 }
 
-void ShowBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de son affichage
+void DefineBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de son affichage
 {
     if ((x == bluePositionX) && (y == bluePositionY))
     {
@@ -558,7 +558,7 @@ void ShowBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de so
     }
 }
 
-void ShowMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors de son affichage
+void DefineMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors de son affichage
 {
     if ((x == maisiePositionX) && (y == maisiePositionY))
     {
@@ -566,7 +566,7 @@ void ShowMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors d
     }
 }
 
-void ShowIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la grille lors de son affichage
+void DefineIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la grille lors de son affichage
 {
     if ((x == indominusRexPositionX) && (y == indominusRexPositionY))
     {
@@ -574,7 +574,7 @@ void ShowIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la g
     }
 }
 
-void ShowGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la grenade sur la grille lors de son affichage pendant un lancer de grenade de Owen
+void DefineGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la grenade sur la grille lors de son affichage pendant un lancer de grenade de Owen
 {
     if ((x == grenadePositionX) && (y == grenadePositionY))
     {
@@ -582,6 +582,14 @@ void ShowGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la
     }
 }
 
+void DefineCaracters(int x, int y)
+{
+    DefineOwen(x,y);
+    DefineBlue(x,y);
+    DefineMaisie(x,y);
+    DefineIndominusRex(x,y);
+    DefineGrenadeG(x,y);
+}
 void ShowGrid() //-> Affichage de la grille 
 {
     DefineGrid();
@@ -593,11 +601,7 @@ void ShowGrid() //-> Affichage de la grille
         Console.SetCursorPosition((Console.WindowWidth - lengthGridX * 3) / 2, Console.CursorTop);
         for (int j = 0; j < lengthGridX; j++)
         {
-            ShowOwen(j, i);
-            ShowBlue(j, i);
-            ShowMaisie(j, i);
-            ShowIndominusRex(j, i);
-            ShowGrenadeG(j, i);
+            DefineCaracters(j,i);
             if (grid[i, j] == owen) // Pour les couleurs de chaque personnage
                 Console.ForegroundColor = ConsoleColor.Cyan;
             else if (grid[i, j] == blue)
@@ -648,56 +652,43 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
+
+        int tempX = owenPositionX;
+        int tempY = owenPositionY;
+
         switch (action)
         {
-            case 'z':
-                if ((owenPositionY > 0) && ((grid[owenPositionY - 1, owenPositionX] == '.') || (grid[owenPositionY - 1, owenPositionX] == indominusRex)))
-                {
-                    owenPositionY--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 's':
-                if ((owenPositionY < lengthGridY - 1) && ((grid[owenPositionY + 1, owenPositionX] == '.') || (grid[owenPositionY + 1, owenPositionX] == indominusRex)))
-                {
-                    owenPositionY++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 'q':
-                if ((owenPositionX > 0) && ((grid[owenPositionY, owenPositionX - 1] == '.') || (grid[owenPositionY, owenPositionX - 1] == indominusRex)))
-                {
-                    owenPositionX--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 'd':
-                if ((owenPositionX < lengthGridX - 1) && ((grid[owenPositionY, owenPositionX + 1] == '.') || (grid[owenPositionY, owenPositionX + 1] == indominusRex)))
-                {
-                    owenPositionX++;
-                }
-                else
-                {
-                    again = true;
-                }
+            case 'z': 
+                tempY--; 
+                break; 
+            case 'd': 
+                tempX++; 
+                break; 
+            case 's': 
+                tempY++; 
+                break; 
+            case 'q': 
+                tempX--; 
                 break;
             case 'e':
                 ThrowGrenade();
                 break;
             default: // Sécurité si le joueur appuie sur une touche non-valide. Recommence l'action.
                 again = true;
-                break;
+                break; 
         }
+
+        if (IsMoveOwenBlueValid(tempX, tempY))
+        {
+            owenPositionX = tempX;
+            owenPositionY = tempY;
+        }
+        else
+        {
+            again = true;
+        } 
     }
+    DefineOwen(owenPositionX,owenPositionY);
 }
 
 void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
@@ -722,54 +713,42 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
         finalChar = action; // On garde en mémoire d'où provient Blue pour faire reculer l'Indominus Rex
+        
+        int tempX = bluePositionX;
+        int tempY = bluePositionY;
+
         switch (action)
         {
-            case 'z':
-                if ((bluePositionY > 0) && ((grid[bluePositionY - 1, bluePositionX] == '.') || (grid[bluePositionY - 1, bluePositionX] == indominusRex)))
-                {
-                    bluePositionY--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 's':
-                if ((bluePositionY < lengthGridY - 1) && ((grid[bluePositionY + 1, bluePositionX] == '.') || (grid[bluePositionY + 1, bluePositionX] == indominusRex)))
-                {
-                    bluePositionY++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 'q':
-                if ((bluePositionX > 0) && ((grid[bluePositionY, bluePositionX - 1] == '.') || (grid[bluePositionY, bluePositionX - 1] == indominusRex)))
-                {
-                    bluePositionX--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 'd':
-                if ((bluePositionX < lengthGridX - 1) && ((grid[bluePositionY, bluePositionX + 1] == '.') || (grid[bluePositionY, bluePositionX + 1] == indominusRex)))
-                {
-                    bluePositionX++;
-                }
-                else
-                {
-                    again = true;
-                }
+            case 'z': 
+                tempY--; 
+                break; 
+            case 'd': 
+                tempX++; 
+                break; 
+            case 's': 
+                tempY++; 
+                break; 
+            case 'q': 
+                tempX--; 
                 break;
             default:
                 again = true;
-                break;
+                break; 
+        }
+
+        if (IsMoveOwenBlueValid(tempX, tempY))
+        {
+            bluePositionX = tempX;
+            bluePositionY = tempY;
+        }
+        else
+        {
+            again = true;
         }
     }
     StepBackIndominusRex(finalChar);
+    DefineBlue(bluePositionX,bluePositionY);
+    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 /*Déplacements PNJ*/
@@ -790,50 +769,38 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
         {
             directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
         }
+        
+        int tempX = indominusRexPositionX;
+        int tempY = indominusRexPositionY;
+
         switch (directionMouvement)
         {
-            case 1:
-                if ((indominusRexPositionY > 0) && (grid[indominusRexPositionY - 1, indominusRexPositionX] != '*') && (grid[indominusRexPositionY - 1, indominusRexPositionX] != blue))
-                {
-                    indominusRexPositionY--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 2:
-                if ((indominusRexPositionX < lengthGridX - 1) && (grid[indominusRexPositionY, indominusRexPositionX + 1] != '*') && (grid[indominusRexPositionY, indominusRexPositionX + 1] != blue))
-                {
-                    indominusRexPositionX++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 3:
-                if ((indominusRexPositionY < lengthGridY - 1) && (grid[indominusRexPositionY + 1, indominusRexPositionX] != '*') && (grid[indominusRexPositionY + 1, indominusRexPositionX] != blue))
-                {
-                    indominusRexPositionY++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 4:
-                if ((indominusRexPositionX > 0) && (grid[indominusRexPositionY, indominusRexPositionX - 1] != '*') && (grid[indominusRexPositionY, indominusRexPositionX - 1] != blue))
-                {
-                    indominusRexPositionX--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
+            case 1: 
+                tempY--; 
+                break; 
+            case 2: 
+                tempX++; 
+                break; 
+            case 3: 
+                tempY++; 
+                break; 
+            case 4: 
+                tempX--; 
+                break; 
         }
+
+        if (IsMoveIRValid(tempX, tempY))
+        {
+            indominusRexPositionX = tempX;
+            indominusRexPositionY = tempY;
+        }
+        else
+        {
+            again = true;
+        }
+
     }
+    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
@@ -855,48 +822,34 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
             directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
         }
         finalMov = directionMouvement;
+        
+        int tempX = bluePositionX;
+        int tempY = bluePositionY;
+
         switch (directionMouvement)
         {
-            case 1:
-                if ((bluePositionY > 0) && ((grid[bluePositionY - 1, bluePositionX] == '.') || (grid[bluePositionY - 1, bluePositionX] == indominusRex)))
-                {
-                    bluePositionY--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 2:
-                if ((bluePositionX < lengthGridX - 1) && ((grid[bluePositionY, bluePositionX + 1] == '.') || (grid[bluePositionY, bluePositionX + 1] == indominusRex)))
-                {
-                    bluePositionX++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 3:
-                if ((bluePositionY < lengthGridY - 1) && ((grid[bluePositionY + 1, bluePositionX] == '.') || (grid[bluePositionY + 1, bluePositionX] == indominusRex)))
-                {
-                    bluePositionY++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 4:
-                if ((bluePositionX > 0) && ((grid[bluePositionY, bluePositionX - 1] == '.') || (grid[bluePositionY, bluePositionX - 1] == indominusRex)))
-                {
-                    bluePositionX--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
+            case 1: 
+                tempY--; 
+                break; 
+            case 2: 
+                tempX++; 
+                break; 
+            case 3: 
+                tempY++; 
+                break; 
+            case 4: 
+                tempX--; 
+                break; 
+        }
+
+        if (IsMoveOwenBlueValid(tempX, tempY))
+        {
+            bluePositionX = tempX;
+            bluePositionY = tempY;
+        }
+        else
+        {
+            again = true;
         }
     }
     switch (finalMov)
@@ -914,6 +867,8 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
             StepBackIndominusRex('q');
             break;
     }
+    DefineBlue(bluePositionX,bluePositionY);
+    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 void MoveMaisie() //-> Pour déplacer Maisie
@@ -923,52 +878,59 @@ void MoveMaisie() //-> Pour déplacer Maisie
     {
         again = false;
         int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
+        
+        int tempX = maisiePositionX;
+        int tempY = maisiePositionY;
+
         switch (directionMouvement)
         {
-            case 1:
-                if ((maisiePositionY > 0) && (grid[maisiePositionY - 1, maisiePositionX] == '.'))
-                {
-                    maisiePositionY--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 2:
-                if ((maisiePositionX < lengthGridX - 1) && (grid[maisiePositionY, maisiePositionX + 1] == '.'))
-                {
-                    maisiePositionX++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 3:
-                if ((maisiePositionY < lengthGridY - 1) && (grid[maisiePositionY + 1, maisiePositionX] == '.'))
-                {
-                    maisiePositionY++;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
-            case 4:
-                if ((maisiePositionX > 0) && (grid[maisiePositionY, maisiePositionX - 1] == '.'))
-                {
-                    maisiePositionX--;
-                }
-                else
-                {
-                    again = true;
-                }
-                break;
+            case 1: 
+                tempY--; 
+                break; 
+            case 2: 
+                tempX++; 
+                break; 
+            case 3: 
+                tempY++; 
+                break; 
+            case 4: 
+                tempX--; 
+                break; 
+        }
+
+        if (IsMoveMaisieValid(tempX, tempY))
+        {
+            maisiePositionX = tempX;
+            maisiePositionY = tempY;
+        }
+        else
+        {
+            again = true;
         }
     }
+    DefineMaisie(maisiePositionX,maisiePositionY);
 }
 
+bool IsMoveIRValid(int x, int y)
+{
+    return x >= 0 && x < lengthGridX &&
+           y >= 0 && y < lengthGridY &&
+           grid[y, x] != '*' && grid[y, x] != blue;
+}
+
+bool IsMoveMaisieValid(int x, int y)
+{
+    return x >= 0 && x < lengthGridX &&
+           y >= 0 && y < lengthGridY &&
+           grid[y, x] != '*' && grid[y, x] != blue && grid[y, x] != owen && grid[y, x] != indominusRex;
+}
+
+bool IsMoveOwenBlueValid(int x, int y)
+{
+    return x >= 0 && x < lengthGridX &&
+           y >= 0 && y < lengthGridY &&
+           grid[y, x] != '*' && grid[y, x] != maisie;
+}
 /*Actions des joueurs*/
 void ThrowGrenade() //-> Pour lancer une grenade d'Owen
 {
