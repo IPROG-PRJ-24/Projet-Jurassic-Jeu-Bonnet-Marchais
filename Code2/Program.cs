@@ -18,7 +18,7 @@ int lengthGridY = 10;
 
 
 string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
-bool playableBlue = false;
+bool playableBlue = true;
 string difficulty = "Normal";
 int selectNumber = 1;
 void PrintIntro()//-> Affiche l'introduction du jeu
@@ -163,7 +163,7 @@ void SelectScreen()//-> Permet la selection des différents écrans de selection
 }
 
 
-void ChooseLengthGrid()//-> Permet de choisir la taille de la grid
+void ChooseLengthGrid()//-> Permet de choisir la taille de la grille
 {
     Console.Clear();
     PrintAscii();
@@ -172,17 +172,17 @@ void ChooseLengthGrid()//-> Permet de choisir la taille de la grid
     nextPrint = "Veuillez rentrer la largeur de la grid:";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
-    nextPrint = "(La grid ne peut pas être plus petite que 5x5)";
+    nextPrint = "(La grid ne peut pas être plus petite que 5x5 ou plus grande que 40x40)";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     int tailleGrilleXTemp = 0;
     bool tailleGrilleXOk = false;
-    while (!tailleGrilleXOk || tailleGrilleXTemp < 5)
+    while (!tailleGrilleXOk || tailleGrilleXTemp < 5 || tailleGrilleXTemp > 40)
     {
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         tailleGrilleXOk = int.TryParse(Console.ReadLine()!, out tailleGrilleXTemp); // Vérification que le joueur rentre un int supérieur à 5
-        if (!tailleGrilleXOk || tailleGrilleXTemp < 5)
+        if (!tailleGrilleXOk || tailleGrilleXTemp < 5 || tailleGrilleXTemp > 40)
         {
             nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -194,17 +194,17 @@ void ChooseLengthGrid()//-> Permet de choisir la taille de la grid
     nextPrint = "Veuillez rentrer la hauteur de la grid:";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
-    nextPrint = "(La grid ne peut pas être plus petite que 5x5)";
+    nextPrint = "(La grid ne peut pas être plus petite que 5x5 ou plus grande que 40x40)";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
 
     int lengthGridYTemp = 0;
     bool lengthGridYOk = false;
-    while (!lengthGridYOk || lengthGridYTemp < 5)
+    while (!lengthGridYOk || lengthGridYTemp < 5 || lengthGridYTemp > 40)
     {
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         lengthGridYOk = int.TryParse(Console.ReadLine()!, out lengthGridYTemp); // Vérification que le joueur rentre un int supérieur à 5
-        if (!lengthGridYOk || lengthGridYTemp < 5)
+        if (!lengthGridYOk || lengthGridYTemp < 5 || lengthGridYTemp > 40)
         {
             nextPrint = " !!! Veuillez rentrer une taille valide. !!! ";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -755,7 +755,6 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
     while (again)
     {
         again = false;
-        ShowGrid();
         if (isSmartIR)
         {
             directionMouvement = SmartIR(ClosestPlayer(indominusRexPositionX, indominusRexPositionY));
@@ -815,12 +814,11 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
 {
     bool again = true;
     int finalMov = 0;
-    bool isSmartBlue = true; // Changer le comportement en fonction de la difficulté
+    bool isSmartBlue = true ; 
     int directionMouvement = 0;
     while (again)
     {
         again = false;
-        ShowGrid();
         if (isSmartBlue)
         {
             directionMouvement = SmartBlue();
@@ -898,7 +896,6 @@ void MoveMaisie() //-> Pour déplacer Maisie
     while (again)
     {
         again = false;
-        ShowGrid();
         int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
         switch (directionMouvement)
         {
