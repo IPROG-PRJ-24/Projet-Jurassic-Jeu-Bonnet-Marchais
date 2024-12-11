@@ -1,4 +1,6 @@
 ﻿
+using System.IO.Compression;
+
 Random rnd = new Random();
 Console.Clear();
 
@@ -16,7 +18,7 @@ int lengthGridY = 10;
 
 
 string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
-
+bool playableBlue = false;
 string difficulty = "Normal";
 int selectNumber = 1;
 void PrintIntro()//-> Affiche l'introduction du jeu
@@ -767,6 +769,87 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
     }
 }
 
+void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
+{
+    bool again = true;
+    int finalMov = 0;
+    bool isSmartBlue = true ; // Changer le comportement en fonction de la difficulté
+    int directionMouvement = 0;
+    while(again)
+    {
+        again = false;
+        ShowGrid();
+        if (isSmartBlue)
+        {
+            directionMouvement = SmartBlue();
+            isSmartBlue = false;
+        }
+        else
+        {
+            directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+        }
+        finalMov = directionMouvement;
+        switch (directionMouvement)
+        {
+            case 1:
+                if ((bluePositionY > 0) && ((grid[bluePositionY - 1, bluePositionX] == '.') || (grid[bluePositionY - 1, bluePositionX] == indominusRex)))
+                {
+                    bluePositionY--;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+            case 2:
+                if ((bluePositionX < lengthGridX - 1) && ((grid[bluePositionY, bluePositionX + 1] == '.') || (grid[bluePositionY, bluePositionX + 1] == indominusRex)))
+                {
+                    bluePositionX++;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+            case 3:
+                if ((bluePositionY < lengthGridY - 1) && ((grid[bluePositionY + 1, bluePositionX] == '.') || (grid[bluePositionY + 1, bluePositionX] == indominusRex)))
+                {
+                    bluePositionY++;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+            case 4:
+                if ((bluePositionX > 0) && ((grid[bluePositionY, bluePositionX - 1] == '.') || (grid[bluePositionY, bluePositionX - 1] == indominusRex)))
+                {
+                    bluePositionX--;
+                }
+                else
+                {
+                    again = true;
+                }
+                break;
+        }
+    }
+    switch(finalMov)
+    {
+        case 1:
+            StepBackIndominusRex('z');
+            break;
+        case 2:
+            StepBackIndominusRex('d');
+            break;
+        case 3:
+            StepBackIndominusRex('s');
+            break;
+        case 4:
+            StepBackIndominusRex('q');
+            break;
+    }
+}
+
 void MoveMaisie() //-> Pour déplacer Maisie
 {
     bool again = true;
@@ -1312,6 +1395,24 @@ int SmartIR(char a)
         return deltaY > 0 ? 3 : 1; // Déplacement vertical
     }
 }
+
+int SmartBlue()
+{
+    int PNJProcheX = indominusRexPositionX;
+    int PNJProcheY = indominusRexPositionY;
+
+    int deltaX = PNJProcheX - bluePositionX;
+    int deltaY = PNJProcheY - bluePositionY;
+
+    if (Math.Abs(deltaX) > Math.Abs(deltaY))
+    {
+        return deltaX > 0 ? 2 : 4; // Déplacement horizontal
+    }
+    else
+    {
+        return deltaY > 0 ? 3 : 1; // Déplacement vertical
+    }
+}
 #endregion
 
 #region Lancement du jeu
@@ -1331,7 +1432,15 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
         MoveOwen();
         lose1 = LosingConditionGrenadePerdu();
         lose2 = LosingConditionGrenade();
-        MoveBlue();
+        if (playableBlue)
+        {
+            MoveBlue();
+        }
+        else
+        {
+            MoveBluePNJ();
+        }
+        
         if (blueTouchIndominusRex)
         {
             blueTouchIndominusRex = false;
