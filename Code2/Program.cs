@@ -1303,81 +1303,63 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
 
 void PrintAscii()//-> Affiche un motif de dinosaure
 {
-    nextPrint = "                      ,";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("                      ,");
 
-    nextPrint = "               ,  ;:._.-`''.";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("               ,  ;:._.-`''.");
 
-    nextPrint = "             ;.;'.;`      _ `.";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("             ;.;'.;`      _ `.");
 
-    nextPrint = "              ',;`       ( \x5c ,`-.  ";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("              ',;`       ( \x5c ,`-.  ");
 
-    nextPrint = "           `:.`,         (_/ ;\x5c  `-.";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("           `:.`,         (_/ ;\x5c  `-.");
 
-    nextPrint = "            ';:              / `.   `-._";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("            ';:              / `.   `-._");
 
-    nextPrint = "          `;.;'              `-,/ .     `-.";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("          `;.;'              `-,/ .     `-.");
 
-    nextPrint = "          ';;'              _    `^`       `.";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("          ';;'              _    `^`       `.");
 
-    nextPrint = "         ';;            ,'-' `--._          ;";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("         ';;            ,'-' `--._          ;");
 
-    nextPrint = "':      `;;        ,;     `.    ':`,,.__,,_ /";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("':      `;;        ,;     `.    ':`,,.__,,_ /");
 
-    nextPrint = " `;`:;`;:`       ,;  '.    ;,      ';';':';;`";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine(" `;`:;`;:`       ,;  '.    ;,      ';';':';;`");
 
-    nextPrint = "              .,; '    '-._ `':.;   ";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("              .,; '    '-._ `':.;   ");
 
-    nextPrint = "            .:; `          '._ `';;,";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("            .:; `          '._ `';;,");
 
-    nextPrint = "          ;:` `    :'`'       ',__.)";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("          ;:` `    :'`'       ',__.)");
 
-    nextPrint = "        `;:;:.,...;'`'";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("        `;:;:.,...;'`'");
 
-    nextPrint = "      ';. '`'::'`''  .'`'";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("      ';. '`'::'`''  .'`'");
 
-    nextPrint = "    ,'jgs`';;:,..::;`'`'";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine("    ,'jgs`';;:,..::;`'`'");
 
-    nextPrint = ", .;`      `'::''`";
-    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
 
-    nextPrint = ",`;`.";
     Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
-    Console.WriteLine(nextPrint);
+    Console.WriteLine(", .;`      `'::''`");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine(",`;`.");
 }
 
 char ClosestPlayer(int x, int y)//-> Recherche l'humain le plus proche
