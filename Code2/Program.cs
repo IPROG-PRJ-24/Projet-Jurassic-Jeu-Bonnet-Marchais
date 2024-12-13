@@ -1208,6 +1208,11 @@ bool LosingConditionGrenadePerdu()//-> Regarde les conditions de perte concernan
         conditionWinLose = 3;
         lose = false;
     }
+    if (trenches[owenPositionY, owenPositionX] == '*')
+    {
+        conditionWinLose = 7;
+        lose = false;
+    }
     return lose;
 }
 
@@ -1247,44 +1252,128 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
     {
         case 1:
 
-            Console.WriteLine("VICTOIRE!");
-            Console.WriteLine("Vous avez triomphé face au terrible Indominus Rex.");
-            Console.WriteLine("Elle n'avait aucune chance face à vos tirs.");
+            nextPrint = "VICTOIRE!";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "Vous avez triomphé face au terrible Indominus Rex.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "Elle n'avait aucune chance face à vos tirs.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
             break;
 
         case 2:
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
 
-            Console.WriteLine("C'est PERDU");
-            Console.WriteLine("Blue a pris une grenade.");
-            Console.WriteLine("Il faudrait apprendre à viser....");
+            nextPrint = "Blue a pris une grenade.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            
+            nextPrint = "Il faudrait apprendre à viser....";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
             break;
 
         case 3:
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
 
-            Console.WriteLine("C'est PERDU");
-            Console.WriteLine("Maisie a pris une grenade.");
-            Console.WriteLine("L'Indominus Rex n'était pas la plus grande menace il semblerait....");
+            nextPrint = "Maisie a pris une grenade.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            
+            nextPrint = "L'Indominus Rex n'était pas la plus grande menace il semblerait....";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
             break;
 
         case 4:
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
 
-            Console.WriteLine("C'est PERDU");
-            Console.WriteLine("Owen n'as plus de grenade.");
-            Console.WriteLine("Il ne reste plus qu'a espérer que les jambes de Owen et Maisie soient assez rapides....");
+            nextPrint = "Owen n'as plus de grenade.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            
+            nextPrint = "Il ne reste plus qu'a espérer que les jambes de Owen et Maisie soient assez rapides....";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
             break;
 
         case 5:
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
 
-            Console.WriteLine("C'est PERDU");
-            Console.WriteLine("L'Indominus Rex a mangé Owen.");
-            Console.WriteLine("Il ne reste plus personne pour défendre la Terre....");
+            nextPrint = "L'Indominus Rex a mangé Owen.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            
+            nextPrint = "Il ne reste plus personne pour défendre la Terre....";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
             break;
 
         case 6:
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
 
-            Console.WriteLine("C'est PERDU");
-            Console.WriteLine("L'Indominus Rex a mangé Maisie.");
-            Console.WriteLine("Owen a raté sa mission....");
+            nextPrint = "L'Indominus Rex a mangé Maisie.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            
+            nextPrint = "Owen a raté sa mission....";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
+            break;
+        case 7:
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "Owen a pris une grenade.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            
+            nextPrint = "C'est l'Indominus Rex qu'il faut viser si jamais....";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            ShowGrid();
             break;
     }
 }
