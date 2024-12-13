@@ -423,26 +423,19 @@ void Rules()//-> Affiche les règles du jeu
 
     Console.Write("But du jeu :   ");
     Console.WriteLine();
-    Console.WriteLine("L'Indominus Rex est à vos trousses !!! Vous devez lui échapper en l'enfermant avec des crevasses que vous allez créer grâce à vos grenades.");
-    Console.WriteLine("Pour cela, vous allez jouer 3 personnages qui ont tous pour but d'enfermer l'Indominus Rex...(ou presque).");
-    Console.WriteLine("OWEN est votre personnage le plus utile c'est lui qui peut lancer des grenades.");
-    Console.WriteLine("Cependant BLUE est tout aussi utile, en effet l'Indominus Rex ne mange pas ses compères. BLUE sera donc capable de faire diversion, ainsi elle peut faire reculer l'Indominus Rex.");
-    Console.WriteLine("MAISIE quant à elle a beaucoup trop peur, elle panique et se déplace aléatoirement. Malheureusement cela vous compliquera la tâche.");
+    Console.WriteLine("Vous incarnerez 2 personnages dans ce jeu : Owen Grady et la raptor Blue. Ils luttent ensembles pour sauver la petite Maisie qui est poursuivie \n par l'Indominus Rex.");
     Console.WriteLine();
-
-    Console.WriteLine("Comment jouer :   ");
+    Console.WriteLine("Pour gagner une partie vous devrez enfermer L'indominus Rex à l'aide de crevasse. Ces crevasses sont provoquées par les grenades que Owen est capable de lancer. Chaque grenade provoque deux crevasses côte à côte et Owen possède un nombre limité de grenade. Il ne peut lancer les grenades qu'à trois cases de lui maximum.");
     Console.WriteLine();
-    Console.WriteLine("Le jeu se passe sur un plateau rectangulaire de taille que vous choisirez.");
-    Console.WriteLine("Chaque personnage occcupe une case.");
+    Console.WriteLine("Owen et Blue ne se déplacent que d'une case à la fois. A chaque tour, Owen à le choix entre se déplacer ou lancer une grenade. Blue quant à elle peut faire reculer l'indominus Rex lorsqu'elle entre en contact avec elle. L'indominus Rex recule alors de 3 cases (ou moins si elle rencontre une crevasse ou un bord du jeu) et est immobilisée pour ce tour.");
     Console.WriteLine();
-    Console.WriteLine("Un tour se déroule de la manière suivante: ");
-    Console.WriteLine("D'abord, vous faite bouger OWEN grâce aux touches (Z,Q,S,D) du clavier. Vous pouvez à la place lancer une grenade avec la touche (E) du clavier.");
+    Console.WriteLine("Maisie elle n'est pas un personnage jouable, elle panique face à la férocité de l'Indominus Rex et bouge donc aléatoirement d'une case par tour. (Cependant elle ne peut pas se jeter sur l'indominus Rex)");
     Console.WriteLine();
-    Console.WriteLine("Ensuite, vous faites bouger BLUE de la même manière que OWEN (vous pourrez dans les options choisir de laisser l'ordinateur contrôler BLUE).");
-    Console.WriteLine("Si vous entrez en contact avec l'Idominus Rex, BLUE fait reculer de 3 cases l'Idominus Rex.");
+    Console.WriteLine("L'Indominus Rex est attirée par tout le monde, elle ne sait plus où donner de la tête. Ses mouvements sont donc aléatoires. L'indominus peut manger Owen ou Maisie la partie sera alors perdue. L'Indominus Rex ne mange pas ses compères, Blue ne peut donc pas être mangée. De plus l'Indominus à la peau trop dure pour craindre les grenades.");
     Console.WriteLine();
-    Console.WriteLine("pour MAISIE, comme dit précédemment elle bouge aléatoirement. Elle est donc contrôlé par l'ordinateur.");
-
+    Console.WriteLine("Si n'importe quel personnage de votre équipe se prend une grenade, c'est la défaite. Attention donc à bien viser car une grenade provoque 2 crevasses, la première là où Owen l'a lancée et la deuxième aléatoirement entre les 4 positions possibles autour de la première crevasse");
+    Console.WriteLine();
+    Console.WriteLine();
 
     nextPrint = "Appuyer sur n'importe quelle touche pour revenir à l'écran de selection.";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
