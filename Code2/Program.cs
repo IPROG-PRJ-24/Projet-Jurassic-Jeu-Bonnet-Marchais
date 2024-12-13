@@ -329,7 +329,7 @@ void PrintSelectOptions(int chooseOption)//-> Affiche l'écran des options en fo
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
 
-        nextPrint = "IndominusRex est attirée par les humains";
+        nextPrint = "IndominusRex est attirée par les humains. On vous a donné un filet qui l'empêche de bouger pour vous aider.";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
     }
@@ -474,7 +474,10 @@ void Rules()//-> Affiche les règles du jeu
     string regle5 = "Maisie elle n'est pas un personnage jouable, elle panique face à la férocité de l'Indominus Rex et bouge donc aléatoirement d'une case par tour. \n( Cependant elle ne peut pas se jeter sur l'Indominus Rex )";
     string regle6 = "L'Indominus Rex est attirée par tout le monde, elle ne sait plus où donner de la tête. Ses mouvements sont donc aléatoires. \nL'Indominus Rex peut manger Owen ou Maisie la partie sera alors perdue. \nL'Indominus Rex ne mange pas ses compères, Blue ne peut donc pas être mangée. \nDe plus l'Indominus Rex à la peau trop dure pour craindre les grenades.";
     string regle7 = "Si n'importe quel personnage de votre équipe se prend une grenade, c'est la défaite. \nAttention donc à bien viser car une grenade provoque 2 crevasses, \nla première là où Owen l'a lancée et la deuxième aléatoirement entre les 4 positions possibles autour de la première crevasse";
-    
+    string regle8 = "Dans le mode Difficile, une fois sur cinq l'Indominus Rex bouge 2 fois et cherche constamment l'humain le plus proche. On vous fournit un filet qui l'empêche de bouger pendant 2 tours.";
+    string regle9 = "Dans le mode Impossible, l'Indominus Rex bouge 2 fois à chaque tour tout en cherchant l'humain le plus proche à chaque tour. On vous fournit un filet qui l'empêche de bouger pendant 2 tours.";
+    string regle10 = "Vous pouvez également choisir de ne pas controler Blue, dans quel cas elle se déplacera automatiquement vers l'Indominus Rex à chaque fois.";
+
     PrintColoredText(regle1);
     Console.WriteLine();
     PrintColoredText(regle2);
@@ -488,6 +491,12 @@ void Rules()//-> Affiche les règles du jeu
     PrintColoredText(regle6);
     Console.WriteLine();
     PrintColoredText(regle7);
+    Console.WriteLine();
+    PrintColoredText(regle8);
+    Console.WriteLine();
+    PrintColoredText(regle9);
+    Console.WriteLine();
+    PrintColoredText(regle10);
     Console.WriteLine();
 
     nextPrint = "Appuyer sur n'importe quelle touche pour revenir à l'écran de selection.";
@@ -561,6 +570,7 @@ char owen = 'O';
 int owenPositionX = lengthGridX - rnd.Next(1, 3);
 int owenPositionY = rnd.Next(1, 3);
 int nbGrenade = (lengthGridX + lengthGridY) / 2;
+int nbNet = (lengthGridX + lengthGridY) / 5;
 
 /* Initialisation de l'objet grenade*/
 char grenade = 'G';
@@ -576,6 +586,7 @@ int bluePositionY = lengthGridY - rnd.Next(1, 3);
 char indominusRex = 'I';
 int indominusRexPositionX = lengthGridX - rnd.Next(1, 3);
 int indominusRexPositionY = lengthGridY - rnd.Next(1, 3);
+int indominusRexNoMove = 0;
 
 /* Initialisation Maisie*/
 char maisie = 'M';
@@ -679,6 +690,7 @@ void ShowGrid() //-> Affichage de la grille
 void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades 
 {
     bool again = true;
+    bool accessNet = difficulty != "Normal";
     while (again)
     {
         again = false;
@@ -696,12 +708,20 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
+        if(accessNet)
+        {
+            nextPrint = $"Puisque vous êtes en mode difficile, vous avez accès à {nbNet} filets. Appuyer sur F pour l'utiliser.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+        }
+
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
 
         int tempX = owenPositionX;
         int tempY = owenPositionY;
+        double distanceIR = Math.Sqrt((owenPositionX - indominusRexPositionX) * (owenPositionX - indominusRexPositionX) + (owenPositionY - indominusRexPositionY) * (owenPositionY - indominusRexPositionY));
 
         switch (action)
         {
@@ -719,6 +739,16 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
                 break;
             case 'e':
                 ThrowGrenade();
+                break;
+            case 'f':
+                if(accessNet && nbNet > 0 && distanceIR < 4)
+                {
+                    ThrowNet();
+                }
+                else
+                {
+                again = true; 
+                }
                 break;
             default: // Sécurité si le joueur appuie sur une touche non-valide. Recommence l'action.
                 again = true;
@@ -1051,6 +1081,38 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
     }
 }
 
+void ThrowNet() //-> Pour lancer un filet
+{
+    bool again = true;
+    while (again)
+    {
+        ShowGrid();
+        nextPrint = "Vous avez choisi de lancer un filet. L'Indominus doit être à 2 cases de vous maximum. Elle ne pourra plus bouger pendant 2 tours (celui ci inclus).";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        nextPrint = "Appuyer sur 'Espace' pour confirmer / R pour annuler";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        char action = Console.ReadKey().KeyChar;
+        action = Char.ToLower(action);
+        switch (action)
+        {
+            case 'r':
+                again = false;
+                MoveOwen();
+                break;  
+            case ' ':
+                indominusRexNoMove = 2;
+                nbNet --;
+                again = false;
+                break;
+            default:
+                again = true;
+                break;
+        }
+    }
+}
+
 void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirmation du lancer
 {
     nbGrenade--;
@@ -1088,12 +1150,11 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
     grenadePositionY = -1;
 }
 
-bool blueTouchIndominusRex = false; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
 void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blue la touche
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
     {
-        blueTouchIndominusRex = true;
+        indominusRexNoMove = 1; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
         switch (action)
         {
             case 'z':
@@ -1574,9 +1635,9 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
             MoveBluePNJ();
         }
 
-        if (blueTouchIndominusRex)//Si L'Indominus Rex a été repoussée par Blue, elle passe son tour
+        if (indominusRexNoMove != 0)//Si L'Indominus Rex a été repoussée par Blue, elle passe son tour
         {
-            blueTouchIndominusRex = false;
+            indominusRexNoMove --;
         }
         else
         {
