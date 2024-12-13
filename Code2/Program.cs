@@ -2,7 +2,7 @@
 using System.IO.Compression;
 
 Random rnd = new Random();
-Console.Clear();
+Console.Clear(); //Réinitialisation de la console 
 
 
 #region Initialisation
@@ -18,13 +18,13 @@ int lengthGridY = 10;
 
 
 string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
-bool playableBlue = true;
+bool playableBlue = true;// Booléen qui permet de contrôler Blue ou non
 string difficulty = "Normal";
 int selectNumber = 1;
 void PrintIntro()//-> Affiche l'introduction du jeu
 {
     nextPrint = "JURENSIC WORLD";
-    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop); // Placement du curseur au centre de la console
     Console.WriteLine(nextPrint);
     Console.WriteLine();
     Console.WriteLine();
@@ -640,10 +640,10 @@ void DefineCaracters(int x, int y)//-> Cette procédure réunit les 5 dernières
 void ShowGrid() //-> Affichage de la grille 
 {
     DefineGrid();
-    Console.Clear();
+    Console.Clear(); 
     Console.WriteLine();
     Console.WriteLine();
-    for (int i = 0; i < lengthGridY; i++)
+    for (int i = 0; i < lengthGridY; i++) // Parcours de la grille 
     {
         Console.SetCursorPosition((Console.WindowWidth - lengthGridX * 3) / 2, Console.CursorTop);
         for (int j = 0; j < lengthGridX; j++)
@@ -661,7 +661,7 @@ void ShowGrid() //-> Affichage de la grille
                 Console.ForegroundColor = ConsoleColor.Yellow;
             else
                 Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($" {grid[i, j]} ");
+            Console.Write($" {grid[i, j]} "); //Affichage des caractères
             Console.ResetColor();
         }
         Console.WriteLine("");
@@ -679,7 +679,7 @@ void ShowGrid() //-> Affichage de la grille
 void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades 
 {
     bool again = true;
-    while (again)
+    while (again) //Tant que l'on ne rentre pas un mouvement valide
     {
         again = false;
         ShowGrid();
@@ -700,6 +700,8 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
 
+
+        //On ajoute en variable temporaire les position X et Y
         int tempX = owenPositionX;
         int tempY = owenPositionY;
 
@@ -720,23 +722,23 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
             case 'e':
                 ThrowGrenade();
                 break;
-            default: // Sécurité si le joueur appuie sur une touche non-valide. Recommence l'action.
+            default: // Sécurité si le joueur appuie sur une touche non-valide. Cela recommence l'action.
                 again = true;
                 break; 
         }
 
-        if (IsMoveOwenBlueValid(tempX, tempY))
+        if (IsMoveOwenBlueValid(tempX, tempY)) // Si le mouvement est valide, on actualise les positions temporaires
         {
             owenPositionX = tempX;
             owenPositionY = tempY;
         }
-        else
+        else//Sinon on relance la boucle
         {
             again = true;
         } 
     }
-    DefineOwen(owenPositionX,owenPositionY);
-    DefineGrid();
+    DefineOwen(owenPositionX,owenPositionY); // On redéfinit la position dans la grille
+    DefineGrid();//On actualise la grille de crevasses si Owen a lancé une grenade
 }
 
 void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
@@ -760,8 +762,10 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
-        finalChar = action; // On garde en mémoire d'où provient Blue pour faire reculer l'Indominus Rex
+        finalChar = action; // On garde en mémoire d'où provient Blue pour faire reculer l'Indominus Rex dans la bonne direction
         
+
+        //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = bluePositionX;
         int tempY = bluePositionY;
 
@@ -794,12 +798,15 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
             again = true;
         }
     }
+    //
+
     StepBackIndominusRex(finalChar);
     DefineBlue(bluePositionX,bluePositionY);
     DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 /*Déplacements PNJ*/
+
 void MoveIndominusRex() //-> Pour déplacer IndominusRex
 {
     bool again = true;
@@ -808,16 +815,17 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
     while (again)
     {
         again = false;
-        if (isSmartIR)
+        if (isSmartIR)//L'indominus Rex bouge vers le joueurs le plus proche 
         {
             directionMouvement = SmartIR(ClosestPlayer(indominusRexPositionX, indominusRexPositionY));
             isSmartIR = false;
         }
-        else
+        else //Si elle ne peut pas, elle bouge aléatoirement
         {
             directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
         }
         
+        //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = indominusRexPositionX;
         int tempY = indominusRexPositionY;
 
@@ -848,13 +856,14 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
         }
 
     }
+    //
     DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
 
 void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
 {
     bool again = true;
-    int finalMov = 0;
+    int finalMov = 0; // On garde en mémoire d'où provient Blue pour faire reculer l'Indominus Rex dans la bonne direction
     bool isSmartBlue = true ; 
     int directionMouvement = 0;
     while (again)
@@ -871,6 +880,7 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
         }
         finalMov = directionMouvement;
         
+        //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = bluePositionX;
         int tempY = bluePositionY;
 
@@ -915,6 +925,7 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
             StepBackIndominusRex('q');
             break;
     }
+    //
     DefineBlue(bluePositionX,bluePositionY);
     DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
 }
@@ -927,6 +938,7 @@ void MoveMaisie() //-> Pour déplacer Maisie
         again = false;
         int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
         
+        //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = maisiePositionX;
         int tempY = maisiePositionY;
 
@@ -956,24 +968,25 @@ void MoveMaisie() //-> Pour déplacer Maisie
             again = true;
         }
     }
+    //
     DefineMaisie(maisiePositionX,maisiePositionY);
 }
 
-bool IsMoveIRValid(int x, int y)
+bool IsMoveIRValid(int x, int y)//-> Test si le mouvement est possible pour l'Indominus Rex
 {
     return x >= 0 && x < lengthGridX &&
            y >= 0 && y < lengthGridY &&
            grid[y, x] != '*' && grid[y, x] != blue;
 }
 
-bool IsMoveMaisieValid(int x, int y)
+bool IsMoveMaisieValid(int x, int y)//-> Test si le mouvement est possible pour Maisie
 {
     return x >= 0 && x < lengthGridX &&
            y >= 0 && y < lengthGridY &&
            grid[y, x] != '*' && grid[y, x] != blue && grid[y, x] != owen && grid[y, x] != indominusRex;
 }
 
-bool IsMoveOwenBlueValid(int x, int y)
+bool IsMoveOwenBlueValid(int x, int y)//-> Test si le mouvement est possible pour Owen et Blue
 {
     return x >= 0 && x < lengthGridX &&
            y >= 0 && y < lengthGridY &&
@@ -982,7 +995,7 @@ bool IsMoveOwenBlueValid(int x, int y)
 /*Actions des joueurs*/
 void ThrowGrenade() //-> Pour lancer une grenade d'Owen
 {
-    grenadePositionX = owenPositionX;
+    grenadePositionX = owenPositionX;//on place la selection de la grenade sur Owen
     grenadePositionY = owenPositionY;
     int distanceY = 0;
     int distanceX = 0;
@@ -1001,7 +1014,7 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
         Console.WriteLine(nextPrint);
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
-        switch (action)
+        switch (action) //On déplace le caractère G de la même manière que les autres personnages.
         {
             case 'z':
                 if ((grenadePositionY > 0) && (distanceY > -3))
@@ -1034,13 +1047,13 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
                     grenadePositionX++;
                 }
                 break;
-            case 'r':
+            case 'r': //Retour au mouvement de Owen dans le cas où le joueur s'est trompé
                 again = false;
                 grenadePositionX = -1;
                 grenadePositionY = -1;
                 MoveOwen();
                 break;
-            case ' ':
+            case ' ': //Confirme le lancer de grenade
                 PlaceGrenade();
                 again = false;
                 break;
@@ -1054,9 +1067,9 @@ void ThrowGrenade() //-> Pour lancer une grenade d'Owen
 void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirmation du lancer
 {
     nbGrenade--;
-    trenches[grenadePositionY, grenadePositionX] = '*';
+    trenches[grenadePositionY, grenadePositionX] = '*';//placement de la première grenade
     int direction = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
-    switch (direction)
+    switch (direction)//Placemement de 
     {
         case 1:
             if (grenadePositionY > 0)
@@ -1089,6 +1102,8 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
 }
 
 bool blueTouchIndominusRex = false; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
+
+
 void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blue la touche
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
