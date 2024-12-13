@@ -1249,10 +1249,11 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
     Console.Clear();
     Console.WriteLine();
     Console.WriteLine();
+    ShowGrid();
     switch (conditionWinLose)
     {
         case 1:
-
+            
             nextPrint = "VICTOIRE!";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1267,7 +1268,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
+            
             break;
 
         case 2:
@@ -1285,7 +1286,6 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
             break;
 
         case 3:
@@ -1303,7 +1303,6 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
             break;
 
         case 4:
@@ -1321,7 +1320,6 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
             break;
 
         case 5:
@@ -1339,7 +1337,6 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
             break;
 
         case 6:
@@ -1357,7 +1354,6 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
             break;
         case 7:
             nextPrint = "C'est PERDU";
@@ -1374,7 +1370,6 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            ShowGrid();
             break;
     }
 }
