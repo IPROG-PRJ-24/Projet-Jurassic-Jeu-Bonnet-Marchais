@@ -680,10 +680,10 @@ void ShowGrid() //-> Affichage de la grille
 }
 #endregion
 
-#region Déplacements des joueurs, objets et PNJ
-/*-----------------------------------------------------*/
-/*---- 3- DEPLACEMENTS DES JOUEURS, OBJETS ET PNJ -----*/
-/*-----------------------------------------------------*/
+#region Déplacements et actions des joueurs, objets et PNJ
+/*----------------------------------------------------------------*/
+/*---- 3- DEPLACEMENTS ET ACTIONS DES JOUEURS, OBJETS ET PNJ -----*/
+/*----------------------------------------------------------------*/
 
 
 /*Déplacements Joueurs*/
