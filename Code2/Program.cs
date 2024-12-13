@@ -1115,7 +1115,7 @@ void ThrowNet() //-> Pour lancer un filet
                 MoveOwen();
                 break;  
             case ' ':
-                indominusRexNoMove = 2;
+                indominusRexNoMove += 2;
                 nbNet --;
                 again = false;
                 break;
@@ -1169,7 +1169,7 @@ void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blu
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
     {
-        indominusRexNoMove = 1; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
+        indominusRexNoMove ++; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
         switch (action)
         {
             case 'z':
