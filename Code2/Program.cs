@@ -542,7 +542,7 @@ int maisiePositionY = rnd.Next(1, 3);
 /*------------- 2- AFFICHAGE DE LA GRILLE -------------*/
 /*-----------------------------------------------------*/
 
-void DefineOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de son affichage
+void DefineOwen(int x, int y) //-> Permet de mettre à jour la position d'Owen sur la grille lors de son affichage
 {
     if ((x == owenPositionX) && (y == owenPositionY))
     {
@@ -550,7 +550,7 @@ void DefineOwen(int x, int y) //-> Permet de mettre Owen sur la grille lors de s
     }
 }
 
-void DefineBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de son affichage
+void DefineBlue(int x, int y) //-> Permet de mettre à jour la position de Blue sur la grille lors de son affichage
 {
     if ((x == bluePositionX) && (y == bluePositionY))
     {
@@ -558,7 +558,7 @@ void DefineBlue(int x, int y) //-> Permet d'afficher Blue sur la grille lors de 
     }
 }
 
-void DefineMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors de son affichage
+void DefineMaisie(int x, int y) //-> Permet de mettre à jour la position de Maisie sur la grille lors de son affichage
 {
     if ((x == maisiePositionX) && (y == maisiePositionY))
     {
@@ -566,7 +566,7 @@ void DefineMaisie(int x, int y) //-> Permet d'afficher Maisie sur la grille lors
     }
 }
 
-void DefineIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la grille lors de son affichage
+void DefineIndominusRex(int x, int y) //-> Permet de mettre à jour la position de l'IndominusRex sur la grille lors de son affichage
 {
     if ((x == indominusRexPositionX) && (y == indominusRexPositionY))
     {
@@ -574,7 +574,7 @@ void DefineIndominusRex(int x, int y) //-> Permet d'afficher IndominusRex sur la
     }
 }
 
-void DefineGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance la grenade sur la grille lors de son affichage pendant un lancer de grenade de Owen
+void DefineGrenade(int x, int y) //-> Permet d'afficher l'endroit où on lance la grenade sur la grille lors de son affichage pendant un lancer de grenade de Owen
 {
     if ((x == grenadePositionX) && (y == grenadePositionY))
     {
@@ -582,14 +582,15 @@ void DefineGrenadeG(int x, int y) //-> Permet d'afficher l'endroit où on lance 
     }
 }
 
-void DefineCaracters(int x, int y)
+void DefineCaracters(int x, int y)//-> Cette procédure réunit les 5 dernières en une seule
 {
     DefineOwen(x,y);
     DefineBlue(x,y);
     DefineMaisie(x,y);
     DefineIndominusRex(x,y);
-    DefineGrenadeG(x,y);
+    DefineGrenade(x,y);
 }
+
 void ShowGrid() //-> Affichage de la grille 
 {
     DefineGrid();
