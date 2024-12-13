@@ -690,6 +690,7 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         } 
     }
     DefineOwen(owenPositionX,owenPositionY);
+    DefineGrid();
 }
 
 void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
