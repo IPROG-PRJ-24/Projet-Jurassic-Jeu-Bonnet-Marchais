@@ -416,12 +416,12 @@ void PrintColoredText(string input)//-> Affiche un texte avec les couleurs pour 
 {
     {
         string[] words = input.Split(' ');
-        
+
         foreach (var word in words)
         {
             if (word.Contains("Owen"))
             {
-                Console.ForegroundColor = ConsoleColor.Cyan; 
+                Console.ForegroundColor = ConsoleColor.Cyan;
             }
             else if (word.Contains("Blue"))
             {
@@ -429,15 +429,15 @@ void PrintColoredText(string input)//-> Affiche un texte avec les couleurs pour 
             }
             else if (word.Contains("l'Indominus"))
             {
-                Console.ForegroundColor = ConsoleColor.Red; 
+                Console.ForegroundColor = ConsoleColor.Red;
             }
             else if (word.Contains("L'Indominus"))
             {
-                Console.ForegroundColor = ConsoleColor.Red; 
+                Console.ForegroundColor = ConsoleColor.Red;
             }
             else if (word.Contains("Rex"))
             {
-                Console.ForegroundColor = ConsoleColor.Red; 
+                Console.ForegroundColor = ConsoleColor.Red;
             }
             else if (word.Contains("Maisie"))
             {
@@ -445,11 +445,11 @@ void PrintColoredText(string input)//-> Affiche un texte avec les couleurs pour 
             }
             else if (word.Contains("grenade"))
             {
-                Console.ForegroundColor = ConsoleColor.Yellow; 
+                Console.ForegroundColor = ConsoleColor.Yellow;
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.White; 
+                Console.ForegroundColor = ConsoleColor.White;
             }
 
             Console.Write(word + " ");
@@ -641,17 +641,17 @@ void DefineGrenade(int x, int y) //-> Permet d'afficher l'endroit où on lance l
 
 void DefineCaracters(int x, int y)//-> Cette procédure réunit les 5 dernières en une seule
 {
-    DefineOwen(x,y);
-    DefineBlue(x,y);
-    DefineMaisie(x,y);
-    DefineIndominusRex(x,y);
-    DefineGrenade(x,y);
+    DefineOwen(x, y);
+    DefineBlue(x, y);
+    DefineMaisie(x, y);
+    DefineIndominusRex(x, y);
+    DefineGrenade(x, y);
 }
 
 void ShowGrid() //-> Affichage de la grille 
 {
     DefineGrid();
-    Console.Clear(); 
+    Console.Clear();
     Console.WriteLine();
     Console.WriteLine();
     for (int i = 0; i < lengthGridY; i++) // Parcours de la grille 
@@ -659,7 +659,7 @@ void ShowGrid() //-> Affichage de la grille
         Console.SetCursorPosition((Console.WindowWidth - lengthGridX * 3) / 2, Console.CursorTop);
         for (int j = 0; j < lengthGridX; j++)
         {
-            DefineCaracters(j,i);
+            DefineCaracters(j, i);
             if (grid[i, j] == owen) // Pour les couleurs de chaque personnage
                 Console.ForegroundColor = ConsoleColor.Cyan;
             else if (grid[i, j] == blue)
@@ -708,7 +708,7 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
-        if(accessNet)
+        if (accessNet)
         {
             nextPrint = $"Puisque vous êtes en mode difficile, vous avez accès à {nbNet} filets. Appuyer sur F pour l'utiliser.";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
@@ -727,34 +727,34 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
 
         switch (action)
         {
-            case 'z': 
-                tempY--; 
-                break; 
-            case 'd': 
-                tempX++; 
-                break; 
-            case 's': 
-                tempY++; 
-                break; 
-            case 'q': 
-                tempX--; 
+            case 'z':
+                tempY--;
+                break;
+            case 'd':
+                tempX++;
+                break;
+            case 's':
+                tempY++;
+                break;
+            case 'q':
+                tempX--;
                 break;
             case 'e':
                 ThrowGrenade();
                 break;
             case 'f':
-                if(accessNet && nbNet > 0 && distanceIR < 4)
+                if (accessNet && nbNet > 0 && distanceIR < 4)
                 {
                     ThrowNet();
                 }
                 else
                 {
-                again = true; 
+                    again = true;
                 }
                 break;
             default: // Sécurité si le joueur appuie sur une touche non-valide. Cela recommence l'action.
                 again = true;
-                break; 
+                break;
         }
 
         if (IsMoveOwenBlueValid(tempX, tempY)) // Si le mouvement est valide, on actualise les positions temporaires
@@ -765,9 +765,9 @@ void MoveOwen() //-> Pour faire bouger Owen et lancer ses grenades
         else//Sinon on relance la boucle
         {
             again = true;
-        } 
+        }
     }
-    DefineOwen(owenPositionX,owenPositionY); // On redéfinit la position dans la grille
+    DefineOwen(owenPositionX, owenPositionY); // On redéfinit la position dans la grille
     DefineGrid();//On actualise la grille de crevasses si Owen a lancé une grenade
 }
 
@@ -793,7 +793,7 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
         char action = Console.ReadKey().KeyChar;
         action = Char.ToLower(action);
         finalChar = action; // On garde en mémoire d'où provient Blue pour faire reculer l'Indominus Rex dans la bonne direction
-        
+
 
         //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = bluePositionX;
@@ -801,21 +801,21 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
 
         switch (action)
         {
-            case 'z': 
-                tempY--; 
-                break; 
-            case 'd': 
-                tempX++; 
-                break; 
-            case 's': 
-                tempY++; 
-                break; 
-            case 'q': 
-                tempX--; 
+            case 'z':
+                tempY--;
+                break;
+            case 'd':
+                tempX++;
+                break;
+            case 's':
+                tempY++;
+                break;
+            case 'q':
+                tempX--;
                 break;
             default:
                 again = true;
-                break; 
+                break;
         }
 
         if (IsMoveOwenBlueValid(tempX, tempY))
@@ -831,8 +831,8 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
     //
 
     StepBackIndominusRex(finalChar);
-    DefineBlue(bluePositionX,bluePositionY);
-    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
+    DefineBlue(bluePositionX, bluePositionY);
+    DefineIndominusRex(indominusRexPositionX, indominusRexPositionY);
 }
 
 /*Déplacements PNJ*/
@@ -854,25 +854,25 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
         {
             directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
         }
-        
+
         //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = indominusRexPositionX;
         int tempY = indominusRexPositionY;
 
         switch (directionMouvement)
         {
-            case 1: 
-                tempY--; 
-                break; 
-            case 2: 
-                tempX++; 
-                break; 
-            case 3: 
-                tempY++; 
-                break; 
-            case 4: 
-                tempX--; 
-                break; 
+            case 1:
+                tempY--;
+                break;
+            case 2:
+                tempX++;
+                break;
+            case 3:
+                tempY++;
+                break;
+            case 4:
+                tempX--;
+                break;
         }
 
         if (IsMoveIRValid(tempX, tempY))
@@ -887,14 +887,14 @@ void MoveIndominusRex() //-> Pour déplacer IndominusRex
 
     }
     //
-    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
+    DefineIndominusRex(indominusRexPositionX, indominusRexPositionY);
 }
 
 void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
 {
     bool again = true;
     int finalMov = 0; // On garde en mémoire d'où provient Blue pour faire reculer l'Indominus Rex dans la bonne direction
-    bool isSmartBlue = true ; 
+    bool isSmartBlue = true;
     int directionMouvement = 0;
     while (again)
     {
@@ -909,25 +909,25 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
             directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
         }
         finalMov = directionMouvement;
-        
+
         //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = bluePositionX;
         int tempY = bluePositionY;
 
         switch (directionMouvement)
         {
-            case 1: 
-                tempY--; 
-                break; 
-            case 2: 
-                tempX++; 
-                break; 
-            case 3: 
-                tempY++; 
-                break; 
-            case 4: 
-                tempX--; 
-                break; 
+            case 1:
+                tempY--;
+                break;
+            case 2:
+                tempX++;
+                break;
+            case 3:
+                tempY++;
+                break;
+            case 4:
+                tempX--;
+                break;
         }
 
         if (IsMoveOwenBlueValid(tempX, tempY))
@@ -956,8 +956,8 @@ void MoveBluePNJ() //-> Pour déplacer Blue quand on ne la contrôle pas
             break;
     }
     //
-    DefineBlue(bluePositionX,bluePositionY);
-    DefineIndominusRex(indominusRexPositionX,indominusRexPositionY);
+    DefineBlue(bluePositionX, bluePositionY);
+    DefineIndominusRex(indominusRexPositionX, indominusRexPositionY);
 }
 
 void MoveMaisie() //-> Pour déplacer Maisie
@@ -967,25 +967,25 @@ void MoveMaisie() //-> Pour déplacer Maisie
     {
         again = false;
         int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
-        
+
         //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = maisiePositionX;
         int tempY = maisiePositionY;
 
         switch (directionMouvement)
         {
-            case 1: 
-                tempY--; 
-                break; 
-            case 2: 
-                tempX++; 
-                break; 
-            case 3: 
-                tempY++; 
-                break; 
-            case 4: 
-                tempX--; 
-                break; 
+            case 1:
+                tempY--;
+                break;
+            case 2:
+                tempX++;
+                break;
+            case 3:
+                tempY++;
+                break;
+            case 4:
+                tempX--;
+                break;
         }
 
         if (IsMoveMaisieValid(tempX, tempY))
@@ -999,7 +999,7 @@ void MoveMaisie() //-> Pour déplacer Maisie
         }
     }
     //
-    DefineMaisie(maisiePositionX,maisiePositionY);
+    DefineMaisie(maisiePositionX, maisiePositionY);
 }
 
 bool IsMoveIRValid(int x, int y)//-> Test si le mouvement est possible pour l'Indominus Rex
@@ -1113,10 +1113,10 @@ void ThrowNet() //-> Pour lancer un filet
             case 'r':
                 again = false;
                 MoveOwen();
-                break;  
+                break;
             case ' ':
                 indominusRexNoMove = 2;
-                nbNet --;
+                nbNet--;
                 again = false;
                 break;
             default:
@@ -1131,7 +1131,7 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
     nbGrenade--;
     trenches[grenadePositionY, grenadePositionX] = '*';//placement de la première grenade
     int direction = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
-    switch (direction)//Placemement de 
+    switch (direction)//Placemement de la deuxième grenade
     {
         case 1:
             if (grenadePositionY > 0)
@@ -1169,7 +1169,7 @@ void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blu
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
     {
-        indominusRexNoMove = 1; // Variable pour savoir si on a fait reculer (Pour empêcher un mouvement de l'IR si elle a été touchée)
+        indominusRexNoMove = 1; // Variable pour savoir si on a fait reculer (Pour immobiliser l'IR pendant 1 tour si elle a été touchée)
         switch (action)
         {
             case 'z':
@@ -1378,11 +1378,10 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
     Console.Clear();
     Console.WriteLine();
     Console.WriteLine();
-    ShowGrid();
     switch (conditionWinLose)
     {
         case 1:
-            
+
             nextPrint = "VICTOIRE!";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1397,10 +1396,13 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             break;
 
         case 2:
+            bluePositionX = -1;
+            bluePositionY = -1;
+
             nextPrint = "C'est PERDU";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1410,7 +1412,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             nextPrint = "Il faudrait apprendre à viser....";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1418,6 +1420,9 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             break;
 
         case 3:
+            maisiePositionX = -1;
+            maisiePositionY = -1;
+
             nextPrint = "C'est PERDU";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1427,7 +1432,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             nextPrint = "L'Indominus Rex n'était pas la plus grande menace il semblerait....";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1435,6 +1440,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             break;
 
         case 4:
+
             nextPrint = "C'est PERDU";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1444,7 +1450,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             nextPrint = "Il ne reste plus qu'a espérer que les jambes de Owen et Maisie soient assez rapides....";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1452,6 +1458,8 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             break;
 
         case 5:
+            owenPositionX = -1;
+            owenPositionY = -1;
             nextPrint = "C'est PERDU";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1461,7 +1469,7 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             nextPrint = "Il ne reste plus personne pour défendre la Terre....";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1469,6 +1477,8 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             break;
 
         case 6:
+            maisiePositionX = -1;
+            maisiePositionY = -1;
             nextPrint = "C'est PERDU";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1478,13 +1488,16 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             nextPrint = "Owen a raté sa mission....";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
             break;
+
         case 7:
+            owenPositionX = -1;
+            owenPositionY = -1;
             nextPrint = "C'est PERDU";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
@@ -1494,14 +1507,42 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
-            
+
             nextPrint = "C'est l'Indominus Rex qu'il faut viser si jamais....";
             Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
             Console.WriteLine(nextPrint);
             Console.WriteLine();
             break;
     }
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    DefineGrid();
+    for (int i = 0; i < lengthGridY; i++) // Parcours de la grille 
+    {
+        Console.SetCursorPosition((Console.WindowWidth - lengthGridX * 3) / 2, Console.CursorTop);
+        for (int j = 0; j < lengthGridX; j++)
+        {
+            DefineCaracters(j, i);
+            if (grid[i, j] == owen) // Pour les couleurs de chaque personnage
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            else if (grid[i, j] == blue)
+                Console.ForegroundColor = ConsoleColor.Blue;
+            else if (grid[i, j] == maisie)
+                Console.ForegroundColor = ConsoleColor.Magenta;
+            else if (grid[i, j] == indominusRex)
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (grid[i, j] == '*')
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($" {grid[i, j]} "); //Affichage des caractères
+            Console.ResetColor();
+        }
+        Console.WriteLine("");
+    }
 }
+
 #endregion
 
 #region Programmes en tout genre
@@ -1650,9 +1691,9 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
             MoveBluePNJ();
         }
 
-        if (indominusRexNoMove != 0)//Si L'Indominus Rex a été repoussée par Blue, elle passe son tour
+        if (indominusRexNoMove != 0)//Si L'Indominus Rex a été repoussée par Blue ou bloqué par le filet, elle passe son tour
         {
-            indominusRexNoMove --;
+            indominusRexNoMove--;
         }
         else
         {
