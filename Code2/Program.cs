@@ -835,6 +835,64 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
     DefineIndominusRex(indominusRexPositionX, indominusRexPositionY);
 }
 
+void MoveIndominusRexPlayer() //-> Pour faire bouger Blue et reculer l'IndominusRex
+{
+    bool again = true;
+    while (again)
+    {
+        again = false;
+        ShowGrid();
+        nextPrint = "Vous jouez la terrible Indominus Rex";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        nextPrint = "Appuyer sur Z pour monter / Q pour aller à gauche / S pour descendre / D pour aller à droite";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        nextPrint = "Vous faites reculer l'Indominus Rex si vous allez sur sa case";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+        char action = Console.ReadKey().KeyChar;
+        action = Char.ToLower(action);
+
+        //Les lignes suivantes ont la même logique que MoveOwen()
+        int tempX = indominusRexPositionX;
+        int tempY = indominusRexPositionY;
+
+        switch (action)
+        {
+            case 'z':
+                tempY--;
+                break;
+            case 'd':
+                tempX++;
+                break;
+            case 's':
+                tempY++;
+                break;
+            case 'q':
+                tempX--;
+                break;
+            default:
+                again = true;
+                break;
+        }
+
+        if (IsMoveIRValid(tempX, tempY))
+        {
+            indominusRexPositionX = tempX;
+            indominusRexPositionY = tempY;
+        }
+        else
+        {
+            again = true;
+        }
+    }
+    //
+    DefineIndominusRex(indominusRexPositionX, indominusRexPositionY);
+}
+
 /*Déplacements PNJ*/
 
 void MoveIndominusRex() //-> Pour déplacer IndominusRex
@@ -1000,6 +1058,61 @@ void MoveMaisie() //-> Pour déplacer Maisie
     }
     //
     DefineMaisie(maisiePositionX, maisiePositionY);
+}
+
+void MoveOwenPNJ() //-> Pour déplacer Owen
+{
+    bool again = true;
+    bool isSmartOwen = true;
+    int directionMouvement = 0;
+
+    while (again)
+    {
+        if (isSmartOwen)
+        {
+            directionMouvement = SmartBlue();
+            isSmartOwen = false;
+        }
+        else
+        {
+            directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+        }
+
+        again = false;
+
+        //Les lignes suivantes ont la même logique que MoveOwen()
+        int tempX = owenPositionX;
+        int tempY = owenPositionY;
+
+        switch (directionMouvement)
+        {
+            case 1:
+                tempY--;
+                break;
+            case 2:
+                tempX++;
+                break;
+            case 3:
+                tempY++;
+                break;
+            case 4:
+                tempX--;
+                break;
+        }
+
+        if (IsMoveOwenBlueValid(tempX, tempY))
+        {
+            owenPositionX = tempX;
+            owenPositionY = tempY;
+        }
+        else
+        {
+            again = true;
+        }
+    }
+    //
+    DefineOwen(owenPositionX, owenPositionY); // On redéfinit la position dans la grille
+    DefineGrid();//On actualise la grille de crevasses si Owen a lancé une grenade  
 }
 
 bool IsMoveIRValid(int x, int y)//-> Test si le mouvement est possible pour l'Indominus Rex
@@ -1661,6 +1774,24 @@ int SmartBlue()//-> Choisie le déplacement vers l'Indominus Rex
     else
     {
         return deltaY > 0 ? 3 : 1; // Déplacement vertical
+    }
+}
+
+int SmartOwenMaisie()//-> Choisie le déplacement vers l'Indominus Rex
+{
+    int PNJProcheX = indominusRexPositionX;
+    int PNJProcheY = indominusRexPositionY;
+
+    int deltaX = PNJProcheX - bluePositionX;
+    int deltaY = PNJProcheY - bluePositionY;
+
+    if (Math.Abs(deltaX) > Math.Abs(deltaY))
+    {
+        return deltaX > 0 ? 4 : 2; // Déplacement horizontal
+    }
+    else
+    {
+        return deltaY > 0 ? 1 : 3; // Déplacement vertical
     }
 }
 #endregion
