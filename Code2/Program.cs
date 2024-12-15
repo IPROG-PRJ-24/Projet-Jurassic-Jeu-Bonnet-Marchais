@@ -848,9 +848,6 @@ void MoveIndominusRexPlayer() //-> Pour faire bouger Blue et reculer l'Indominus
         nextPrint = "Appuyer sur Z pour monter / Q pour aller à gauche / S pour descendre / D pour aller à droite";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
-        nextPrint = "Vous faites reculer l'Indominus Rex si vous allez sur sa case";
-        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
-        Console.WriteLine(nextPrint);
 
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
@@ -1070,7 +1067,7 @@ void MoveOwenPNJ() //-> Pour déplacer Owen
     {
         if (isSmartOwen)
         {
-            directionMouvement = SmartBlue();
+            directionMouvement = SmartOwenMaisie();
             isSmartOwen = false;
         }
         else
