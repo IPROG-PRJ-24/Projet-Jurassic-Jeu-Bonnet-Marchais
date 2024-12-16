@@ -51,7 +51,7 @@ void PrintIntro()//-> Affiche l'introduction du jeu
     Console.Clear();
 }
 
-void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l'entier x (il y a 3 possibilités)
+void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l'entier x (il y a 4 possibilités)
 {
     Console.Clear();
     nextPrint = "JURENSIC WORLD";
@@ -85,7 +85,12 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.White;
 
-        nextPrint = "Jouer";
+        nextPrint = "Jouer Classic";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Indominus Rex";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
@@ -103,7 +108,36 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
         Console.WriteLine();
 
         Console.ForegroundColor = ConsoleColor.Red;
-        nextPrint = ">-  Jouer  -<";
+        nextPrint = ">-  Jouer Classic  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        nextPrint = "Jouer Indominus Rex";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Règles";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else if (x == 3)
+    {
+        nextPrint = "Options";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Classic";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Jouer Indominus Rex  -<";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
@@ -121,7 +155,12 @@ void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l
         Console.WriteLine(nextPrint);
         Console.WriteLine();
 
-        nextPrint = "Jouer";
+        nextPrint = "Jouer Classic";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Indominus Rex";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
         Console.WriteLine();
@@ -154,7 +193,7 @@ void SelectScreen()//-> Permet la selection des différents écrans de selection
                 }
                 break;
             case 's':
-                if (selectNumber != 3)
+                if (selectNumber != 4)
                 {
                     selectNumber++;
                 }
@@ -510,14 +549,14 @@ void Rules()//-> Affiche les règles du jeu
 void InterfaceJeu()//-> Effectue toutes les interfaces et actions avant le lancement réel du jeu (Ecran de sélection/Options/Règles)
 {
     PrintIntro();
-    while (selectNumber != 2)
+    while (selectNumber != 2 && selectNumber != 3)
     {
         SelectScreen();
         if (selectNumber == 1)
         {
             Options();
         }
-        if (selectNumber == 3)
+        if (selectNumber == 4)
         {
             Rules();
         }
@@ -848,6 +887,9 @@ void MoveIndominusRexPlayer() //-> Pour faire bouger Blue et reculer l'Indominus
         nextPrint = "Appuyer sur Z pour monter / Q pour aller à gauche / S pour descendre / D pour aller à droite";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
         Console.WriteLine(nextPrint);
+        nextPrint = "Vous devez manger Owen ou Maisie";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
 
         Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
         char action = Console.ReadKey().KeyChar;
@@ -1022,6 +1064,59 @@ void MoveMaisie() //-> Pour déplacer Maisie
     {
         again = false;
         int directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest
+
+        //Les lignes suivantes ont la même logique que MoveOwen()
+        int tempX = maisiePositionX;
+        int tempY = maisiePositionY;
+
+        switch (directionMouvement)
+        {
+            case 1:
+                tempY--;
+                break;
+            case 2:
+                tempX++;
+                break;
+            case 3:
+                tempY++;
+                break;
+            case 4:
+                tempX--;
+                break;
+        }
+
+        if (IsMoveMaisieValid(tempX, tempY))
+        {
+            maisiePositionX = tempX;
+            maisiePositionY = tempY;
+        }
+        else
+        {
+            again = true;
+        }
+    }
+    //
+    DefineMaisie(maisiePositionX, maisiePositionY);
+}
+
+void MoveMaisieSmart() //-> Pour déplacer Maisie
+{
+    bool again = true;
+    bool isSmartMaisie = true;
+    int directionMouvement = 0;
+    while (again)
+    {
+        if (isSmartMaisie)
+        {
+            directionMouvement = SmartOwenMaisie();
+            isSmartMaisie = false;
+        }
+        else
+        {
+            directionMouvement = rnd.Next(1, 5); // 1 -> Nord; 2 -> Est; 3 -> Sud; 4 -> Ouest 
+        }
+
+        again = false;
 
         //Les lignes suivantes ont la même logique que MoveOwen()
         int tempX = maisiePositionX;
@@ -1422,7 +1517,6 @@ bool CheckPosition()//-> Vérifie que les cases atteignables par l'Indominus Rex
     return true;
 }
 
-
 bool CheckWin()//-> Regarde si la condition de victoire est vérifiée (Indominus Rex enfermée)
 {
     DefineColorBackground();
@@ -1653,6 +1747,100 @@ void TexteWinLose()//-> Affiche les texte une fois que l'on a gagné/perdu en fo
     }
 }
 
+void TexteWinLoseAlternatif()//-> Affiche les texte une fois que l'on a gagné/perdu en fonction de la cause.
+{
+    Console.Clear();
+    Console.WriteLine();
+    Console.WriteLine();
+    switch (conditionWinLose)
+    {
+        case 1:
+
+            nextPrint = "C'est PERDU";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "Vous avez fini enfermer.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "Normalement un T-Rex c'est plus fort que 2 humains non ?";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            break;
+
+        case 5:
+            owenPositionX = -1;
+            owenPositionY = -1;
+            nextPrint = "VICTOIRE!!";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "L'Indominus Rex a mangé Owen.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "La chaire d'Owen est délicieuse...";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            break;
+
+        case 6:
+            maisiePositionX = -1;
+            maisiePositionY = -1;
+            nextPrint = "VICTOIRE!!";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "L'Indominus Rex a mangé Maisie.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+
+            nextPrint = "Personne ne peut vous arrêter.";
+            Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+            Console.WriteLine(nextPrint);
+            Console.WriteLine();
+            break;
+    }
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    DefineGrid();
+    for (int i = 0; i < lengthGridY; i++) // Parcours de la grille 
+    {
+        Console.SetCursorPosition((Console.WindowWidth - lengthGridX * 3) / 2, Console.CursorTop);
+        for (int j = 0; j < lengthGridX; j++)
+        {
+            DefineCaracters(j, i);
+            if (grid[i, j] == owen) // Pour les couleurs de chaque personnage
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            else if (grid[i, j] == blue)
+                Console.ForegroundColor = ConsoleColor.Blue;
+            else if (grid[i, j] == maisie)
+                Console.ForegroundColor = ConsoleColor.Magenta;
+            else if (grid[i, j] == indominusRex)
+                Console.ForegroundColor = ConsoleColor.Red;
+            else if (grid[i, j] == '*')
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            else
+                Console.ForegroundColor = ConsoleColor.White;
+            Console.Write($" {grid[i, j]} "); //Affichage des caractères
+            Console.ResetColor();
+        }
+        Console.WriteLine("");
+    }
+}
+
+
 #endregion
 
 #region Programmes en tout genre
@@ -1791,6 +1979,15 @@ int SmartOwenMaisie()//-> Choisie le déplacement vers l'Indominus Rex
         return deltaY > 0 ? 1 : 3; // Déplacement vertical
     }
 }
+
+void RandomGrenades()
+{
+    int randomPositionX = rnd.Next(0,lengthGridX);
+    int randomPositionY = rnd.Next(0,lengthGridY);
+
+    trenches[randomPositionY, randomPositionX] = '*';
+    DefineColorBackground();
+}
 #endregion
 
 #region Lancement du jeu
@@ -1846,6 +2043,32 @@ void MainGame() //-> Pour lancer le jeu en effectuant les différentes actions d
     }
     TexteWinLose();
 }
-MainGame();
+
+void MainGameAlternatif() //-> Pour lancer le jeu en effectuant les différentes actions dans l'ordre
+{
+
+    bool lose3 = true;
+    bool win = true;
+    while (lose3 && win)
+    {
+        MoveIndominusRexPlayer();
+        lose3 = LosingConditionManger();
+        MoveOwenPNJ();
+        MoveBluePNJ();
+        MoveMaisieSmart();
+        RandomGrenades();
+        win = CheckWin();
+    }
+    TexteWinLoseAlternatif();
+}
+
+if (selectNumber == 3)
+{
+    MainGameAlternatif();
+}
+else
+{
+    MainGame();
+}
 
 #endregion
