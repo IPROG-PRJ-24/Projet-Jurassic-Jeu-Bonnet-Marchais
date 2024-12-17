@@ -1982,11 +1982,21 @@ int SmartOwenMaisie()//-> Choisie le déplacement vers l'Indominus Rex
 
 void RandomGrenades()
 {
-    int randomPositionX = rnd.Next(0,lengthGridX);
-    int randomPositionY = rnd.Next(0,lengthGridY);
+    bool again = true;
+    while(again)
+    {
+        int randomPositionX = rnd.Next(0,lengthGridX);
+        int randomPositionY = rnd.Next(0,lengthGridY);
+        if (grid[randomPositionY,randomPositionX] == '.')
+        {
+            trenches[randomPositionY, randomPositionX] = '*';
+            again = false;
+        }
+        DefineColorBackground();
+    }
+    
 
-    trenches[randomPositionY, randomPositionX] = '*';
-    DefineColorBackground();
+    
 }
 #endregion
 
