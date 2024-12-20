@@ -1108,7 +1108,7 @@ void MoveMaisieSmart() //-> Pour déplacer Maisie
     {
         if (isSmartMaisie)
         {
-            directionMouvement = SmartOwenMaisie();
+            directionMouvement = SmartOwenMaisie(maisiePositionX,maisiePositionY);
             isSmartMaisie = false;
         }
         else
@@ -1162,7 +1162,7 @@ void MoveOwenPNJ() //-> Pour déplacer Owen
     {
         if (isSmartOwen)
         {
-            directionMouvement = SmartOwenMaisie();
+            directionMouvement = SmartOwenMaisie(owenPositionX,owenPositionY);
             isSmartOwen = false;
         }
         else
@@ -1962,13 +1962,11 @@ int SmartBlue()//-> Choisie le déplacement vers l'Indominus Rex
     }
 }
 
-int SmartOwenMaisie()//-> Choisie le déplacement vers l'Indominus Rex
+int SmartOwenMaisie(int positionX, int positionY)//-> Choisie le déplacement vers l'Indominus Rex
 {
-    int PNJProcheX = indominusRexPositionX;
-    int PNJProcheY = indominusRexPositionY;
 
-    int deltaX = PNJProcheX - bluePositionX;
-    int deltaY = PNJProcheY - bluePositionY;
+    int deltaX = indominusRexPositionX - positionX;
+    int deltaY = indominusRexPositionY - positionY;
 
     if (Math.Abs(deltaX) > Math.Abs(deltaY))
     {
