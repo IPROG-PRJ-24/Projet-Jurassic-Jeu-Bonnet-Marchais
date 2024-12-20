@@ -874,7 +874,7 @@ void MoveBlue() //-> Pour faire bouger Blue et reculer l'IndominusRex
     DefineIndominusRex(indominusRexPositionX, indominusRexPositionY);
 }
 
-void MoveIndominusRexPlayer() //-> Pour faire bouger Blue et reculer l'IndominusRex
+void MoveIndominusRexPlayer() //-> Pour faire bouger L'Indominus Rex
 {
     bool again = true;
     while (again)
@@ -1099,7 +1099,7 @@ void MoveMaisie() //-> Pour déplacer Maisie
     DefineMaisie(maisiePositionX, maisiePositionY);
 }
 
-void MoveMaisieSmart() //-> Pour déplacer Maisie
+void MoveMaisieSmart() //-> Pour déplacer Maisie de façon intelligente
 {
     bool again = true;
     bool isSmartMaisie = true;
@@ -1152,7 +1152,7 @@ void MoveMaisieSmart() //-> Pour déplacer Maisie
     DefineMaisie(maisiePositionX, maisiePositionY);
 }
 
-void MoveOwenPNJ() //-> Pour déplacer Owen
+void MoveOwenPNJ() //-> Pour déplacer Owen en temps que non joueur
 {
     bool again = true;
     bool isSmartOwen = true;
@@ -1962,7 +1962,7 @@ int SmartBlue()//-> Choisie le déplacement vers l'Indominus Rex
     }
 }
 
-int SmartOwenMaisie(int positionX, int positionY)//-> Choisie le déplacement vers l'Indominus Rex
+int SmartOwenMaisie(int positionX, int positionY)//-> Choisie le déplacement le plus loin de l'Indominus Rex
 {
 
     int deltaX = indominusRexPositionX - positionX;
