@@ -1,6 +1,4 @@
 ﻿
-using System.IO.Compression;
-
 Random rnd = new Random();
 Console.Clear(); //Réinitialisation de la console 
 
