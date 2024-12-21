@@ -212,7 +212,7 @@ void ChooseLengthGrid()//-> Permet de choisir la taille de la grille
     PrintAscii();
     Console.WriteLine();
     Console.WriteLine();
-    nextPrint = "Veuillez rentrer la largeur de la grid:";
+    nextPrint = "Veuillez rentrer la largeur de la grille:";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
     nextPrint = "(La grid ne peut pas être plus petite que 5x5 ou plus grande que 40x40)";
@@ -234,7 +234,7 @@ void ChooseLengthGrid()//-> Permet de choisir la taille de la grille
     }
 
 
-    nextPrint = "Veuillez rentrer la hauteur de la grid:";
+    nextPrint = "Veuillez rentrer la hauteur de la grille:";
     Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
     Console.WriteLine(nextPrint);
     nextPrint = "(La grid ne peut pas être plus petite que 5x5 ou plus grande que 40x40)";
