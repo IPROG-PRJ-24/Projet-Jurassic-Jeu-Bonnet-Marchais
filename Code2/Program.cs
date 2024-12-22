@@ -1366,8 +1366,6 @@ void PlaceGrenade() //-> Place la grenade sur la grille au moment de la confirma
     grenadePositionY = -1;
 }
 
-
-
 void StepBackIndominusRex(char action)//-> Fait reculer l'indominusRex quand Blue la touche
 {
     if ((bluePositionX == indominusRexPositionX) && (bluePositionY == indominusRexPositionY))
